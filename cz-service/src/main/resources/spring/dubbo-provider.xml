@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
+
+    <dubbo:application name="${dubbo.name.admin.service}" logger="slf4j"/>
+    <dubbo:registry address="${dubbo.address.admin}" check="false" timeout="${dubbo.timeout.admin}"/>
+    <dubbo:protocol port="${dubbo.port.admin}" name="dubbo" threads="${dubbo.threads.admin}"/>
+
+    <bean id="userService" class="com.cz.service.UserService"/>
+    <dubbo:service interface="com.cz.api.service.IUserService" ref="userService" timeout="10000"/>
+
+</beans>
