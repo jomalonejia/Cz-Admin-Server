@@ -10,7 +10,7 @@ import org.springframework.aop.MethodBeforeAdvice;
 import java.lang.reflect.Method;
 
 /**
- * Created by admin on 2017/6/23.
+ * Created by jomalone_jia on 2017/6/23.
  */
 @Aspect
 public class Around2 {

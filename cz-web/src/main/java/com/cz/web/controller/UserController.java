@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Created by admin on 2017/6/26.
+ * Created by jomalone_jia on 2017/6/26.
  */
 @RestController
 @RequestMapping("/user")

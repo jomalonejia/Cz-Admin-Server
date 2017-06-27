@@ -7,7 +7,7 @@ import com.cz.api.service.IUserService;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by admin on 2017/6/20.
+ * Created by jomalone_jia on 2017/6/20.
  */
 @Service
 public class UserService extends BaseServiceImpl<UserMapper,User> implements IUserService{

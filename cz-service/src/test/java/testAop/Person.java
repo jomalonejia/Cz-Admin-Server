@@ -1,7 +1,7 @@
 package testAop;
 
 /**
- * Created by admin on 2017/6/23.
+ * Created by jomalone_jia on 2017/6/23.
  */
 public class Person {
 

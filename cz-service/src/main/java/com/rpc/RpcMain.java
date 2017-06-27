@@ -7,7 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.io.IOException;
 
 /**
- * Created by admin on 2017/6/21.
+ * Created by jomalone_jia on 2017/6/21.
  */
 public class RpcMain {
 

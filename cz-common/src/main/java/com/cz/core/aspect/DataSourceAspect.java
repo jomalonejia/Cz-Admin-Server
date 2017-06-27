@@ -11,7 +11,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
- * Created by admin on 2017/6/19.
+ * Created by jomalone_jia on 2017/6/19.
  */
 @Aspect
 @EnableAspectJAutoProxy(proxyTargetClass = true)

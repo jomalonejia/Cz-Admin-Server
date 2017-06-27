@@ -1,22 +1,26 @@
-import com.cz.model.User;
-import com.cz.api.service.IUserService;
+package com;
+
+import com.cz.core.util.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * Created by jomalone_jia on 2017/6/20.
+ * Created by jomalone_jia on 2017/6/26.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring.xml"})
-public class TestConfig {
+public class TestRedis2 {
+
     @Autowired
-    private IUserService userService;
+    private RedisUtil redisUtil;
 
     @Test
     public void test1(){
-        userService.selectById(1L);
+        String laowang = redisUtil.get("laowang").toString();
+        System.out.println(laowang);
     }
 }

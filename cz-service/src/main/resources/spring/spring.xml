@@ -13,6 +13,7 @@
             <list>
                 <value>classpath:config/jdbc.properties</value>
                 <value>classpath*:config/dubbo.properties</value>
+                <value>classpath*:config/redis.properties</value>
             </list>
         </property>
         <property name="decryptProperties">
@@ -37,4 +38,5 @@
     <import resource="classpath:spring/dataSource.xml"/>
     <import resource="classpath:spring/mybatis.xml" />
     <import resource="classpath:spring/dubbo-provider.xml"/>
+    <import resource="classpath*:spring/redis.xml"/>
 </beans>

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by admin on 2017/6/19.
+ * Created by jomalone_jia on 2017/6/19.
  */
 public class TestJackson {
 

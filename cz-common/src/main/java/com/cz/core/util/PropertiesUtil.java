@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * Created by admin on 2017/6/19.
+ * Created by jomalone_jia on 2017/6/19.
  */
 public class PropertiesUtil extends PropertyPlaceholderConfigurer{
 
