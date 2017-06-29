@@ -12,6 +12,8 @@
         <property name="locations">
             <list>
                 <value>classpath*:config/dubbo.properties</value>
+                <value>classpath*:config/redis.properties</value>
+                <value>classpath*:config/spring-session.properties</value>
             </list>
         </property>
         <property name="decryptProperties">
@@ -33,4 +35,6 @@
 
 
     <import resource="classpath:spring/dubbo-consumer.xml"/>
+    <import resource="classpath:spring/redis.xml"/>
+    <import resource="classpath:spring/spring-session.xml"/>
 </beans>

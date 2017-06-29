@@ -1,5 +1,6 @@
-package com.cz.core.util;
+package com.cz.core.util.cache.redis;
 
+import com.cz.core.util.constant.CacheConstant;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -14,8 +15,6 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil implements ApplicationContextAware{
     private RedisTemplate redisTemplate;
     private ApplicationContext context;
-
-    private static final int EXPIRE_SECONDS  = 2000;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -39,7 +38,7 @@ public class RedisUtil implements ApplicationContextAware{
     }
 
     public synchronized Boolean expire(String key){
-        return getRedis().expire(key,EXPIRE_SECONDS, TimeUnit.SECONDS);
+        return getRedis().expire(key, CacheConstant.CACHE_EXPIRE, TimeUnit.SECONDS);
     }
 
     public synchronized  Boolean expire(String key,int seconds){

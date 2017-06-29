@@ -63,6 +63,9 @@
     <orderEntry type="library" name="Maven: net.bytebuddy:byte-buddy:1.6.8" level="project" />
     <orderEntry type="library" name="Maven: org.jodd:jodd-bean:3.7.1" level="project" />
     <orderEntry type="library" name="Maven: org.jodd:jodd-core:3.7.1" level="project" />
+    <orderEntry type="library" name="Maven: biz.paluch.redis:lettuce:3.5.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.reactivex:rxjava:1.1.6" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:17.0" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.8.9" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.9" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.28" level="project" />

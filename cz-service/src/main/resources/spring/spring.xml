@@ -14,6 +14,7 @@
                 <value>classpath:config/jdbc.properties</value>
                 <value>classpath*:config/dubbo.properties</value>
                 <value>classpath*:config/redis.properties</value>
+                <value>classpath*:config/activemq.properties</value>
             </list>
         </property>
         <property name="decryptProperties">
@@ -29,6 +30,7 @@
         </property>
     </bean>
 
+
     <context:component-scan base-package="com.cz">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
         <!--<context:exclude-filter type="annotation" expression="org.springframework.cache.annotation.EnableCaching" />-->
@@ -38,5 +40,10 @@
     <import resource="classpath:spring/dataSource.xml"/>
     <import resource="classpath:spring/mybatis.xml" />
     <import resource="classpath:spring/dubbo-provider.xml"/>
-    <import resource="classpath*:spring/redis.xml"/>
+    <import resource="classpath:spring/redis.xml"/>
+    <import resource="classpath:spring/activemq.xml"/>
+    <import resource="classpath:spring/schedule.xml"/>
+
+    <!--<import resource="classpath:spring/activemq.xml"/>
+   <import resource="classpath:spring/activemq-listener.xml"/>-->
 </beans>
