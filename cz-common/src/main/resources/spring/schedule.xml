@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="schedulerFactoryBean"
+          class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <description>定时任务调度器工厂</description>
+        <property name="schedulerName" value="iBase4J-Scheduler" />
+        <property name="applicationContextSchedulerContextKey" value="applicationContext" />
+        <property name="configLocation" value="classpath:config/quartz.properties" />
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="scheduleManager" class="com.cz.core.schedule.quartz.ScheduleManager" init-method="init">
+        <property name="scheduler" ref="schedulerFactoryBean"></property>
+        <property name="jobListenerList">
+            <list>
+               <bean class="com.cz.core.schedule.quartz.TaskJobListener"></bean>
+            </list>
+        </property>
+    </bean>
+</beans>

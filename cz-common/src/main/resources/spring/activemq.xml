@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="connectionFactory"
+          class="org.springframework.jms.connection.CachingConnectionFactory">
+        <description>JMS连接工厂</description>
+        <property name="targetConnectionFactory">
+            <bean class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+                <property name="brokerURL" value="${activemq.brokerURL.admin}" />
+                <property name="userName" value="${activemq.userName.admin}" />
+                <property name="password" value="${activemq.password.admin}" />
+                <property name="trustAllPackages" value="true" />
+            </bean>
+        </property>
+        <property name="sessionCacheSize" value="${activemq.sessionCacheSize.admin}" />
+    </bean>
+    <bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <description>队列模式模型</description>
+        <constructor-arg ref="connectionFactory" />
+        <property name="receiveTimeout" value="${activemq.receiveTimeout.admin}" />
+        <property name="pubSubDomain" value="false" />
+    </bean>
+    <bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <description>发布/订阅模式模型</description>
+        <constructor-arg ref="connectionFactory" />
+        <property name="receiveTimeout" value="${activemq.receiveTimeout.admin}" />
+        <property name="pubSubDomain" value="true" />
+    </bean>
+</beans>

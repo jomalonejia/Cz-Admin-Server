@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+        <property name="maxInactiveIntervalInSeconds" value="${session.maxInactiveInterval.admin}" />
+        <property name="redisNamespace" value="${session.redis.namespace.admin}" />
+    </bean>
+
+    <bean class="org.springframework.session.config.annotation.web.http.SpringHttpSessionConfiguration">
+        <property name="httpSessionListeners">
+            <list>
+                <bean class="com.cz.core.session.listener.UserNumberListener" />
+            </list>
+        </property>
+    </bean>
+
+    <!--默认cookie 转成header请求-->
+    <bean class="org.springframework.session.web.http.HeaderHttpSessionStrategy">
+    </bean>
+</beans>

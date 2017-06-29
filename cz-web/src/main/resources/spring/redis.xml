@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!-- 最大连接数 -->
+        <property name="maxTotal" value="${redis.maxTotal.admin}" />
+        <!-- 最大空闲连接数 -->
+        <property name="maxIdle" value="${redis.maxIdle.admin}" />
+        <!-- 每次释放连接的最大数目 -->
+        <property name="numTestsPerEvictionRun" value="${redis.numTestsPerEvictionRun.admin}" />
+        <!-- 释放连接的扫描间隔（毫秒） -->
+        <property name="timeBetweenEvictionRunsMillis" value="${redis.timeBetweenEvictionRunsMillis.admin}" />
+        <!-- 连接最小空闲时间 -->
+        <property name="minEvictableIdleTimeMillis" value="${redis.minEvictableIdleTimeMillis.admin}" />
+        <!-- 连接空闲多久后释放, 当空闲时间>该值 且 空闲连接>最大空闲连接数 时直接释放 -->
+        <property name="softMinEvictableIdleTimeMillis" value="${redis.softMinEvictableIdleTimeMillis.admin}" />
+        <!-- 获取连接时的最大等待毫秒数,小于零:阻塞不确定的时间,默认-1 -->
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis.admin}" />
+        <!-- 在获取连接的时候检查有效性, 默认false -->
+        <property name="testOnBorrow" value="${redis.testOnBorrow.admin}" />
+        <!-- 在空闲时检查有效性, 默认false -->
+        <property name="testWhileIdle" value="${redis.testWhileIdle.admin}" />
+        <!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true -->
+        <property name="blockWhenExhausted" value="${redis.blockWhenExhausted.admin}" />
+    </bean>
+
+    <!--单机模式-->
+   <!-- <bean id="jedisPool" class="redis.clients.jedis.JedisPool" destroy-method="close">
+        <constructor-arg index="0" ref="poolConfig"></constructor-arg>
+        <constructor-arg index="1" value="192.168.138.128" type="java.lang.String"></constructor-arg>
+        <constructor-arg index="2" value="6379" type="int"></constructor-arg>
+    </bean>-->
+
+    <!--分片模式-->
+
+    <bean id="jedisShardInfo" class="redis.clients.jedis.JedisShardInfo">
+        <constructor-arg index="0" value="${redis.host.admin}" type="java.lang.String"/>
+        <constructor-arg index="1" value="${redis.port.admin}" type="int" />
+    </bean>
+    <!-- Redis连接 -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="shardInfo" ref="jedisShardInfo"></property>
+        <property name="poolConfig" ref="poolConfig"></property>
+    </bean>
+    <!-- 缓存序列化方式 -->
+    <bean id="keySerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+    <bean id="valueSerializer" class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+    <!-- 缓存 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory" />
+        <property name="keySerializer" ref="keySerializer" />
+        <property name="valueSerializer" ref="valueSerializer" />
+        <property name="hashKeySerializer" ref="keySerializer" />
+        <property name="hashValueSerializer" ref="valueSerializer" />
+    </bean>
+
+
+    <!--集群模式-->
+    <!--<bean class="redis.clients.jedis.JedisCluster">
+        <constructor-arg name="nodes">
+            <set>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${cluster.host1.admin}" />
+                    <constructor-arg name="port" value="${cluster.port1.admin}" />
+                </bean>
+              &lt;!&ndash;  <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${cluster.host2}" />
+                    <constructor-arg name="port" value="${cluster.port2}" />
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${cluster.host3}" />
+                    <constructor-arg name="port" value="${cluster.port3}" />
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${cluster.host4}" />
+                    <constructor-arg name="port" value="${cluster.port4}" />
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${cluster.host5}" />
+                    <constructor-arg name="port" value="${cluster.port5}" />
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="${cluster.host6}" />
+                    <constructor-arg name="port" value="${cluster.port6}" />
+                </bean>&ndash;&gt;
+            </set>
+        </constructor-arg>
+        <constructor-arg name="poolConfig" ref="poolConfig">
+        </constructor-arg>
+    </bean>-->
+
+
+    <bean class="com.cz.core.util.cache.redisson.RedissonConfig">
+        <property name="address" value="${redisson.address.admin}"></property>
+      <!--  <property name="password" value="${redis.address.admin}"></property>-->
+        <!-- ClusterServers -->
+        <!-- <property name="nodeAddresses">
+            <array>
+                <value>${redis.host}:${redis.port}</value>
+            </array>
+        </property> -->
+        <!-- MasterSlaveServers -->
+        <!-- <property name="masterAddress" value="${redis.host}:${redis.port}" />
+        <property name="slaveAddresses">
+            <array>
+                <value>${redis.host}:${redis.port}</value>
+            </array>
+        </property> -->
+    </bean>
+
+
+    <bean id="redissonCacheManager" class="org.redisson.spring.cache.RedissonSpringCacheManager">
+        <constructor-arg index="0" ref="redissonClient" />
+    </bean>
+
+</beans>
