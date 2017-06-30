@@ -1,5 +1,6 @@
 package com.cz.core.util;
 
+import com.cz.core.util.security.AESUtil;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
 import java.io.IOException;
@@ -22,9 +23,8 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer{
             String keyStr = key.toString();
             String value = props.getProperty(keyStr);
             if(decryptProperties!=null && decryptProperties.contains(keyStr)){
-
-                //转码 。。。。
-                props.setProperty(keyStr, value);
+                String decodeValue = AESUtil.AESDecode(value);
+                props.setProperty(keyStr, decodeValue);
             }
         }
     }
