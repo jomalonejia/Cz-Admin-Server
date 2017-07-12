@@ -15,7 +15,7 @@
         <property name="typeAliasesPackage" value="com.cz.model*" />
         <property name="globalConfig">
             <bean class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
-                <property name="dbColumnUnderline" value="true" />
+                <property name="dbColumnUnderline" value="false" />
                 <property name="sqlInjector">
                     <bean class="com.baomidou.mybatisplus.mapper.AutoSqlInjector" />
                 </property>

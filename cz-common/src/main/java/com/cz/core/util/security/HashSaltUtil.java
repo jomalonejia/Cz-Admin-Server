@@ -52,37 +52,38 @@ public class HashSaltUtil {
         byte[] hash = pbkdf2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
 
         // format iterations:salt:hash
-        return PBKDF2_ITERATIONS + ":" + toHex(salt) + ":" +  toHex(hash);
+        return /*PBKDF2_ITERATIONS + ":" +*/  toHex(hash) + ":" + toHex(salt);
     }
 
     /**
      * Validates a password using a hash.
      *
      * @param   password        the password to check
-     * @param   correctHash     the hash of the valid password
+     * @param   passwordHash     the hash of the valid password
      * @return                  true if the password is correct, false if not
      */
-    public static boolean validatePassword(String password, String correctHash)
+    public static boolean validatePassword(String password, String passwordHash,String salt)
             throws NoSuchAlgorithmException, InvalidKeySpecException
     {
-        return validatePassword(password.toCharArray(), correctHash);
+        return validatePassword(password.toCharArray(), passwordHash,salt);
     }
 
     /**
      * Validates a password using a hash.
      *
      * @param   password        the password to check
-     * @param   correctHash     the hash of the valid password
+     * @param   passwordHash     the hash of the valid password
      * @return                  true if the password is correct, false if not
      */
-    public static boolean validatePassword(char[] password, String correctHash)
+    public static boolean validatePassword(char[] password, String passwordHash,String saltStr)
             throws NoSuchAlgorithmException, InvalidKeySpecException
     {
         // Decode the hash into its parameters
-        String[] params = correctHash.split(":");
-        int iterations = Integer.parseInt(params[ITERATION_INDEX]);
-        byte[] salt = fromHex(params[SALT_INDEX]);
-        byte[] hash = fromHex(params[PBKDF2_INDEX]);
+       // String[] params = correctHash.split(":");
+        //int iterations = Integer.parseInt(params[ITERATION_INDEX]);
+        int iterations = 1000;
+        byte[] hash = fromHex(passwordHash);
+        byte[] salt = fromHex(saltStr);
         // Compute the hash of the provided password, using the same salt,
         // iteration count, and hash length
         byte[] testHash = pbkdf2(password, salt, iterations, hash.length);
@@ -90,6 +91,8 @@ public class HashSaltUtil {
         // both hashes match.
         return slowEquals(hash, testHash);
     }
+
+
 
     /**
      * Compares two byte arrays in length-constant time. This comparison method
@@ -167,7 +170,7 @@ public class HashSaltUtil {
      * @throws NoSuchAlgorithmException
      */
     public static void main(String[] args) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        String pdHash = createHash("123456");
-        System.out.println(pdHash);
+        System.out.println(createHash("123456"));
+        System.out.println(validatePassword("123456","f332b59f1777b84c38a8329fa63927db30d5f817f76fdf4b","0c65c06b51f48798b3ba1a45e87dab26216544f91743c6d1"));
     }
 }

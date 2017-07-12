@@ -6,4 +6,38 @@
     <sql id="Base_Column_List">
         id, name, age
     </sql>
+    
+    <resultMap id="userDetail" type="com.cz.model.User">
+        <id column="r_id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="firstname" property="firstname"/>
+        <result column="lastname" property="lastname"/>
+        <result column="email" property="email"/>
+        <result column="enabled" property="enabled" javaType="boolean"/>
+        <collection property="roles" ofType="com.cz.model.Role" javaType="ArrayList" column="ur_id">
+            <id column="m_id" property="id"></id>
+            <result column="name" property="name"/>
+        </collection>
+    </resultMap>
+
+    <select id="loadUserByUsername" resultMap="userDetail" parameterType="java.lang.String" >
+        select
+            u.id as r_id,
+            u.username,
+            u.password,
+            u.firstname,
+            u.lastname,
+            u.email,
+            u.enabled,
+            r.id as m_id,
+            r.name,
+            ur.id as ur_id,
+            ur.user_id,
+            ur.role_id
+        from sys_user u
+            left outer join sys_user_role ur on u.id=ur.user_id
+            left outer join sys_role r on r.id= ur.role_id
+        WHERE u.username = #{username}
+    </select>
 </mapper>

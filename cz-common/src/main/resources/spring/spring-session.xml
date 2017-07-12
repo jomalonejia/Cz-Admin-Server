@@ -17,6 +17,7 @@
     </bean>
 
     <!--默认cookie 转成header请求-->
-    <bean class="org.springframework.session.web.http.HeaderHttpSessionStrategy">
-    </bean>
+    <!--<bean class="org.springframework.session.web.http.HeaderHttpSessionStrategy">
+    </bean>-->
+    <bean class="com.cz.core.session.listener.HeaderHttpSessionStrategyListener"></bean>
 </beans>

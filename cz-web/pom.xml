@@ -26,6 +26,7 @@
             <artifactId>spring-session</artifactId>
             <version>${spring-session.version}</version>
         </dependency>
+
     </dependencies>
     <build>
         <finalName>cz-web</finalName>
