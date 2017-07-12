@@ -17,7 +17,5 @@ public class HeaderHttpSessionStrategyListener extends HeaderHttpSessionStrategy
 
     @Override
     public void onNewSession(Session session, HttpServletRequest request, HttpServletResponse response) {
-        _log.info("+++++++++++++++++++++++++++++++++++++++++++++++");
-
     }
 }

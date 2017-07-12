@@ -1,4 +1,4 @@
-package com.cz.security3.rest;
+package com.cz.security.rest;
 
 /**
  * Created by stephan on 11.03.16.

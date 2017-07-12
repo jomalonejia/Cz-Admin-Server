@@ -19,13 +19,11 @@ public class UserNumberListener implements HttpSessionListener{
 
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
-        _log.info("___________create");
         setUserNumber(1);
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-        _log.info("___________destroy");
         setUserNumber(-1);
     }
 

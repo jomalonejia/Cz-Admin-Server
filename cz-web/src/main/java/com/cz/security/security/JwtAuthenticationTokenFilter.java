@@ -1,4 +1,4 @@
-package com.cz.security3.security;
+package com.cz.security.security;
 
 import com.cz.core.util.constant.SecurityConstant;
 import org.apache.commons.logging.Log;

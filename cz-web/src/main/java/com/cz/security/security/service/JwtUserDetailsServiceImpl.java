@@ -1,8 +1,8 @@
-package com.cz.security3.security.service;
+package com.cz.security.security.service;
 
 import com.cz.api.service.IUserService;
 import com.cz.model.User;
-import com.cz.security3.security.JwtUserFactory;
+import com.cz.security.security.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

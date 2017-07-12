@@ -1,4 +1,4 @@
-package com.cz.security3.rest;
+package com.cz.security.rest;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

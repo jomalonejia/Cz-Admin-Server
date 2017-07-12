@@ -1,4 +1,4 @@
-package com.cz.security3.utils;
+package com.cz.security.utils;
 
 import org.springframework.stereotype.Component;
 

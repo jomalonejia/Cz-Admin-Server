@@ -1,4 +1,4 @@
-package com.cz.security3.security;
+package com.cz.security.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;

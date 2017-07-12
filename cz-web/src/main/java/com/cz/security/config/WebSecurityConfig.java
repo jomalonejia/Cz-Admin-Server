@@ -1,14 +1,13 @@
-package com.cz.security3.config;
+package com.cz.security.config;
 
-import com.cz.security3.security.JwtAuthenticationEntryPoint;
-import com.cz.security3.security.JwtAuthenticationTokenFilter;
-import com.cz.security3.security.JwtAuthenticationTokenFilter2;
+import com.cz.security.security.JwtAuthenticationEntryPoint;
+import com.cz.security.security.JwtAuthenticationTokenFilter;
+import com.cz.security.security.JwtAuthenticationTokenFilter2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

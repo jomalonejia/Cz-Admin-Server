@@ -1,12 +1,11 @@
-package com.cz.security3.security;
+package com.cz.security.security;
 
 import com.cz.model.JwtUser;
-import com.cz.security3.utils.TimeProvider;
+import com.cz.security.utils.TimeProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
