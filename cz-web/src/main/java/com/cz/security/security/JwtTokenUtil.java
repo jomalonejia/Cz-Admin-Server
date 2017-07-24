@@ -1,7 +1,8 @@
 package com.cz.security.security;
 
-import com.cz.model.JwtUser;
+import com.cz.core.util.constant.JwtConstant;
 import com.cz.security.utils.TimeProvider;
+import com.cz.user.JwtUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,23 +20,8 @@ public class JwtTokenUtil implements Serializable {
 
     private static final long serialVersionUID = -3301605591108950415L;
 
-    static final String CLAIM_KEY_USERNAME = "sub";
-    static final String CLAIM_KEY_AUDIENCE = "audience";
-    static final String CLAIM_KEY_CREATED = "created";
-    static final String CLAIM_KEY_EXPIRED = "exp";
-
-    static final String AUDIENCE_UNKNOWN = "unknown";
-    static final String AUDIENCE_WEB = "web";
-    static final String AUDIENCE_MOBILE = "mobile";
-    static final String AUDIENCE_TABLET = "tablet";
-
     @Autowired
     private TimeProvider timeProvider;
-
-
-    private String secret = "secret";
-
-    private Long expiration = 6048000L;
 
     public String getUsernameFromToken(String token) {
         String username;
@@ -52,7 +38,7 @@ public class JwtTokenUtil implements Serializable {
         Date created;
         try {
             final Claims claims = getClaimsFromToken(token);
-            created = new Date((Long) claims.get(CLAIM_KEY_CREATED));
+            created = new Date((Long) claims.get(JwtConstant.CLAIM_KEY_CREATED));
         } catch (Exception e) {
             created = null;
         }
@@ -74,7 +60,7 @@ public class JwtTokenUtil implements Serializable {
         String audience;
         try {
             final Claims claims = getClaimsFromToken(token);
-            audience = (String) claims.get(CLAIM_KEY_AUDIENCE);
+            audience = (String) claims.get(JwtConstant.CLAIM_KEY_AUDIENCE);
         } catch (Exception e) {
             audience = null;
         }
@@ -85,7 +71,7 @@ public class JwtTokenUtil implements Serializable {
         Claims claims;
         try {
             claims = Jwts.parser()
-                    .setSigningKey(secret)
+                    .setSigningKey(JwtConstant.SECRET)
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
@@ -106,30 +92,30 @@ public class JwtTokenUtil implements Serializable {
 
     private Boolean ignoreTokenExpiration(String token) {
         String audience = getAudienceFromToken(token);
-        return (AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));
+        return (JwtConstant.AUDIENCE_TABLET.equals(audience) || JwtConstant.AUDIENCE_MOBILE.equals(audience));
     }
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
 
-        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
+        claims.put(JwtConstant.CLAIM_KEY_USERNAME, userDetails.getUsername());
 
         final Date createdDate = timeProvider.now();
-        claims.put(CLAIM_KEY_CREATED, createdDate);
+        claims.put(JwtConstant.CLAIM_KEY_CREATED, createdDate);
 
         return doGenerateToken(claims);
     }
 
     private String doGenerateToken(Map<String, Object> claims) {
-        final Date createdDate = (Date) claims.get(CLAIM_KEY_CREATED);
-        final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
+        final Date createdDate = (Date) claims.get(JwtConstant.CLAIM_KEY_CREATED);
+        final Date expirationDate = new Date(createdDate.getTime() + JwtConstant.EXPIRATION * 1000);
 
         System.out.println("doGenerateToken " + createdDate);
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(expirationDate)
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(SignatureAlgorithm.HS512, JwtConstant.SECRET)
                 .compact();
     }
 
@@ -143,7 +129,7 @@ public class JwtTokenUtil implements Serializable {
         String refreshedToken;
         try {
             final Claims claims = getClaimsFromToken(token);
-            claims.put(CLAIM_KEY_CREATED, timeProvider.now());
+            claims.put(JwtConstant.CLAIM_KEY_CREATED, timeProvider.now());
             refreshedToken = doGenerateToken(claims);
         } catch (Exception e) {
             refreshedToken = null;

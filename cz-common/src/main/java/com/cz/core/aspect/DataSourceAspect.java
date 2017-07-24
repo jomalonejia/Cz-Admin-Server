@@ -29,7 +29,6 @@ public class DataSourceAspect {
 
         String className = point.getTarget().getClass().getName();
         String method = point.getSignature().getName();
-        _log.info(className +"----------->" + method);
         try {
             L:for (String key : DynamicDataSource.methodType.keySet()) {
                 for (String methodType : DynamicDataSource.methodType.get(key)) {

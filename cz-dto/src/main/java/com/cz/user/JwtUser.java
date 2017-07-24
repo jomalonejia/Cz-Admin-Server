@@ -1,4 +1,4 @@
-package com.cz.model;
+package com.cz.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +21,7 @@ public class JwtUser implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean enabled;
     private final Date lastPasswordResetDate;
+    private final String imgUrl;
 
     public JwtUser(
           Long id,
@@ -30,7 +31,8 @@ public class JwtUser implements UserDetails {
           String email,
           String password, Collection<? extends GrantedAuthority> authorities,
           boolean enabled,
-          Date lastPasswordResetDate
+          Date lastPasswordResetDate,
+          String imgUrl
     ) {
         this.id = id;
         this.username = username;
@@ -41,6 +43,7 @@ public class JwtUser implements UserDetails {
         this.authorities = authorities;
         this.enabled = enabled;
         this.lastPasswordResetDate = lastPasswordResetDate;
+        this.imgUrl = imgUrl;
     }
 
     @JsonIgnore
@@ -104,6 +107,11 @@ public class JwtUser implements UserDetails {
         return lastPasswordResetDate;
     }
 
+    @JsonIgnore
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
     @Override
     public String toString() {
         return "JwtUser{" +
@@ -116,6 +124,7 @@ public class JwtUser implements UserDetails {
                 ", authorities=" + authorities +
                 ", enabled=" + enabled +
                 ", lastPasswordResetDate=" + lastPasswordResetDate +
+                ", imgUrl='" + imgUrl + '\'' +
                 '}';
     }
 }

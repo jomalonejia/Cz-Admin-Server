@@ -9,19 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cz-api</artifactId>
+    <artifactId>cz-dto</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.cz</groupId>
-            <artifactId>cz-dao</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cz</groupId>
-            <artifactId>cz-dto</artifactId>
-            <version>0.0.1</version>
-        </dependency>
-    </dependencies>
 
 </project>

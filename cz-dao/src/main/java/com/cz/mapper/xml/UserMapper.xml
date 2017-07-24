@@ -15,6 +15,7 @@
         <result column="lastname" property="lastname"/>
         <result column="email" property="email"/>
         <result column="enabled" property="enabled" javaType="boolean"/>
+        <result column="imgUrl" property="imgUrl"/>
         <collection property="roles" ofType="com.cz.model.Role" javaType="ArrayList" column="ur_id">
             <id column="m_id" property="id"></id>
             <result column="name" property="name"/>
@@ -30,6 +31,7 @@
             u.lastname,
             u.email,
             u.enabled,
+            u.imgUrl,
             r.id as m_id,
             r.name,
             ur.id as ur_id,

@@ -48,5 +48,23 @@ public class TestConfig {
         System.out.println(userService.selectOne(ew));
     }
 
+    @Test
+    public void test4(){
+        EntityWrapper<User> ew = new EntityWrapper<User>();
+        ew.where("username={0}", "admin");
+        System.out.println(ew.getSqlSegment());
+        System.out.println(userService.selectOne(ew));
+    }
+
+    @Test
+    public void test5(){
+        EntityWrapper<User> ew = new EntityWrapper<User>();
+        ew.where("username={0}", "disable");
+        System.out.println(ew.getSqlSegment());
+        User user = new User();
+        user.setUsername("disabled");
+        System.out.println(userService.update(user,ew));
+    }
+
 
 }

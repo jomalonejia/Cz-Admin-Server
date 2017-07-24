@@ -76,7 +76,7 @@
         <property name="defaultTargetDataSource" ref="writeDataSource"></property>
         <property name="methodType">
             <map key-type="java.lang.String">
-                <entry key="read" value=",get,select,count,list,query,"></entry>
+                <entry key="read" value=",get,select,count,list,query,load"></entry>
                 <entry key="write" value=",add,insert,create,update,delete,remove,"></entry>
             </map>
         </property>

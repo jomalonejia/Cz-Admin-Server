@@ -1,8 +1,8 @@
 package com.cz.security.security;
 
-import com.cz.model.JwtUser;
 import com.cz.model.Role;
 import com.cz.model.User;
+import com.cz.user.JwtUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -24,7 +24,8 @@ public final class JwtUserFactory {
                 user.getPassword(),
                 mapToGrantedAuthorities(user.getRoles()),
                 user.getEnabled(),
-                user.getLastPasswordResetDate()
+                user.getLastPasswordResetDate(),
+                user.getImgUrl()
         );
     }
 

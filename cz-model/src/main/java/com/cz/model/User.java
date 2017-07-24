@@ -3,6 +3,7 @@ package com.cz.model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,10 +35,11 @@ public class User implements Serializable {
 
 	private Boolean enabled;
 
-	@TableField(value = "lastPasswordResetDate")
 	private Date lastPasswordResetDate;
 
 	private String salt;
+
+	private String imgUrl;
 
 	@TableField(exist = false)
 	private List<Role> roles = new ArrayList<Role>();
@@ -122,6 +124,14 @@ public class User implements Serializable {
 		this.salt = salt;
 	}
 
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
 	@Override
 	public String toString() {
 		return "User{" +
@@ -134,6 +144,7 @@ public class User implements Serializable {
 				", enabled=" + enabled +
 				", lastPasswordResetDate=" + lastPasswordResetDate +
 				", salt='" + salt + '\'' +
+				", imgUrl='" + imgUrl + '\'' +
 				", roles=" + roles +
 				'}';
 	}

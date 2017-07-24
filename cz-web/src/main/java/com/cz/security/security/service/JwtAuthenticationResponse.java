@@ -11,11 +11,34 @@ public class JwtAuthenticationResponse implements Serializable {
 
     private final String token;
 
+    private  String imgUrl;
+
+    private String username;
+
     public JwtAuthenticationResponse(String token) {
         this.token = token;
     }
 
+    public JwtAuthenticationResponse(String token,String imgUrl,String username) {
+        this.token = token;
+        this.imgUrl = imgUrl;
+        this.username = username;
+    }
+
     public String getToken() {
         return this.token;
+    }
+
+    public String getImgUrl() { return this.imgUrl;}
+
+    public String getUsername() {return this.username;}
+
+    @Override
+    public String toString() {
+        return "JwtAuthenticationResponse{" +
+                "token='" + token + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", username='" + username + '\'' +
+                '}';
     }
 }

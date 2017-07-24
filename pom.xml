@@ -14,6 +14,8 @@
         <module>cz-dao</module>
         <module>cz-api</module>
         <module>cz-web</module>
+        <module>cz-dto</module>
+        <module>cz-dto</module>
     </modules>
     <packaging>pom</packaging>
 

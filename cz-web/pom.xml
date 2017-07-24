@@ -22,10 +22,16 @@
             <version>0.0.1</version>
         </dependency>
         <dependency>
+            <groupId>com.cz</groupId>
+            <artifactId>cz-dto</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session</artifactId>
             <version>${spring-session.version}</version>
         </dependency>
+
 
     </dependencies>
     <build>
@@ -43,6 +49,20 @@
                         <port>8080</port>
                         <server>tomcat</server>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.zeroturnaround</groupId>
+                    <artifactId>jrebel-maven-plugin</artifactId>
+                    <version>1.1.7</version>
+                    <executions>
+                        <execution>
+                            <id>generate-rebel-xml</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
