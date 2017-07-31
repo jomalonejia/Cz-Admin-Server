@@ -1,5 +1,6 @@
 package com.cz.model;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 
@@ -15,7 +16,9 @@ public class UserRole implements Serializable{
 
     @TableId
     private Long id;
+    @TableField(value = "user_id")
     private Long UserId;
+    @TableField(value = "role_id")
     private Long RoleId;
 
     public Long getId() {
@@ -39,6 +42,14 @@ public class UserRole implements Serializable{
     }
 
     public void setRoleId(Long roleId) {
+        RoleId = roleId;
+    }
+
+    public UserRole() {
+    }
+
+    public UserRole(Long userId, Long roleId) {
+        UserId = userId;
         RoleId = roleId;
     }
 }

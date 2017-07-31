@@ -1,4 +1,4 @@
-package com.rpc;
+package com.main;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +9,10 @@ import java.io.IOException;
 /**
  * Created by jomalone_jia on 2017/6/21.
  */
-public class RpcMain {
+public class ServiceMain {
 
 
-    private static final Logger _log = LoggerFactory.getLogger(RpcMain.class);
+    private static final Logger _log = LoggerFactory.getLogger(ServiceMain.class);
 
     public static void main(String[] args) throws IOException {
         _log.info(">>>>> cz-rpc-service 正在启动 <<<<<");

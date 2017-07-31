@@ -19,19 +19,6 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
     
-   <!-- <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <mvc:exclude-mapping path="/*.ico" />
-            <mvc:exclude-mapping path="/*/api-docs" />
-            <mvc:exclude-mapping path="/swagger**" />
-            <mvc:exclude-mapping path="/webjars/**" />
-            <mvc:exclude-mapping path="/configuration/**" />
-            <bean class="com.cz.core.interceptor.MaliciousRequestInterceptor">
-
-            </bean>
-        </mvc:interceptor>
-    </mvc:interceptors>-->
 
     <mvc:view-resolvers>
         <mvc:jsp cache-views="false" prefix="/WEB-INF/jsp/" suffix=".jsp" />
@@ -46,9 +33,8 @@
         <property name="maxInMemorySize" value="40960" />
     </bean>
     <!-- 资源重定向(仅作为后台使用不提供静态资源) -->
-    <!--<mvc:resources mapping="upload/**" location="/WEB-INF/upload/" cache-period="300" />
     <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
-    <mvc:resources mapping="webjars/**" location="classpath:/META-INF/resources/webjars/"/>-->
+    <mvc:resources mapping="webjars/**" location="classpath:/META-INF/resources/webjars/"/>
 
     <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
         <constructor-arg value="UTF-8" index="0"></constructor-arg>

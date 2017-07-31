@@ -1,13 +1,17 @@
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.mapper.UserMapper;
+import com.cz.model.Role;
 import com.cz.model.User;
 import com.cz.api.service.IUserService;
+import com.cz.model.UserRole;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -66,5 +70,41 @@ public class TestConfig {
         System.out.println(userService.update(user,ew));
     }
 
+    @Test
+    public void test6(){
+        Page<User> page = new Page<User>(1,10);
+        Page page1 = userService.listUserWithRole(page);
+        System.out.println(page1.toString());
+        System.out.println(page1.getRecords());
+    }
+
+    @Test
+    public void test7(){
+        User user = new User();
+        user.setId(4L);
+        Role role = new Role();
+        role.setId(1L);
+        role.setName("test1");
+        Role role1 = new Role();
+        role1.setId(2L);
+        role1.setName("test2");
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
+        roles.add(role1);
+        System.out.println(roles);
+        user.setRoles(roles);
+        user.setFirstname("firstname");
+        user.setLastname("lastname");
+        user.setId(4L);
+        userService.updateUserWithRole(user);
+    }
+
+
+    @Test
+    public void test8(){
+       UserRole userRole = new UserRole();
+       userRole.setRoleId(999L);
+       userRole.setUserId(888L);
+    }
 
 }

@@ -8,7 +8,7 @@
     </sql>
     
     <resultMap id="userDetail" type="com.cz.model.User">
-        <id column="r_id" property="id"/>
+        <id column="u_id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="firstname" property="firstname"/>
@@ -17,14 +17,15 @@
         <result column="enabled" property="enabled" javaType="boolean"/>
         <result column="imgUrl" property="imgUrl"/>
         <collection property="roles" ofType="com.cz.model.Role" javaType="ArrayList" column="ur_id">
-            <id column="m_id" property="id"></id>
-            <result column="name" property="name"/>
+            <id column="r_id" property="id"></id>
+            <result column="roleName" property="name"/>
         </collection>
     </resultMap>
 
+
     <select id="loadUserByUsername" resultMap="userDetail" parameterType="java.lang.String" >
         select
-            u.id as r_id,
+            u.id as u_id,
             u.username,
             u.password,
             u.firstname,
@@ -32,8 +33,8 @@
             u.email,
             u.enabled,
             u.imgUrl,
-            r.id as m_id,
-            r.name,
+            r.id as r_id,
+            r.roleName,
             ur.id as ur_id,
             ur.user_id,
             ur.role_id
@@ -42,4 +43,31 @@
             left outer join sys_role r on r.id= ur.role_id
         WHERE u.username = #{username}
     </select>
+
+    <select id="listAllUser" resultMap="userDetail">
+        select
+        u.id as u_id,
+        u.username,
+        u.password,
+        u.firstname,
+        u.lastname,
+        u.email,
+        u.enabled,
+        u.imgUrl,
+        r.id as r_id,
+        r.roleName,
+        ur.id as ur_id,
+        ur.user_id,
+        ur.role_id
+        from sys_user u
+        left outer join sys_user_role ur on u.id=ur.user_id
+        left outer join sys_role r on r.id= ur.role_id
+    </select>
+
+    <update id="updateRoles" parameterType="java.util.List">
+        <foreach collection="list" item="role" separator="" >
+            UPDATE  offer set indx=#{offer.idx} WHERE id=#{offer.eId}
+        </foreach>
+    </update>
+
 </mapper>
