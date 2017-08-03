@@ -95,10 +95,21 @@ public class JwtTokenUtil implements Serializable {
         return (JwtConstant.AUDIENCE_TABLET.equals(audience) || JwtConstant.AUDIENCE_MOBILE.equals(audience));
     }
 
-    public String generateToken(UserDetails userDetails) {
+    /*public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
 
         claims.put(JwtConstant.CLAIM_KEY_USERNAME, userDetails.getUsername());
+
+        final Date createdDate = timeProvider.now();
+        claims.put(JwtConstant.CLAIM_KEY_CREATED, createdDate);
+
+        return doGenerateToken(claims);
+    }*/
+
+    public String generateToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+
+        claims.put(JwtConstant.CLAIM_KEY_USERNAME, username);
 
         final Date createdDate = timeProvider.now();
         claims.put(JwtConstant.CLAIM_KEY_CREATED, createdDate);

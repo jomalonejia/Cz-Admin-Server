@@ -11,14 +11,14 @@
         <id column="u_id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
-        <result column="firstname" property="firstname"/>
-        <result column="lastname" property="lastname"/>
+        <result column="first_name" property="firstName"/>
+        <result column="last_name" property="lastName"/>
         <result column="email" property="email"/>
         <result column="enabled" property="enabled" javaType="boolean"/>
-        <result column="imgUrl" property="imgUrl"/>
+        <result column="img_url" property="imgUrl"/>
         <collection property="roles" ofType="com.cz.model.Role" javaType="ArrayList" column="ur_id">
             <id column="r_id" property="id"></id>
-            <result column="roleName" property="name"/>
+            <result column="role_name" property="roleName"/>
         </collection>
     </resultMap>
 
@@ -28,13 +28,13 @@
             u.id as u_id,
             u.username,
             u.password,
-            u.firstname,
-            u.lastname,
+            u.first_name,
+            u.last_name,
             u.email,
             u.enabled,
-            u.imgUrl,
+            u.img_url,
             r.id as r_id,
-            r.roleName,
+            r.role_name,
             ur.id as ur_id,
             ur.user_id,
             ur.role_id
@@ -49,13 +49,13 @@
         u.id as u_id,
         u.username,
         u.password,
-        u.firstname,
-        u.lastname,
+        u.first_name,
+        u.last_name,
         u.email,
         u.enabled,
-        u.imgUrl,
+        u.img_url,
         r.id as r_id,
-        r.roleName,
+        r.role_name,
         ur.id as ur_id,
         ur.user_id,
         ur.role_id
@@ -64,10 +64,5 @@
         left outer join sys_role r on r.id= ur.role_id
     </select>
 
-    <update id="updateRoles" parameterType="java.util.List">
-        <foreach collection="list" item="role" separator="" >
-            UPDATE  offer set indx=#{offer.idx} WHERE id=#{offer.eId}
-        </foreach>
-    </update>
 
 </mapper>

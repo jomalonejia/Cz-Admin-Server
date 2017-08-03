@@ -1,5 +1,6 @@
 package com.cz.model;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 
@@ -13,7 +14,8 @@ public class Role implements Serializable{
     @TableId
     private Long id;
 
-    private String name;
+    @TableField(value = "role_name")
+    private String roleName;
 
     public Long getId() {
         return id;
@@ -23,19 +25,26 @@ public class Role implements Serializable{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", roleName='" + roleName + '\'' +
                 '}';
+    }
+
+    public Role(){}
+
+    public Role(Long id, String roleName) {
+        this.id = id;
+        this.roleName = roleName;
     }
 }

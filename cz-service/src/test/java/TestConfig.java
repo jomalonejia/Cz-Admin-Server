@@ -5,6 +5,7 @@ import com.cz.model.Role;
 import com.cz.model.User;
 import com.cz.api.service.IUserService;
 import com.cz.model.UserRole;
+import com.cz.user.DtoUser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,17 +85,17 @@ public class TestConfig {
         user.setId(4L);
         Role role = new Role();
         role.setId(1L);
-        role.setName("test1");
+        role.setRoleName("test1");
         Role role1 = new Role();
         role1.setId(2L);
-        role1.setName("test2");
+        role1.setRoleName("test2");
         List<Role> roles = new ArrayList<>();
         roles.add(role);
         roles.add(role1);
         System.out.println(roles);
         user.setRoles(roles);
-        user.setFirstname("firstname");
-        user.setLastname("lastname");
+        user.setFirstName("firstname");
+        user.setLastName("lastname");
         user.setId(4L);
         userService.updateUserWithRole(user);
     }
@@ -102,9 +103,19 @@ public class TestConfig {
 
     @Test
     public void test8(){
-       UserRole userRole = new UserRole();
-       userRole.setRoleId(999L);
-       userRole.setUserId(888L);
+        DtoUser dtoUser = new DtoUser();
+        dtoUser.setFirstName("aluba");
+        dtoUser.setLastName("aluba");
+        dtoUser.setEmail("a@a.com");
+        dtoUser.setUsername("aluba");
+        dtoUser.setPassword("123456");
+        User user = userService.registerUser(dtoUser);
+        System.out.println(user);
+    }
+
+    @Test
+    public void test9(){
+        System.out.println(userService.isUserExsit("aluba"));
     }
 
 }

@@ -15,5 +15,4 @@ public interface UserMapper extends BaseMapper<User>{
     User loadUserByUsername(String username);
     List<User> listAllUser();
     List<User> listAllUser(Pagination page);
-    Integer updateRoles(List<Role> roles);
 }

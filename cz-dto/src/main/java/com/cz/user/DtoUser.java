@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by jomalone_jia on 2017/7/20.
  */
-public class SettingsUser implements Serializable{
+public class DtoUser implements Serializable{
 
     private static final long serialVersionUID = -389621274640595692L;
 
@@ -57,7 +57,7 @@ public class SettingsUser implements Serializable{
 
     @Override
     public String toString() {
-        return "SettingsUser{" +
+        return "DtoUser{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +

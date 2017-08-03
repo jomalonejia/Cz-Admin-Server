@@ -10,18 +10,17 @@ import com.cz.model.Role;
 import com.cz.model.User;
 import com.cz.api.service.IUserService;
 import com.cz.model.UserRole;
-import com.cz.user.SettingsUser;
-import org.apache.commons.lang.StringUtils;
+import com.cz.user.DtoUser;
+import com.cz.util.CastUtil;
+import com.cz.util.UserConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.cache.annotation.CacheRemoveAll;
+import java.util.Date;
 import java.util.List;
 
 
@@ -41,16 +40,26 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     @Override
     @Cacheable(value = CacheConstant.CACHE_NAMESPACE+"loadUserByUsername")
     public User loadUserByUsername(String username) {
-        User user = userMapper.loadUserByUsername(username);
-        return user;
+        try {
+            User user = userMapper.loadUserByUsername(username);
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Cacheable(value = CacheConstant.CACHE_NAMESPACE+"getUserByUsername")
     public User getUserByUsername(String username){
-        User userEntity = new User();
-        userEntity.setUsername(username);
-        User user = userMapper.selectOne(userEntity);
-        return user;
+        try {
+            User userEntity = new User();
+            userEntity.setUsername(username);
+            User user = userMapper.selectOne(userEntity);
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -58,18 +67,17 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
             CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
             CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
             CacheConstant.CACHE_NAMESPACE+"listUserWithRole"})
-    public Integer updateUserSettings(SettingsUser settingsUseruser) {
-        EntityWrapper<User> ew = new EntityWrapper<User>();
-        ew.where("username={0}",settingsUseruser.getUsername());
-        User user = new User();
-        user.setFirstname(settingsUseruser.getFirstName());
-        user.setLastname(settingsUseruser.getLastName());
-        user.setEmail(settingsUseruser.getEmail());
-        if(StringUtils.isNotEmpty(settingsUseruser.getPassword())){
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            user.setPassword(encoder.encode(settingsUseruser.getPassword()));
+    public Integer updateUserSettings(DtoUser dtoUser) {
+        try {
+            EntityWrapper<User> ew = new EntityWrapper<User>();
+            ew.where("username={0}", dtoUser.getUsername());
+            User user = CastUtil.castDtoUserToUser(dtoUser);
+            user.setUsername("");
+            return userMapper.update(user,ew);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return userMapper.update(user,ew);
+        return null;
     }
 
     @Override
@@ -78,11 +86,17 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
             CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
             CacheConstant.CACHE_NAMESPACE+"listUserWithRole"})
     public Integer updateUserProfile(String profileName, String username){
-        EntityWrapper<User> ew = new EntityWrapper<User>();
-        ew.where("username={0}",username);
-        User user = new User();
-        user.setImgUrl(profileName);
-        return userMapper.update(user,ew);
+        try {
+            EntityWrapper<User> ew = new EntityWrapper<User>();
+            ew.where("username={0}",username);
+            User user = new User();
+            user.setImgUrl(profileName);
+            user.setLastPasswordResetDate(new Date());
+            return userMapper.update(user,ew);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -97,9 +111,10 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
             EntityWrapper<User> ew = new EntityWrapper<User>();
             ew.where("id={0}",user.getId());
             User updateUser = new User();
-            updateUser.setFirstname(user.getFirstname());
-            updateUser.setLastname(user.getLastname());
+            updateUser.setFirstName(user.getFirstName());
+            updateUser.setLastName(user.getLastName());
             updateUser.setEmail(user.getEmail());
+            updateUser.setLastPasswordResetDate(new Date());
             userMapper.update(user, ew);
             EntityWrapper<UserRole> ew2 = new EntityWrapper<UserRole>();
             ew2.where("user_id={0}",user.getId());
@@ -122,14 +137,25 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     @Override
     @Cacheable(value = CacheConstant.CACHE_NAMESPACE+"listUserWithRole")
     public List<User> listUserWithRole() {
-        List<User> users = userMapper.listAllUser();
-        return users;
+        try {
+            List<User> users = userMapper.listAllUser();
+            return users;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
 
     @Override
     public Page listUserWithRole(Page<User> page) {
-        page.setRecords(userMapper.listAllUser(page));
-        return page;
+        try {
+            page.setRecords(userMapper.listAllUser(page));
+            return page;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -139,7 +165,41 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
             CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
             CacheConstant.CACHE_NAMESPACE+"listUserWithRole"})
     public Integer deleteUserWithRole(Long id){
-        Integer flag = userMapper.deleteById(id);
-        return flag;
+        try {
+            Integer flag = userMapper.deleteById(id);
+            return flag;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
+    @Override
+    @Transactional
+    @CacheEvict(value = {
+            CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
+            CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
+            CacheConstant.CACHE_NAMESPACE+"listUserWithRole"})
+    public User registerUser(DtoUser dtoUser) {
+        try {
+            User user = CastUtil.castDtoUserToUser(dtoUser);
+            user.setImgUrl(UserConstants.DEFAULT_IMAGE_URL);
+            user.setEnabled(true);
+            userMapper.insert(user);
+            UserRole userRole = new UserRole(user.getId(),UserConstants.DEFAULT_ROLE_ID);
+            userRoleMapper.insert(userRole);
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Boolean isUserExsit(String username){
+        EntityWrapper<User> ew = new EntityWrapper<User>();
+        ew.where("username={0}",username);
+        return userMapper.selectCount(ew) > 0 ? true : false;
+    }
+
 }

@@ -14,8 +14,8 @@ public class JwtUser implements UserDetails {
 
     private final Long id;
     private final String username;
-    private final String firstname;
-    private final String lastname;
+    private final String firstName;
+    private final String lastName;
     private final String password;
     private final String email;
     private final Collection<? extends GrantedAuthority> authorities;
@@ -26,8 +26,8 @@ public class JwtUser implements UserDetails {
     public JwtUser(
           Long id,
           String username,
-          String firstname,
-          String lastname,
+          String firstName,
+          String lastName,
           String email,
           String password, Collection<? extends GrantedAuthority> authorities,
           boolean enabled,
@@ -36,8 +36,8 @@ public class JwtUser implements UserDetails {
     ) {
         this.id = id;
         this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
@@ -75,11 +75,11 @@ public class JwtUser implements UserDetails {
     }
 
     public String getFirstname() {
-        return firstname;
+        return firstName;
     }
 
     public String getLastname() {
-        return lastname;
+        return lastName;
     }
 
     public String getEmail() {
@@ -117,8 +117,8 @@ public class JwtUser implements UserDetails {
         return "JwtUser{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstName + '\'' +
+                ", lastname='" + lastName + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", authorities=" + authorities +

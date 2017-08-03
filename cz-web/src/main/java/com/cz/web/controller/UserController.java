@@ -1,7 +1,4 @@
 package com.cz.web.controller;
-import com.baomidou.mybatisplus.mapper.Condition;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.api.service.IUserService;
 import com.cz.core.base.BaseController;
 import com.cz.core.util.constant.SecurityConstant;
@@ -9,12 +6,11 @@ import com.cz.core.util.qiniu.PictureUtil;
 import com.cz.model.User;
 import com.cz.security.security.JwtTokenUtil;
 import com.cz.security.security.service.JwtAuthenticationResponse;
+import com.cz.user.DtoUser;
 import com.cz.user.JwtAuthenticationRequest;
 import com.cz.user.JwtUser;
-import com.cz.user.SettingsUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,18 +25,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -77,12 +68,12 @@ public class UserController extends BaseController implements ApplicationContext
         JwtUser user = null;
         String token = null;
         try {
-            Authentication authentication = this.authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(requestBoby.getUsername(),requestBoby.getPassword()));
+            _log.info(requestBoby.getUsername());
+            _log.info(requestBoby.getPassword());
+            Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestBoby.getUsername(),requestBoby.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             user = (JwtUser) this.userDetailsService.loadUserByUsername(requestBoby.getUsername());
-            _log.info(user.toString());
-            token = this.jwtTokenUtil.generateToken(user);
+            token = this.jwtTokenUtil.generateToken(user.getUsername());
             return ResponseEntity.ok(new JwtAuthenticationResponse(token,user.getImgUrl(),user.getUsername()));
         } catch (AuthenticationException e) {
             e.printStackTrace();
@@ -100,26 +91,41 @@ public class UserController extends BaseController implements ApplicationContext
         }else{
             return ResponseEntity.ok("you are not login");
         }
-
     }
 
+    @PostMapping(value = "/register" )
+    @ApiOperation(value = "user register")
+    public ResponseEntity<?> register(@RequestBody DtoUser dtoUser) throws AuthenticationException {
+        String token = null;
+        try {
+            if(userService.isUserExsit(dtoUser.getUsername())){
+                return new ResponseEntity(HttpStatus.FORBIDDEN);
+            }
+            token = this.jwtTokenUtil.generateToken(dtoUser.getUsername());
+            User user = userService.registerUser(dtoUser);
+            return ResponseEntity.ok(new JwtAuthenticationResponse(token,user.getImgUrl(),user.getUsername()));
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+    }
 
     @GetMapping("/getSettings")
     @ApiOperation(value = "get user settings")
     public ResponseEntity<?> getSettings(@RequestParam(value = "username",required = true) String username,HttpServletRequest request){
         User user = userService.getUserByUsername(username);
-        SettingsUser settingsUser = new SettingsUser();
-        settingsUser.setFirstName(user.getFirstname());
-        settingsUser.setLastName(user.getLastname());
-        settingsUser.setUsername(user.getUsername());
-        settingsUser.setEmail(user.getEmail());
-        return ResponseEntity.ok(settingsUser);
+        DtoUser dtoUser = new DtoUser();
+        dtoUser.setFirstName(user.getFirstName());
+        dtoUser.setLastName(user.getLastName());
+        dtoUser.setUsername(user.getUsername());
+        dtoUser.setEmail(user.getEmail());
+        return ResponseEntity.ok(dtoUser);
     }
 
     @PostMapping("/setSettings")
     @ApiOperation(value = "update user settings")
-    public ResponseEntity<?> updateSettings(@RequestBody SettingsUser settingsUseruser) {
-        Integer flag = userService.updateUserSettings(settingsUseruser);
+    public ResponseEntity<?> updateSettings(@RequestBody DtoUser dtoUseruser) {
+        Integer flag = userService.updateUserSettings(dtoUseruser);
         return ResponseEntity.ok(flag);
     }
 
