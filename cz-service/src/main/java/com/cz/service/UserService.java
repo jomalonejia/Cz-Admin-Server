@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.core.base.BaseServiceImpl;
 import com.cz.core.util.constant.CacheConstant;
 import com.cz.mapper.UserMapper;
+import com.cz.mapper.UserRelationshipMapper;
 import com.cz.mapper.UserRoleMapper;
 import com.cz.model.Role;
 import com.cz.model.User;
 import com.cz.api.service.IUserService;
+import com.cz.model.UserRelationship;
 import com.cz.model.UserRole;
 import com.cz.user.DtoUser;
 import com.cz.util.CastUtil;
@@ -35,6 +37,8 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     private UserMapper userMapper;
     @Autowired
     private UserRoleMapper userRoleMapper;
+    @Autowired
+    private UserRelationshipMapper userRelationshipMapper;
 
 
     @Override
@@ -66,7 +70,8 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     @CacheEvict(value = {
             CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
             CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"listUserWithRole"})
+            CacheConstant.CACHE_NAMESPACE+"listUserWithRole",
+            CacheConstant.CACHE_NAMESPACE+"listRelatedUser"})
     public Integer updateUserSettings(DtoUser dtoUser) {
         try {
             EntityWrapper<User> ew = new EntityWrapper<User>();
@@ -84,7 +89,8 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     @CacheEvict(value = {
             CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
             CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"listUserWithRole"})
+            CacheConstant.CACHE_NAMESPACE+"listUserWithRole",
+            CacheConstant.CACHE_NAMESPACE+"listRelatedUser"})
     public Integer updateUserProfile(String profileName, String username){
         try {
             EntityWrapper<User> ew = new EntityWrapper<User>();
@@ -104,7 +110,8 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     @CacheEvict(value = {
             CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
             CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"listUserWithRole"})
+            CacheConstant.CACHE_NAMESPACE+"listUserWithRole",
+            CacheConstant.CACHE_NAMESPACE+"listRelatedUser"})
     public Boolean updateUserWithRole(User user) {
 
         try {
@@ -163,7 +170,8 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     @CacheEvict(value = {
             CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
             CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"listUserWithRole"})
+            CacheConstant.CACHE_NAMESPACE+"listUserWithRole",
+            CacheConstant.CACHE_NAMESPACE+"listRelatedUser"})
     public Integer deleteUserWithRole(Long id){
         try {
             Integer flag = userMapper.deleteById(id);
@@ -179,7 +187,8 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     @CacheEvict(value = {
             CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
             CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"listUserWithRole"})
+            CacheConstant.CACHE_NAMESPACE+"listUserWithRole",
+            CacheConstant.CACHE_NAMESPACE+"listRelatedUser"})
     public User registerUser(DtoUser dtoUser) {
         try {
             User user = CastUtil.castDtoUserToUser(dtoUser);
@@ -202,4 +211,16 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
         return userMapper.selectCount(ew) > 0 ? true : false;
     }
 
+    @Override
+    @Cacheable(value = CacheConstant.CACHE_NAMESPACE+"listRelatedUser")
+    public List<User> listRelatedUsers(Long userId) {
+        try {
+            List<Long> ids = userRelationshipMapper.listRelatedId(userId);
+            List<User> users = userMapper.selectBatchIds(ids);
+            return users;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

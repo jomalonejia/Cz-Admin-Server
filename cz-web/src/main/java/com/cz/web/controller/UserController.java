@@ -74,7 +74,7 @@ public class UserController extends BaseController implements ApplicationContext
             SecurityContextHolder.getContext().setAuthentication(authentication);
             user = (JwtUser) this.userDetailsService.loadUserByUsername(requestBoby.getUsername());
             token = this.jwtTokenUtil.generateToken(user.getUsername());
-            return ResponseEntity.ok(new JwtAuthenticationResponse(token,user.getImgUrl(),user.getUsername()));
+            return ResponseEntity.ok(new JwtAuthenticationResponse(token,user.getImgUrl(),user.getUsername(),user.getId()));
         } catch (AuthenticationException e) {
             e.printStackTrace();
         }
@@ -103,7 +103,7 @@ public class UserController extends BaseController implements ApplicationContext
             }
             token = this.jwtTokenUtil.generateToken(dtoUser.getUsername());
             User user = userService.registerUser(dtoUser);
-            return ResponseEntity.ok(new JwtAuthenticationResponse(token,user.getImgUrl(),user.getUsername()));
+            return ResponseEntity.ok(new JwtAuthenticationResponse(token,user.getImgUrl(),user.getUsername(),user.getId()));
         } catch (AuthenticationException e) {
             e.printStackTrace();
         }
@@ -188,6 +188,11 @@ public class UserController extends BaseController implements ApplicationContext
         return ResponseEntity.ok(userService.deleteUserWithRole(id));
     }
 
+    @GetMapping("/listRelatedUsers")
+    @ApiOperation(value = "list related user")
+    public ResponseEntity<?> listRelatedUsers(@RequestParam  Long userId) {
+        return ResponseEntity.ok(userService.listRelatedUsers(userId));
+    }
 }
 
 

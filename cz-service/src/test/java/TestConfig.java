@@ -26,13 +26,13 @@ public class TestConfig {
     private IUserService userService;
 
     @Test
-    public void test1(){
+    public void test1() {
         User admin = userService.loadUserByUsername("admin");
         System.out.println(admin);
     }
 
     @Test
-    public void test2(){
+    public void test2() {
         EntityWrapper<User> ew = new EntityWrapper<User>();
         ew.where("name={0}", "'zhangsan'").and("id=1")
                 .orNew("status={0}", "0").or("status=1")
@@ -46,7 +46,7 @@ public class TestConfig {
     }
 
     @Test
-    public void test3(){
+    public void test3() {
         EntityWrapper<User> ew = new EntityWrapper<User>();
         ew.where("username={0}", "admin").and("id=1");
         System.out.println(ew.getSqlSegment());
@@ -54,7 +54,7 @@ public class TestConfig {
     }
 
     @Test
-    public void test4(){
+    public void test4() {
         EntityWrapper<User> ew = new EntityWrapper<User>();
         ew.where("username={0}", "admin");
         System.out.println(ew.getSqlSegment());
@@ -62,25 +62,25 @@ public class TestConfig {
     }
 
     @Test
-    public void test5(){
+    public void test5() {
         EntityWrapper<User> ew = new EntityWrapper<User>();
         ew.where("username={0}", "disable");
         System.out.println(ew.getSqlSegment());
         User user = new User();
         user.setUsername("disabled");
-        System.out.println(userService.update(user,ew));
+        System.out.println(userService.update(user, ew));
     }
 
     @Test
-    public void test6(){
-        Page<User> page = new Page<User>(1,10);
+    public void test6() {
+        Page<User> page = new Page<User>(1, 10);
         Page page1 = userService.listUserWithRole(page);
         System.out.println(page1.toString());
         System.out.println(page1.getRecords());
     }
 
     @Test
-    public void test7(){
+    public void test7() {
         User user = new User();
         user.setId(4L);
         Role role = new Role();
@@ -102,7 +102,7 @@ public class TestConfig {
 
 
     @Test
-    public void test8(){
+    public void test8() {
         DtoUser dtoUser = new DtoUser();
         dtoUser.setFirstName("aluba");
         dtoUser.setLastName("aluba");
@@ -114,8 +114,16 @@ public class TestConfig {
     }
 
     @Test
-    public void test9(){
+    public void test9() {
         System.out.println(userService.isUserExsit("aluba"));
     }
 
+    @Test
+    public void test10(){
+        /*List<Long> ids = userService.listRelatedUser(1L);
+        List<User> users = userService.selectBatchIds(ids);
+        System.out.println(users);*/
+    }
+
 }
+

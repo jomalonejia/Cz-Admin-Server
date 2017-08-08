@@ -3,7 +3,9 @@ package com.cz.api.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.cz.model.User;
+import com.cz.model.UserRelationship;
 import com.cz.user.DtoUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,4 +23,5 @@ public interface IUserService extends IService<User>{
     List<User> listUserWithRole();
     User registerUser(DtoUser dtoUser);
     Boolean isUserExsit(String username);
+    List<User> listRelatedUsers(Long userId);
 }

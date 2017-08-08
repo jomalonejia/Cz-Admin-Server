@@ -15,14 +15,17 @@ public class JwtAuthenticationResponse implements Serializable {
 
     private String username;
 
+    private Long userId;
+
     public JwtAuthenticationResponse(String token) {
         this.token = token;
     }
 
-    public JwtAuthenticationResponse(String token,String imgUrl,String username) {
+    public JwtAuthenticationResponse(String token,String imgUrl,String username,Long userId) {
         this.token = token;
         this.imgUrl = imgUrl;
         this.username = username;
+        this.userId = userId;
     }
 
     public String getToken() {
@@ -33,12 +36,15 @@ public class JwtAuthenticationResponse implements Serializable {
 
     public String getUsername() {return this.username;}
 
+    public Long getUserId() {return this.userId;}
+
     @Override
     public String toString() {
         return "JwtAuthenticationResponse{" +
                 "token='" + token + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", username='" + username + '\'' +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }
