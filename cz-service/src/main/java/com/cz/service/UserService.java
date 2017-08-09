@@ -221,8 +221,6 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     public List<User> listRelatedUsers(Long userId) {
         try {
             List<Long> ids = userRelationshipMapper.listRelatedId(userId);
-            _log.info("__________________");
-            _log.info(ids.toString());
             List<User> users = userMapper.selectBatchIds(ids);
             return users;
         } catch (Exception e) {
