@@ -15,6 +15,8 @@ import com.cz.model.UserRole;
 import com.cz.user.DtoUser;
 import com.cz.util.CastUtil;
 import com.cz.util.UserConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -22,6 +24,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +34,9 @@ import java.util.List;
  */
 @Service
 @CacheConfig(cacheNames = "usercache")
-public class UserService extends BaseServiceImpl<UserMapper,User> implements IUserService{
+public class UserService extends BaseServiceImpl<UserMapper,User> implements IUserService {
+
+    private static Logger _log = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserMapper userMapper;
@@ -42,7 +47,7 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
 
 
     @Override
-    @Cacheable(value = CacheConstant.CACHE_NAMESPACE+"loadUserByUsername")
+    @Cacheable(value = CacheConstant.CACHE_NAMESPACE + "loadUserByUsername")
     public User loadUserByUsername(String username) {
         try {
             User user = userMapper.loadUserByUsername(username);
@@ -53,8 +58,8 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
         return null;
     }
 
-    @Cacheable(value = CacheConstant.CACHE_NAMESPACE+"getUserByUsername")
-    public User getUserByUsername(String username){
+    @Cacheable(value = CacheConstant.CACHE_NAMESPACE + "getUserByUsername")
+    public User getUserByUsername(String username) {
         try {
             User userEntity = new User();
             userEntity.setUsername(username);
@@ -68,17 +73,17 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
 
     @Override
     @CacheEvict(value = {
-            CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"listUserWithRole",
-            CacheConstant.CACHE_NAMESPACE+"listRelatedUser"})
+            CacheConstant.CACHE_NAMESPACE + "loadUserByUsername",
+            CacheConstant.CACHE_NAMESPACE + "getUserByUsername",
+            CacheConstant.CACHE_NAMESPACE + "listUserWithRole",
+            CacheConstant.CACHE_NAMESPACE + "listRelatedUser"})
     public Integer updateUserSettings(DtoUser dtoUser) {
         try {
             EntityWrapper<User> ew = new EntityWrapper<User>();
             ew.where("username={0}", dtoUser.getUsername());
             User user = CastUtil.castDtoUserToUser(dtoUser);
             user.setUsername("");
-            return userMapper.update(user,ew);
+            return userMapper.update(user, ew);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,18 +92,18 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
 
     @Override
     @CacheEvict(value = {
-            CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"listUserWithRole",
-            CacheConstant.CACHE_NAMESPACE+"listRelatedUser"})
-    public Integer updateUserProfile(String profileName, String username){
+            CacheConstant.CACHE_NAMESPACE + "loadUserByUsername",
+            CacheConstant.CACHE_NAMESPACE + "getUserByUsername",
+            CacheConstant.CACHE_NAMESPACE + "listUserWithRole",
+            CacheConstant.CACHE_NAMESPACE + "listRelatedUser"})
+    public Integer updateUserProfile(String profileName, String username) {
         try {
             EntityWrapper<User> ew = new EntityWrapper<User>();
-            ew.where("username={0}",username);
+            ew.where("username={0}", username);
             User user = new User();
             user.setImgUrl(profileName);
             user.setLastPasswordResetDate(new Date());
-            return userMapper.update(user,ew);
+            return userMapper.update(user, ew);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -108,15 +113,15 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     @Override
     @Transactional
     @CacheEvict(value = {
-            CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"listUserWithRole",
-            CacheConstant.CACHE_NAMESPACE+"listRelatedUser"})
+            CacheConstant.CACHE_NAMESPACE + "loadUserByUsername",
+            CacheConstant.CACHE_NAMESPACE + "getUserByUsername",
+            CacheConstant.CACHE_NAMESPACE + "listUserWithRole",
+            CacheConstant.CACHE_NAMESPACE + "listRelatedUser"})
     public Boolean updateUserWithRole(User user) {
 
         try {
             EntityWrapper<User> ew = new EntityWrapper<User>();
-            ew.where("id={0}",user.getId());
+            ew.where("id={0}", user.getId());
             User updateUser = new User();
             updateUser.setFirstName(user.getFirstName());
             updateUser.setLastName(user.getLastName());
@@ -124,11 +129,11 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
             updateUser.setLastPasswordResetDate(new Date());
             userMapper.update(user, ew);
             EntityWrapper<UserRole> ew2 = new EntityWrapper<UserRole>();
-            ew2.where("user_id={0}",user.getId());
+            ew2.where("user_id={0}", user.getId());
             userRoleMapper.delete(ew2);
             userRoleMapper.deleteById(user.getId());
             for (Role role : user.getRoles()) {
-                userRoleMapper.insert(new UserRole(user.getId(),role.getId()));
+                userRoleMapper.insert(new UserRole(user.getId(), role.getId()));
             }
             return true;
         } catch (Exception e) {
@@ -137,12 +142,12 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
         return false;
     }
 
-    public Object updateuserrole(UserRole userRole){
+    public Object updateuserrole(UserRole userRole) {
         return userRoleMapper.insert(userRole);
     }
 
     @Override
-    @Cacheable(value = CacheConstant.CACHE_NAMESPACE+"listUserWithRole")
+    @Cacheable(value = CacheConstant.CACHE_NAMESPACE + "listUserWithRole")
     public List<User> listUserWithRole() {
         try {
             List<User> users = userMapper.listAllUser();
@@ -168,11 +173,11 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     @Override
     @Transactional
     @CacheEvict(value = {
-            CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"listUserWithRole",
-            CacheConstant.CACHE_NAMESPACE+"listRelatedUser"})
-    public Integer deleteUserWithRole(Long id){
+            CacheConstant.CACHE_NAMESPACE + "loadUserByUsername",
+            CacheConstant.CACHE_NAMESPACE + "getUserByUsername",
+            CacheConstant.CACHE_NAMESPACE + "listUserWithRole",
+            CacheConstant.CACHE_NAMESPACE + "listRelatedUser"})
+    public Integer deleteUserWithRole(Long id) {
         try {
             Integer flag = userMapper.deleteById(id);
             return flag;
@@ -185,17 +190,17 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     @Override
     @Transactional
     @CacheEvict(value = {
-            CacheConstant.CACHE_NAMESPACE+"loadUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE+"listUserWithRole",
-            CacheConstant.CACHE_NAMESPACE+"listRelatedUser"})
+            CacheConstant.CACHE_NAMESPACE + "loadUserByUsername",
+            CacheConstant.CACHE_NAMESPACE + "getUserByUsername",
+            CacheConstant.CACHE_NAMESPACE + "listUserWithRole",
+            CacheConstant.CACHE_NAMESPACE + "listRelatedUser"})
     public User registerUser(DtoUser dtoUser) {
         try {
             User user = CastUtil.castDtoUserToUser(dtoUser);
             user.setImgUrl(UserConstants.DEFAULT_IMAGE_URL);
             user.setEnabled(true);
             userMapper.insert(user);
-            UserRole userRole = new UserRole(user.getId(),UserConstants.DEFAULT_ROLE_ID);
+            UserRole userRole = new UserRole(user.getId(), UserConstants.DEFAULT_ROLE_ID);
             userRoleMapper.insert(userRole);
             return user;
         } catch (Exception e) {
@@ -205,17 +210,19 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     }
 
     @Override
-    public Boolean isUserExsit(String username){
+    public Boolean isUserExsit(String username) {
         EntityWrapper<User> ew = new EntityWrapper<User>();
-        ew.where("username={0}",username);
+        ew.where("username={0}", username);
         return userMapper.selectCount(ew) > 0 ? true : false;
     }
 
     @Override
-    @Cacheable(value = CacheConstant.CACHE_NAMESPACE+"listRelatedUser")
+    @Cacheable(value = CacheConstant.CACHE_NAMESPACE + "listRelatedUser")
     public List<User> listRelatedUsers(Long userId) {
         try {
             List<Long> ids = userRelationshipMapper.listRelatedId(userId);
+            _log.info("__________________");
+            _log.info(ids.toString());
             List<User> users = userMapper.selectBatchIds(ids);
             return users;
         } catch (Exception e) {

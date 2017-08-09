@@ -20,7 +20,7 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@TableId
+	@TableId()
 	private Long id;
 
 	private String username;

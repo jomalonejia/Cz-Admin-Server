@@ -118,12 +118,10 @@ public class TestConfig {
         System.out.println(userService.isUserExsit("aluba"));
     }
 
+
     @Test
     public void test10(){
-        /*List<Long> ids = userService.listRelatedUser(1L);
-        List<User> users = userService.selectBatchIds(ids);
-        System.out.println(users);*/
+        System.out.println(userService.listRelatedUsers(892550087922724864L));
     }
-
 }
 

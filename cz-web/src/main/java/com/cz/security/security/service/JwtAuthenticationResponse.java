@@ -9,13 +9,15 @@ public class JwtAuthenticationResponse implements Serializable {
 
     private static final long serialVersionUID = 1250166508152483573L;
 
-    private final String token;
+    private  String token;
 
     private  String imgUrl;
 
     private String username;
 
     private Long userId;
+
+    public JwtAuthenticationResponse() {}
 
     public JwtAuthenticationResponse(String token) {
         this.token = token;
@@ -25,6 +27,22 @@ public class JwtAuthenticationResponse implements Serializable {
         this.token = token;
         this.imgUrl = imgUrl;
         this.username = username;
+        this.userId = userId;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
