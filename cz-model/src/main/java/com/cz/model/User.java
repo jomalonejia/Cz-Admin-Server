@@ -15,7 +15,7 @@ import java.util.List;
  * 系统用户表
  *
  */
-@TableName("sys_user")
+@TableName("backend_user")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;

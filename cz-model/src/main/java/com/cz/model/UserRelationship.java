@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * Created by jomalone_jia on 2017/8/8.
  */
-@TableName("sys_user_relationship")
+@TableName("backend_user_relationship")
 public class UserRelationship implements Serializable{
     private static final long serialVersionUID = 1L;
 

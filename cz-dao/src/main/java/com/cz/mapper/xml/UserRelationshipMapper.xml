@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cz.mapper.UserRelationshipMapper">
     <select id="listRelatedId" resultType="Long">
-      SELECT user2_id from sys_user_relationship
+      SELECT user2_id from backend_user_relationship
       WHERE user1_id = #{userId}
     </select>
 </mapper>

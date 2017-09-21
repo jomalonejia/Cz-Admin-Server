@@ -41,7 +41,6 @@
     <import resource="classpath:spring/mybatis.xml" />
     <import resource="classpath:spring/dubbo-provider.xml"/>
     <import resource="classpath:spring/redis.xml"/>
-    <import resource="classpath:spring/activemq.xml"/>
     <import resource="classpath:spring/schedule.xml"/>
 
     <!--<import resource="classpath:spring/activemq.xml"/>

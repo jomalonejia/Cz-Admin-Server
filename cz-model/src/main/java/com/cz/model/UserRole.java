@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * Created by jomalone_jia on 2017/7/6.
  */
-@TableName("sys_user_role")
+@TableName("backend_user_role")
 public class UserRole implements Serializable{
 
     private static final long serialVersionUID = 1L;

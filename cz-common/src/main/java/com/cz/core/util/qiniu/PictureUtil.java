@@ -63,6 +63,25 @@ public class PictureUtil {
         }
     }
 
+    public String uploadPicture(String uploadString) {
+        DefaultPutRet putRet = null;
+        try {
+            byte[] uploadBytes = uploadString.getBytes("utf-8");
+            String upToken = auth.uploadToken(bucket);
+            try {
+                Response response = uploadManager.put(uploadBytes, key, upToken);
+                //解析上传成功的结果
+                putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
+            } catch (QiniuException ex) {
+                Response r = ex.response;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }finally {
+            return putRet.hash;
+        }
+    }
+
     public Object deletePicture(String picHash){
         BucketManager bucketManager = new BucketManager(auth, cfg);
         try {

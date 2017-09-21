@@ -38,9 +38,9 @@
             ur.id as ur_id,
             ur.user_id,
             ur.role_id
-        from sys_user u
-            left outer join sys_user_role ur on u.id=ur.user_id
-            left outer join sys_role r on r.id= ur.role_id
+        from backend_user u
+            left outer join backend_user_role ur on u.id=ur.user_id
+            left outer join backend_role r on r.id= ur.role_id
         WHERE u.username = #{username}
     </select>
 
@@ -59,9 +59,9 @@
         ur.id as ur_id,
         ur.user_id,
         ur.role_id
-        from sys_user u
-        left outer join sys_user_role ur on u.id=ur.user_id
-        left outer join sys_role r on r.id= ur.role_id
+        from backend_user u
+        left outer join backend_user_role ur on u.id=ur.user_id
+        left outer join backend_role r on r.id= ur.role_id
     </select>
 
 
