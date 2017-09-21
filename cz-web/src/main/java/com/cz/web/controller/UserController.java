@@ -193,6 +193,7 @@ public class UserController extends BaseController implements ApplicationContext
     public ResponseEntity<?> listRelatedUsers(@RequestParam  Long userId) {
         return ResponseEntity.ok(userService.listRelatedUsers(userId));
     }
+
 }
 
 

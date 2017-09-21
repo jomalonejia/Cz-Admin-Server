@@ -9,14 +9,25 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
+
+import com.qiniu.util.StringMap;
+import com.qiniu.util.UrlSafeBase64;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by jomalone_jia on 2017/7/25.
  */
 public class PictureUtil {
+
+    private static Logger _log = LoggerFactory.getLogger(PictureUtil.class);
 
     Configuration cfg = new Configuration(Zone.zone0());
     //...其他参数参考类注释
@@ -63,23 +74,25 @@ public class PictureUtil {
         }
     }
 
-    public String uploadPicture(String uploadString) {
-        DefaultPutRet putRet = null;
-        try {
-            byte[] uploadBytes = uploadString.getBytes("utf-8");
-            String upToken = auth.uploadToken(bucket);
-            try {
-                Response response = uploadManager.put(uploadBytes, key, upToken);
-                //解析上传成功的结果
-                putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-            } catch (QiniuException ex) {
-                Response r = ex.response;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }finally {
-            return putRet.hash;
-        }
+    public String uploadPicture(String uploadString) throws IOException, NoSuchAlgorithmException {
+        String picHash = PictureBase64Util.Generate(uploadString);
+        String url = "http://upload.qiniu.com/putb64/" + getBase64FileLength(uploadString)+"/key/"+ UrlSafeBase64.encodeToString(picHash);
+        //非华东空间需要根据注意事项 1 修改上传域名
+        RequestBody rb = RequestBody.create(null,getBasicBase64String(uploadString));
+        Request request = new Request.Builder().
+                url(url).
+                addHeader("Content-Type", "application/octet-stream")
+                .addHeader("Authorization", "UpToken " + getUpToken())
+                .post(rb).build();
+        System.out.println(request.headers());
+        OkHttpClient client = new OkHttpClient();
+        okhttp3.Response response = client.newCall(request).execute();
+        System.out.println(response);
+        return picHash;
+    }
+
+    public String getUpToken() {
+        return auth.uploadToken(bucket, null, 3600, new StringMap().put("insertOnly", 1));
     }
 
     public Object deletePicture(String picHash){
@@ -90,6 +103,21 @@ public class PictureUtil {
         } catch (QiniuException ex) {
             return ex.response.toString();
         }
+    }
+
+    private int getBase64FileLength(String uploadString){
+        String fileString = uploadString.substring(uploadString.indexOf(",")+1);
+        int index = fileString.indexOf("=");
+        if(index != -1){
+            fileString = fileString.substring(0,index);
+        }
+        double fileLength = fileString.length();
+        int length = (int)Math.floor(fileLength-(fileLength/8)*2);
+        return length;
+    }
+
+    private String getBasicBase64String (String originalString){
+        return originalString.substring(originalString.indexOf(",")+1);
     }
 
 }

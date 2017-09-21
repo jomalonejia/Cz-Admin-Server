@@ -1,16 +1,25 @@
 package com.cz.web.controller;
 
+import com.cz.api.service.IItemService;
+import com.cz.core.util.qiniu.PictureBase64Util;
 import com.cz.core.util.qiniu.PictureUtil;
 import com.cz.item.ItemContent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by jomalone_jia on 2017/9/20.
@@ -21,6 +30,9 @@ import javax.servlet.http.HttpServletRequest;
 public class ItemController {
 
     private static Logger _log = LoggerFactory.getLogger(ItemController.class);
+
+    @Autowired
+    private IItemService itemService;
 
     @PostMapping("/minusImage/update")
     @ApiOperation(value = "item images add")
@@ -33,9 +45,11 @@ public class ItemController {
 
     @PostMapping("/content/add")
     @ApiOperation(value = "item content add")
-    public Object addContent(@RequestBody ItemContent itemContent) {
-        _log.info(itemContent.toString());
-        _log.info("hehe");
+    public Object addContent(@RequestBody ItemContent itemContent) throws IOException, NoSuchAlgorithmException {
+        String content = itemContent.getItemConent();
+        itemService.saveOrUpdateItemContent(itemContent);
         return "hi";
     }
+
+
 }
