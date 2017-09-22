@@ -9,6 +9,6 @@ import com.cz.model.Item;
  * Created by jomalone_jia on 2017/6/20.
  */
 public interface IItemService extends IService<Item>{
-   public void saveOrUpdateItemContent(ItemContent itemContent);
+    String  saveOrUpdateItemContent(ItemContent itemContent);
 
 }

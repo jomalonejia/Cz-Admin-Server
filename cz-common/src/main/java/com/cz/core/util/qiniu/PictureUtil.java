@@ -19,8 +19,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by jomalone_jia on 2017/7/25.
@@ -74,8 +81,15 @@ public class PictureUtil {
         }
     }
 
-    public String uploadPicture(String uploadString) throws IOException, NoSuchAlgorithmException {
-        String picHash = PictureBase64Util.Generate(uploadString);
+    public String uploadPicture(String uploadString){
+        String picHash = null;
+        try {
+            picHash = Generate(uploadString);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         String url = "http://upload.qiniu.com/putb64/" + getBase64FileLength(uploadString)+"/key/"+ UrlSafeBase64.encodeToString(picHash);
         //非华东空间需要根据注意事项 1 修改上传域名
         RequestBody rb = RequestBody.create(null,getBasicBase64String(uploadString));
@@ -84,14 +98,16 @@ public class PictureUtil {
                 addHeader("Content-Type", "application/octet-stream")
                 .addHeader("Authorization", "UpToken " + getUpToken())
                 .post(rb).build();
-        System.out.println(request.headers());
         OkHttpClient client = new OkHttpClient();
-        okhttp3.Response response = client.newCall(request).execute();
-        System.out.println(response);
+        try {
+            okhttp3.Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return picHash;
     }
 
-    public String getUpToken() {
+    private String getUpToken() {
         return auth.uploadToken(bucket, null, 3600, new StringMap().put("insertOnly", 1));
     }
 
@@ -118,6 +134,13 @@ public class PictureUtil {
 
     private String getBasicBase64String (String originalString){
         return originalString.substring(originalString.indexOf(",")+1);
+    }
+
+
+    private String Generate(String value) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
+        return DatatypeConverter.printHexBinary(hash);
     }
 
 }

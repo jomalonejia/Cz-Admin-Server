@@ -12,4 +12,5 @@
     <dubbo:consumer check="false"></dubbo:consumer>
 
     <dubbo:reference id="userService" interface="com.cz.api.service.IUserService" check="false"></dubbo:reference>
+    <dubbo:reference id="itemService" interface="com.cz.api.service.IItemService" check="false"></dubbo:reference>
 </beans>

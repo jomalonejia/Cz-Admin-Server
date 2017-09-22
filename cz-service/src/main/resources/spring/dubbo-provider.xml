@@ -14,4 +14,7 @@
     <bean id="userService" class="com.cz.service.UserService"/>
     <dubbo:service interface="com.cz.api.service.IUserService" ref="userService" timeout="10000"/>
 
+    <bean id="itemService" class="com.cz.service.ItemService"/>
+    <dubbo:service interface="com.cz.api.service.IItemService" ref="itemService" timeout="10000"/>
+
 </beans>
