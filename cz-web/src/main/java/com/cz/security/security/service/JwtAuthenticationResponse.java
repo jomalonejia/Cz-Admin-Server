@@ -11,11 +11,13 @@ public class JwtAuthenticationResponse implements Serializable {
 
     private  String token;
 
-    private  String imgUrl;
+    private  String profile;
 
     private String username;
 
     private Long userId;
+
+    private String fullname;
 
     public JwtAuthenticationResponse() {}
 
@@ -23,10 +25,11 @@ public class JwtAuthenticationResponse implements Serializable {
         this.token = token;
     }
 
-    public JwtAuthenticationResponse(String token,String imgUrl,String username,Long userId) {
+    public JwtAuthenticationResponse(String token,String profile,String username,String fullname,Long userId) {
         this.token = token;
-        this.imgUrl = imgUrl;
+        this.profile = profile;
         this.username = username;
+        this.fullname = fullname;
         this.userId = userId;
     }
 
@@ -34,8 +37,8 @@ public class JwtAuthenticationResponse implements Serializable {
         this.token = token;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
     public void setUsername(String username) {
@@ -50,19 +53,28 @@ public class JwtAuthenticationResponse implements Serializable {
         return this.token;
     }
 
-    public String getImgUrl() { return this.imgUrl;}
+    public String getProfile() { return this.profile;}
 
     public String getUsername() {return this.username;}
 
     public Long getUserId() {return this.userId;}
 
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
     @Override
     public String toString() {
         return "JwtAuthenticationResponse{" +
                 "token='" + token + '\'' +
-                ", imgUrl='" + imgUrl + '\'' +
+                ", profile='" + profile + '\'' +
                 ", username='" + username + '\'' +
-                ", userId='" + userId + '\'' +
+                ", userId=" + userId +
+                ", fullname='" + fullname + '\'' +
                 '}';
     }
 }

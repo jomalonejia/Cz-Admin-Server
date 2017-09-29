@@ -27,21 +27,14 @@ public class User implements Serializable {
 
 	private String password;
 
-	@TableField(value = "first_name")
-	private String firstName;
-
-	@TableField(value = "last_name")
-	private String lastName;
-
-	private String email;
+	private String fullname;
 
 	private Boolean enabled;
 
 	@TableField(value = "last_password_reset_date")
 	private Date lastPasswordResetDate;
 
-	@TableField(value = "img_url")
-	private String imgUrl;
+	private String profile;
 
 	@TableField(exist = false)
 	private List<Role> roles = new ArrayList<Role>();
@@ -70,28 +63,12 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getFullname() {
+		return fullname;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
 	}
 
 	public Boolean getEnabled() {
@@ -118,13 +95,12 @@ public class User implements Serializable {
 		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
 
-
-	public String getImgUrl() {
-		return imgUrl;
+	public String getProfile() {
+		return profile;
 	}
 
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
+	public void setProfile (String profile) {
+		this.profile = profile;
 	}
 
 	@Override
@@ -133,12 +109,10 @@ public class User implements Serializable {
 				"id=" + id +
 				", username='" + username + '\'' +
 				", password='" + password + '\'' +
-				", firstname='" + firstName + '\'' +
-				", lastname='" + lastName + '\'' +
-				", email='" + email + '\'' +
+				", fullname='" + fullname + '\'' +
 				", enabled=" + enabled +
 				", lastPasswordResetDate=" + lastPasswordResetDate +
-				", imgUrl='" + imgUrl + '\'' +
+				", profile='" + profile + '\'' +
 				", roles=" + roles +
 				'}';
 	}

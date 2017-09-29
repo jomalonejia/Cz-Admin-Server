@@ -101,7 +101,7 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
             EntityWrapper<User> ew = new EntityWrapper<User>();
             ew.where("username={0}", username);
             User user = new User();
-            user.setImgUrl(profileName);
+            user.setProfile(profileName);
             user.setLastPasswordResetDate(new Date());
             return userMapper.update(user, ew);
         } catch (Exception e) {
@@ -123,9 +123,6 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
             EntityWrapper<User> ew = new EntityWrapper<User>();
             ew.where("id={0}", user.getId());
             User updateUser = new User();
-            updateUser.setFirstName(user.getFirstName());
-            updateUser.setLastName(user.getLastName());
-            updateUser.setEmail(user.getEmail());
             updateUser.setLastPasswordResetDate(new Date());
             userMapper.update(user, ew);
             EntityWrapper<UserRole> ew2 = new EntityWrapper<UserRole>();
@@ -197,7 +194,7 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     public User registerUser(DtoUser dtoUser) {
         try {
             User user = CastUtil.castDtoUserToUser(dtoUser);
-            user.setImgUrl(UserConstants.DEFAULT_IMAGE_URL);
+            user.setProfile(UserConstants.DEFAULT_IMAGE_URL);
             user.setEnabled(true);
             userMapper.insert(user);
             UserRole userRole = new UserRole(user.getId(), UserConstants.DEFAULT_ROLE_ID);

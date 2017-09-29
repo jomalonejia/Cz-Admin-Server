@@ -14,36 +14,30 @@ public class JwtUser implements UserDetails {
 
     private final Long id;
     private final String username;
-    private final String firstName;
-    private final String lastName;
+    private final String fullname;
     private final String password;
-    private final String email;
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean enabled;
     private final Date lastPasswordResetDate;
-    private final String imgUrl;
+    private final String profile;
 
     public JwtUser(
           Long id,
           String username,
-          String firstName,
-          String lastName,
-          String email,
+          String fullname,
           String password, Collection<? extends GrantedAuthority> authorities,
           boolean enabled,
           Date lastPasswordResetDate,
-          String imgUrl
+          String profile
     ) {
         this.id = id;
         this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+        this.fullname = fullname;
         this.password = password;
         this.authorities = authorities;
         this.enabled = enabled;
         this.lastPasswordResetDate = lastPasswordResetDate;
-        this.imgUrl = imgUrl;
+        this.profile = profile;
     }
 
     @JsonIgnore
@@ -74,16 +68,8 @@ public class JwtUser implements UserDetails {
         return true;
     }
 
-    public String getFirstname() {
-        return firstName;
-    }
-
-    public String getLastname() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
+    public String getFullname() {
+        return fullname;
     }
 
     @JsonIgnore
@@ -108,8 +94,8 @@ public class JwtUser implements UserDetails {
     }
 
     @JsonIgnore
-    public String getImgUrl() {
-        return imgUrl;
+    public String getProfile() {
+        return profile;
     }
 
     @Override
@@ -117,14 +103,12 @@ public class JwtUser implements UserDetails {
         return "JwtUser{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", firstname='" + firstName + '\'' +
-                ", lastname='" + lastName + '\'' +
+                ", fullname='" + fullname + '\'' +
                 ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
                 ", authorities=" + authorities +
                 ", enabled=" + enabled +
                 ", lastPasswordResetDate=" + lastPasswordResetDate +
-                ", imgUrl='" + imgUrl + '\'' +
+                ", profile='" + profile + '\'' +
                 '}';
     }
 }

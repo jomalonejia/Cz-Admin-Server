@@ -13,9 +13,6 @@ import java.util.Date;
 public class CastUtil {
     public static User castDtoUserToUser(DtoUser dtoUser){
         User user = new User();
-        user.setFirstName(dtoUser.getFirstName());
-        user.setLastName(dtoUser.getLastName());
-        user.setEmail(dtoUser.getEmail());
         user.setUsername(dtoUser.getUsername());
         user.setLastPasswordResetDate(new Date());
         if(StringUtils.isNotEmpty(dtoUser.getPassword())){

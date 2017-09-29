@@ -5,4 +5,5 @@ package com.cz.core.util.constant;
  */
 public class SecurityConstant {
     public static final String TOKEN_NAME = "cz-admin-token";
+    public static final String TOEKN_PRIFIX = "aluba ";
 }

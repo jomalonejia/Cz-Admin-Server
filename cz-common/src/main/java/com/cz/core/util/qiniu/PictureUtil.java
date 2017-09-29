@@ -25,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -84,7 +85,7 @@ public class PictureUtil {
     public String uploadPicture(String uploadString){
         String picHash = null;
         try {
-            picHash = Generate(uploadString);
+            picHash = Generate();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
@@ -137,10 +138,14 @@ public class PictureUtil {
     }
 
 
-    private String Generate(String value) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    private String Generate() throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
+        byte[] hash = digest.digest(String.valueOf(new Date().getTime()).getBytes(StandardCharsets.UTF_8));
         return DatatypeConverter.printHexBinary(hash);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Date().toString());
     }
 
 }

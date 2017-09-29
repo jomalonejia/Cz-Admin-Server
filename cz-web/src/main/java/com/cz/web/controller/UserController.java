@@ -7,7 +7,7 @@ import com.cz.model.User;
 import com.cz.security.security.JwtTokenUtil;
 import com.cz.security.security.service.JwtAuthenticationResponse;
 import com.cz.user.DtoUser;
-import com.cz.user.JwtAuthenticationRequest;
+import com.cz.security.security.JwtAuthenticationRequest;
 import com.cz.user.JwtUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +18,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -62,19 +63,32 @@ public class UserController extends BaseController implements ApplicationContext
         this.context = applicationContext;
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<?> test(HttpServletResponse response){
+        response.addHeader("aluba","aluba");
+        return ResponseEntity.ok("success");
+    }
+
+    @PostMapping("/test1")
+    public ResponseEntity<?> test1(HttpServletResponse response){
+        response.addHeader("aluba1","aluba1");
+        return ResponseEntity.ok("success1");
+    }
+
     @PostMapping(value = "/login" )
     @ApiOperation(value = "user login")
-    public ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest requestBoby, HttpServletRequest request) throws AuthenticationException {
+    public ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest requestBoby, HttpServletRequest request ,HttpServletResponse response) throws AuthenticationException {
         JwtUser user = null;
         String token = null;
         try {
-            _log.info(requestBoby.getUsername());
-            _log.info(requestBoby.getPassword());
-            Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestBoby.getUsername(),requestBoby.getPassword()));
+            String username = requestBoby.getEmail() != null ?requestBoby.getEmail():requestBoby.getUsername();
+            String password = requestBoby.getPassword();
+            Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            user = (JwtUser) this.userDetailsService.loadUserByUsername(requestBoby.getUsername());
+            user = (JwtUser) this.userDetailsService.loadUserByUsername(username);
             token = this.jwtTokenUtil.generateToken(user.getUsername());
-            return ResponseEntity.ok(new JwtAuthenticationResponse(token,user.getImgUrl(),user.getUsername(),user.getId()));
+            _log.info("token---------->"+token);
+            return new ResponseEntity(new JwtAuthenticationResponse(token,user.getProfile(),user.getUsername(),user.getFullname(),user.getId()),HttpStatus.ACCEPTED);
         } catch (AuthenticationException e) {
             e.printStackTrace();
         }
@@ -95,19 +109,23 @@ public class UserController extends BaseController implements ApplicationContext
 
     @PostMapping(value = "/register" )
     @ApiOperation(value = "user register")
-    public ResponseEntity<?> register(@RequestBody DtoUser dtoUser) throws AuthenticationException {
+    public ResponseEntity<?> register(@RequestBody DtoUser dtoUser,HttpServletResponse response) throws AuthenticationException {
         String token = null;
+        User user = null;
+        response.setHeader("register","register header");
         try {
-            if(userService.isUserExsit(dtoUser.getUsername())){
+            String username = dtoUser.getUsername() != null ? dtoUser.getUsername() : dtoUser.getEmail();
+            if(userService.isUserExsit(username)){
                 return new ResponseEntity(HttpStatus.FORBIDDEN);
             }
-            token = this.jwtTokenUtil.generateToken(dtoUser.getUsername());
-            User user = userService.registerUser(dtoUser);
-            return ResponseEntity.ok(new JwtAuthenticationResponse(token,user.getImgUrl(),user.getUsername(),user.getId()));
+            dtoUser.setUsername(username);
+            token = this.jwtTokenUtil.generateToken(username);
+            user = userService.registerUser(dtoUser);
+            return ResponseEntity.ok(new JwtAuthenticationResponse(token,user.getProfile(),user.getUsername(),user.getFullname(),user.getId()));
         } catch (AuthenticationException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/getSettings")
@@ -115,10 +133,7 @@ public class UserController extends BaseController implements ApplicationContext
     public ResponseEntity<?> getSettings(@RequestParam(value = "username",required = true) String username,HttpServletRequest request){
         User user = userService.getUserByUsername(username);
         DtoUser dtoUser = new DtoUser();
-        dtoUser.setFirstName(user.getFirstName());
-        dtoUser.setLastName(user.getLastName());
         dtoUser.setUsername(user.getUsername());
-        dtoUser.setEmail(user.getEmail());
         return ResponseEntity.ok(dtoUser);
     }
 
@@ -191,6 +206,7 @@ public class UserController extends BaseController implements ApplicationContext
     @GetMapping("/listRelatedUsers")
     @ApiOperation(value = "list related user")
     public ResponseEntity<?> listRelatedUsers(@RequestParam  Long userId) {
+        _log.info(userService.listRelatedUsers(userId).toString());
         return ResponseEntity.ok(userService.listRelatedUsers(userId));
     }
 

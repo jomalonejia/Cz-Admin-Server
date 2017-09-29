@@ -158,4 +158,9 @@ public class JwtTokenUtil implements Serializable {
                         && !isTokenExpired(token)
                         && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));
     }
+
+    public static void main(String[] args) {
+        String usernameFromToken = new JwtTokenUtil().getUsernameFromToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJjcmVhdGVkIjoxNTA2NjY4NzI1NjY0LCJleHAiOjE1MDY2NzIzMjV9.0dVLicSuv1fwX-hjd750x83IuFCEVn4e59k60GofYHwMHxVultpqm2z8EFx5XTtCeOUo05vjdqUTzgZfmsCwMw");
+        System.out.println(usernameFromToken);
+    }
 }

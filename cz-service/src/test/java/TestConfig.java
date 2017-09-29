@@ -94,8 +94,7 @@ public class TestConfig {
         roles.add(role1);
         System.out.println(roles);
         user.setRoles(roles);
-        user.setFirstName("firstname");
-        user.setLastName("lastname");
+        user.setFullname("fullname");
         user.setId(4L);
         userService.updateUserWithRole(user);
     }
@@ -104,9 +103,6 @@ public class TestConfig {
     @Test
     public void test8() {
         DtoUser dtoUser = new DtoUser();
-        dtoUser.setFirstName("aluba");
-        dtoUser.setLastName("aluba");
-        dtoUser.setEmail("a@a.com");
         dtoUser.setUsername("aluba");
         dtoUser.setPassword("123456");
         User user = userService.registerUser(dtoUser);

@@ -1,4 +1,4 @@
-package com.cz.user;
+package com.cz.security.security;
 
 import java.io.Serializable;
 
@@ -11,15 +11,13 @@ public class JwtAuthenticationRequest implements Serializable {
 
     private String username;
     private String password;
+    private String fullname;
+    private String email;
 
     public JwtAuthenticationRequest() {
         super();
     }
 
-    public JwtAuthenticationRequest(String username, String password) {
-        this.setUsername(username);
-        this.setPassword(password);
-    }
 
     public String getUsername() {
         return this.username;
@@ -37,11 +35,19 @@ public class JwtAuthenticationRequest implements Serializable {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "JwtAuthenticationRequest{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
