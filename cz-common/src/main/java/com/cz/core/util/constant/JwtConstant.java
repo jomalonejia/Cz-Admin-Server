@@ -4,7 +4,8 @@ package com.cz.core.util.constant;
  * Created by jomalone_jia on 2017/7/24.
  */
 public class JwtConstant {
-    public static final Long EXPIRATION = 60 * 60L;
+    public static final Long EXPIRATION = 60 * 60 * 12L;
+    public static final Integer CAN_REFRESH_MINUTES = 30;
     public static final String SECRET = "jomalone";
     public static final String CLAIM_KEY_USERNAME = "sub";
     public static final String CLAIM_KEY_AUDIENCE = "audience";

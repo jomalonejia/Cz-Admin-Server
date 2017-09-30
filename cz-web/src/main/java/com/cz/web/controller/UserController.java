@@ -64,9 +64,9 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @GetMapping("/test")
-    public ResponseEntity<?> test(HttpServletResponse response){
-        response.addHeader("aluba","aluba");
-        return ResponseEntity.ok("success");
+    public ResponseEntity<?> test(HttpServletResponse response,@RequestParam String token){
+        Object o = jwtTokenUtil.test1(token);
+        return ResponseEntity.ok(o);
     }
 
     @PostMapping("/test1")
@@ -87,7 +87,6 @@ public class UserController extends BaseController implements ApplicationContext
             SecurityContextHolder.getContext().setAuthentication(authentication);
             user = (JwtUser) this.userDetailsService.loadUserByUsername(username);
             token = this.jwtTokenUtil.generateToken(user.getUsername());
-            _log.info("token---------->"+token);
             return new ResponseEntity(new JwtAuthenticationResponse(token,user.getProfile(),user.getUsername(),user.getFullname(),user.getId()),HttpStatus.ACCEPTED);
         } catch (AuthenticationException e) {
             e.printStackTrace();
@@ -148,15 +147,19 @@ public class UserController extends BaseController implements ApplicationContext
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET)
     @ApiOperation(value = "user refresh token")
-    public ResponseEntity<?> refresh(HttpServletRequest request) {
-        String token = request.getHeader(SecurityConstant.TOKEN_NAME);
-        String username = this.jwtTokenUtil.getUsernameFromToken(token);
-        JwtUser user = (JwtUser) this.userDetailsService.loadUserByUsername(username);
-        _log.info(user.toString());
-        if (this.jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
-            String refreshedToken = this.jwtTokenUtil.refreshToken(token);
-            return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
-        } else {
+    public ResponseEntity<?> refresh(HttpServletRequest request,HttpServletResponse response) {
+
+        try {
+            String authToken = jwtTokenUtil.getTokenFromRequest(request);
+            _log.info(authToken);
+            if (this.jwtTokenUtil.canTokenBeRefreshed(authToken)){
+                String refreshedToken = this.jwtTokenUtil.refreshToken(authToken);
+                return new ResponseEntity(new JwtAuthenticationResponse(refreshedToken),HttpStatus.RESET_CONTENT);
+            }else{
+                return ResponseEntity.ok(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(null);
         }
     }

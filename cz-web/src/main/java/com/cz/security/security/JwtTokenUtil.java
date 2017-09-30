@@ -1,6 +1,7 @@
 package com.cz.security.security;
 
 import com.cz.core.util.constant.JwtConstant;
+import com.cz.core.util.constant.SecurityConstant;
 import com.cz.security.utils.TimeProvider;
 import com.cz.user.JwtUser;
 import io.jsonwebtoken.Claims;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -136,6 +138,12 @@ public class JwtTokenUtil implements Serializable {
                 && (!isTokenExpired(token) || ignoreTokenExpiration(token));
     }
 
+    public Boolean canTokenBeRefreshed(String token) {
+        final Long expireTime = getExpirationDateFromToken(token).getTime();
+        final Long nowTime = timeProvider.now().getTime();
+        return ((expireTime > nowTime) && ((expireTime - nowTime) / 1000 * 60) < JwtConstant.CAN_REFRESH_MINUTES);
+    }
+
     public String refreshToken(String token) {
         String refreshedToken;
         try {
@@ -159,8 +167,23 @@ public class JwtTokenUtil implements Serializable {
                         && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));
     }
 
-    public static void main(String[] args) {
-        String usernameFromToken = new JwtTokenUtil().getUsernameFromToken("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJjcmVhdGVkIjoxNTA2NjY4NzI1NjY0LCJleHAiOjE1MDY2NzIzMjV9.0dVLicSuv1fwX-hjd750x83IuFCEVn4e59k60GofYHwMHxVultpqm2z8EFx5XTtCeOUo05vjdqUTzgZfmsCwMw");
-        System.out.println(usernameFromToken);
+    public String getTokenFromRequest(HttpServletRequest request) {
+        String authToken;
+        authToken = request.getHeader(SecurityConstant.TOKEN_NAME);
+        if (authToken != null) {
+            if (authToken.startsWith(SecurityConstant.TOEKN_PRIFIX)) {
+                authToken = authToken.substring(SecurityConstant.TOEKN_PRIFIX.length());
+            }
+        }
+        return authToken;
+    }
+
+    public Object test1(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(JwtConstant.SECRET)
+                .parseClaimsJws(token)
+                .getBody();
+        Date expiration = claims.getExpiration();
+        return expiration;
     }
 }
