@@ -1,11 +1,11 @@
 package com.cz.web.controller;
 import com.cz.api.service.IUserService;
 import com.cz.core.base.BaseController;
-import com.cz.core.util.constant.SecurityConstant;
 import com.cz.core.util.qiniu.PictureUtil;
 import com.cz.model.User;
 import com.cz.security.security.JwtTokenUtil;
-import com.cz.security.security.service.JwtAuthenticationResponse;
+import com.cz.security.security.JwtAuthenticationResponse;
+import com.cz.security.security.TokenObject;
 import com.cz.user.DtoUser;
 import com.cz.security.security.JwtAuthenticationRequest;
 import com.cz.user.JwtUser;
@@ -18,7 +18,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -64,15 +63,9 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @GetMapping("/test")
-    public ResponseEntity<?> test(HttpServletResponse response,@RequestParam String token){
-        Object o = jwtTokenUtil.test1(token);
-        return ResponseEntity.ok(o);
-    }
+    public ResponseEntity<?> test(HttpServletResponse response){
 
-    @PostMapping("/test1")
-    public ResponseEntity<?> test1(HttpServletResponse response){
-        response.addHeader("aluba1","aluba1");
-        return ResponseEntity.ok("success1");
+        return ResponseEntity.ok(new TokenObject("aluba"));
     }
 
     @PostMapping(value = "/login" )
@@ -145,7 +138,7 @@ public class UserController extends BaseController implements ApplicationContext
 
 
 
-    @RequestMapping(value = "/refresh", method = RequestMethod.GET)
+    @GetMapping(value = "/refresh")
     @ApiOperation(value = "user refresh token")
     public ResponseEntity<?> refresh(HttpServletRequest request,HttpServletResponse response) {
 
@@ -153,10 +146,11 @@ public class UserController extends BaseController implements ApplicationContext
             String authToken = jwtTokenUtil.getTokenFromRequest(request);
             _log.info(authToken);
             if (this.jwtTokenUtil.canTokenBeRefreshed(authToken)){
+
                 String refreshedToken = this.jwtTokenUtil.refreshToken(authToken);
-                return new ResponseEntity(new JwtAuthenticationResponse(refreshedToken),HttpStatus.RESET_CONTENT);
+                return ResponseEntity.ok(new TokenObject(refreshedToken));
             }else{
-                return ResponseEntity.ok(null);
+                return ResponseEntity.ok(new TokenObject(authToken));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -208,9 +202,9 @@ public class UserController extends BaseController implements ApplicationContext
 
     @GetMapping("/listRelatedUsers")
     @ApiOperation(value = "list related user")
-    public ResponseEntity<?> listRelatedUsers(@RequestParam  Long userId) {
-        _log.info(userService.listRelatedUsers(userId).toString());
-        return ResponseEntity.ok(userService.listRelatedUsers(userId));
+    public ResponseEntity<?> listRelatedUsers(@RequestParam  String userId) {
+        _log.info(userService.listRelatedUsers(Long.parseLong(userId)).toString());
+        return ResponseEntity.ok(userService.listRelatedUsers(Long.parseLong(userId)));
     }
 
 }

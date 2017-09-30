@@ -1,4 +1,4 @@
-package com.cz.security.security.service;
+package com.cz.security.security;
 
 import java.io.Serializable;
 
