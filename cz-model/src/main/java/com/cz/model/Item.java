@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by jomalone_jia on 2017/9/15.
  */
-@TableName("front_item")
+@TableName("sys_item")
 public class Item implements Serializable {
 
     private static final long serialVersionUID = 1L;

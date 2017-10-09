@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  * Created by jomalone_jia on 2017/6/20.
  */
 @Service
-@CacheConfig(cacheNames = "Itemcache")
+@CacheConfig(cacheNames = "item_cache")
 public class ItemService extends BaseServiceImpl<ItemMapper,Item> implements IItemService {
 
     private static final Logger _log = LoggerFactory.getLogger(ItemService.class);

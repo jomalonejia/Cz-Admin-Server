@@ -1,6 +1,8 @@
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.cz.api.service.ICategoryService;
 import com.cz.mapper.UserMapper;
+import com.cz.model.Category;
 import com.cz.model.Role;
 import com.cz.model.User;
 import com.cz.api.service.IUserService;
@@ -12,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +28,8 @@ import java.util.Map;
 public class TestConfig {
     @Autowired
     private IUserService userService;
+    @Autowired
+    private ICategoryService categoryService;
 
     @Test
     public void test1() {
@@ -117,7 +123,54 @@ public class TestConfig {
 
     @Test
     public void test10(){
+
         System.out.println(userService.listRelatedUsers(892550087922724864L));
     }
+
+    @Test
+    public void test11(){
+        List<Category> categories = categoryService.listCategories();
+        Map cats = new HashMap<Long,HashMap<Long,Category>>();
+       // Map<Long,Map<Long,List<Category>>> cats = new HashMap<Long,HashMap<Long,ArrayList<Category>>>();
+        System.out.println(categories);
+        for (Category category : categories) {
+            if(category.getParentId() == 0 && cats.get(category.getId()) == null){
+                cats.put(category.getId(),new HashMap<Long,Category>());
+                /*HashMap parentNode = new HashMap<Long,ArrayList<Category>>();
+                parentNode.put(category.getId(),new ArrayList<Category>());
+                cats.put(0L,parentNode);*/
+            }else{
+                if(cats.get(category.getParentId()) == null){
+                    cats.put(category.getParentId(),new HashMap<Long,Category>());
+                }
+                Map map = (Map) cats.get(category.getParentId());
+                map.put(category.getId(),category);
+            }
+            /*if(category.getParentId() == 0){
+                if(cats.get(0) == null){
+                    cats.put(category.getParentId(),new ArrayList<Category>());
+                }
+                    cats.get(0).add(category);
+                //....
+            }else{
+                cats.get(category.getParentId())
+
+            }
+*/
+        }
+
+        System.out.println(cats);
+
+    }
+
+    @Test
+    public void test12(){
+        EntityWrapper<Category> ew = new EntityWrapper<Category>();
+        ew.isNotNull("category_name");
+        Map<String, Object> stringObjectMap = categoryService.selectMap(ew);
+        System.out.println(stringObjectMap);
+    }
+
+
 }
 

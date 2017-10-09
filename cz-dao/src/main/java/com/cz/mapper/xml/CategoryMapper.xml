@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cz.mapper.CategoryMapper">
+
+    <resultMap id="category" type="com.cz.model.Category">
+        <id column="id" property="id"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="parent_id" property="parentId"/>
+    </resultMap>
+
+    <select id="listCategories" resultMap="category">
+       SELECT
+           id,
+           category_name,
+           parent_id
+       FROM
+           sys_category
+       WHERE  !ISNULL(CATEGORY_NAME)
+    </select>
+
+    <select id="listCategoriesMap" resultType="Hashmap">
+        SELECT
+        id,
+        category_name,
+        parent_id
+        FROM
+        sys_category
+        WHERE  !ISNULL(CATEGORY_NAME)
+    </select>
+</mapper>

@@ -33,7 +33,7 @@ import java.util.List;
  * Created by jomalone_jia on 2017/6/20.
  */
 @Service
-@CacheConfig(cacheNames = "usercache")
+@CacheConfig(cacheNames = "user_cache")
 public class UserService extends BaseServiceImpl<UserMapper,User> implements IUserService {
 
     private static Logger _log = LoggerFactory.getLogger(UserService.class);

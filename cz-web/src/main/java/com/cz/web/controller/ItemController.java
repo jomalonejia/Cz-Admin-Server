@@ -1,18 +1,24 @@
 package com.cz.web.controller;
 
+import com.cz.api.service.ICategoryService;
 import com.cz.api.service.IItemService;
 import com.cz.item.ItemContent;
+import com.cz.model.Category;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jomalone_jia on 2017/9/20.
@@ -26,6 +32,8 @@ public class ItemController {
 
     @Autowired
     private IItemService itemService;
+    @Autowired
+    private ICategoryService categoryService;
 
     @PostMapping("/minusImage/update")
     @ApiOperation(value = "item images add")
@@ -44,4 +52,38 @@ public class ItemController {
     }
 
 
+    @GetMapping("/test")
+    public  ResponseEntity<?> test(){
+        List<Category> categories = categoryService.listCategories();
+        Map cats = new HashMap<Long,HashMap<Long,Category>>();
+        // Map<Long,Map<Long,List<Category>>> cats = new HashMap<Long,HashMap<Long,ArrayList<Category>>>();
+        System.out.println(categories);
+        for (Category category : categories) {
+            if(category.getParentId() == 0 && cats.get(category.getId()) == null){
+                cats.put(category.getId(),new HashMap<Long,Category>());
+                /*HashMap parentNode = new HashMap<Long,ArrayList<Category>>();
+                parentNode.put(category.getId(),new ArrayList<Category>());
+                cats.put(0L,parentNode);*/
+            }else{
+                if(cats.get(category.getParentId()) == null){
+                    cats.put(category.getParentId(),new HashMap<Long,Category>());
+                }
+                Map map = (Map) cats.get(category.getParentId());
+                map.put(category.getId(),category);
+            }
+            /*if(category.getParentId() == 0){
+                if(cats.get(0) == null){
+                    cats.put(category.getParentId(),new ArrayList<Category>());
+                }
+                    cats.get(0).add(category);
+                //....
+            }else{
+                cats.get(category.getParentId())
+
+            }
+*/
+        }
+        _log.info(cats.toString());
+         return ResponseEntity.ok("hehe");
+    }
 }
