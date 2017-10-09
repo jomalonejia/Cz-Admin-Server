@@ -56,14 +56,9 @@ public class ItemController {
     public  ResponseEntity<?> test(){
         List<Category> categories = categoryService.listCategories();
         Map cats = new HashMap<Long,HashMap<Long,Category>>();
-        // Map<Long,Map<Long,List<Category>>> cats = new HashMap<Long,HashMap<Long,ArrayList<Category>>>();
-        System.out.println(categories);
         for (Category category : categories) {
             if(category.getParentId() == 0 && cats.get(category.getId()) == null){
                 cats.put(category.getId(),new HashMap<Long,Category>());
-                /*HashMap parentNode = new HashMap<Long,ArrayList<Category>>();
-                parentNode.put(category.getId(),new ArrayList<Category>());
-                cats.put(0L,parentNode);*/
             }else{
                 if(cats.get(category.getParentId()) == null){
                     cats.put(category.getParentId(),new HashMap<Long,Category>());
@@ -71,17 +66,6 @@ public class ItemController {
                 Map map = (Map) cats.get(category.getParentId());
                 map.put(category.getId(),category);
             }
-            /*if(category.getParentId() == 0){
-                if(cats.get(0) == null){
-                    cats.put(category.getParentId(),new ArrayList<Category>());
-                }
-                    cats.get(0).add(category);
-                //....
-            }else{
-                cats.get(category.getParentId())
-
-            }
-*/
         }
         _log.info(cats.toString());
          return ResponseEntity.ok("hehe");
