@@ -32,7 +32,7 @@ public class CategoryService extends BaseServiceImpl<CategoryMapper,Category> im
     }
 
     @Override
-    public Map<Long, Category> listCategoriesMap() {
-        return null;
+    public List<Category> listParentCategories() {
+        return categoryMapper.listParentCategories();
     }
 }

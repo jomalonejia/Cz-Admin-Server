@@ -19,13 +19,13 @@
        WHERE  !ISNULL(CATEGORY_NAME)
     </select>
 
-    <select id="listCategoriesMap" resultType="Hashmap">
-        SELECT
-        id,
-        category_name,
-        parent_id
-        FROM
-        sys_category
-        WHERE  !ISNULL(CATEGORY_NAME)
+    <select id="listParentCategories" resultMap="category">
+       SELECT
+           id,
+           category_name,
+           parent_id
+       FROM
+           sys_category
+       WHERE  !ISNULL(CATEGORY_NAME) AND parent_id == 0
     </select>
 </mapper>

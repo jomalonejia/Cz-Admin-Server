@@ -1,6 +1,7 @@
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.api.service.ICategoryService;
+import com.cz.item.DtoCategory;
 import com.cz.mapper.UserMapper;
 import com.cz.model.Category;
 import com.cz.model.Role;
@@ -130,37 +131,16 @@ public class TestConfig {
     @Test
     public void test11(){
         List<Category> categories = categoryService.listCategories();
-        Map cats = new HashMap<Long,HashMap<Long,Category>>();
-       // Map<Long,Map<Long,List<Category>>> cats = new HashMap<Long,HashMap<Long,ArrayList<Category>>>();
-        System.out.println(categories);
+        List cats = new ArrayList<ArrayList<Category>>();
         for (Category category : categories) {
-            if(category.getParentId() == 0 && cats.get(category.getId()) == null){
-                cats.put(category.getId(),new HashMap<Long,Category>());
-                /*HashMap parentNode = new HashMap<Long,ArrayList<Category>>();
-                parentNode.put(category.getId(),new ArrayList<Category>());
-                cats.put(0L,parentNode);*/
-            }else{
-                if(cats.get(category.getParentId()) == null){
-                    cats.put(category.getParentId(),new HashMap<Long,Category>());
-                }
-                Map map = (Map) cats.get(category.getParentId());
-                map.put(category.getId(),category);
-            }
-            /*if(category.getParentId() == 0){
-                if(cats.get(0) == null){
-                    cats.put(category.getParentId(),new ArrayList<Category>());
-                }
-                    cats.get(0).add(category);
-                //....
-            }else{
-                cats.get(category.getParentId())
+            System.out.println(category);
+            if(category.getParentId() == 0){
 
+            }else{
+                cats.get(category.getParentId());
             }
-*/
         }
-
         System.out.println(cats);
-
     }
 
     @Test
@@ -171,6 +151,30 @@ public class TestConfig {
         System.out.println(stringObjectMap);
     }
 
-
+    @Test
+    public void test13(){
+        List<Category> categories = categoryService.listCategories();
+        List cats = new ArrayList<DtoCategory>();
+        DtoCategory dtoCategory;
+        for (Category category : categories) {
+            if(category.getParentId() == 0 ){
+                dtoCategory = new DtoCategory();
+                dtoCategory.setId(category.getId());
+                dtoCategory.setName(category.getCategoryName());
+                cats.add(dtoCategory);
+            }else{
+                DtoCategory parentCat = (DtoCategory) cats.get(category.getParentId()-1);
+                System.out.println("parent---->" + parentCat.toString());
+                List<DtoCategory> childCat = new ArrayList<DtoCategory>();
+                dtoCategory = new DtoCategory();
+                dtoCategory.setId(category.getId());
+                dtoCategory.setName(category.getCategoryName());
+                childCat.add(dtoCategory);
+                parentCat.setChildren(childCat);
+            }
+        }
+        System.out.println("-------------->");
+        System.out.println(cats);
+    }
 }
 

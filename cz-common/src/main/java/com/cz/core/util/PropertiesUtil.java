@@ -32,4 +32,5 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer{
     public void setDecryptProperties(List<String> decryptProperties) {
         this.decryptProperties = decryptProperties;
     }
+
 }

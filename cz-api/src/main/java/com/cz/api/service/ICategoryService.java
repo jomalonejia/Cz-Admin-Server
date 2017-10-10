@@ -12,5 +12,5 @@ import java.util.Map;
  */
 public interface ICategoryService extends IService<Category>{
     List<Category> listCategories();
-    Map<Long,Category> listCategoriesMap();
+    List<Category> listParentCategories();
 }

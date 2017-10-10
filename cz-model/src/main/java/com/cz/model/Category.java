@@ -14,21 +14,21 @@ import java.util.List;
 @TableName("sys_category")
 public class Category implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -1425330621990331322L;
 
     @TableId
-    private Long id;
+    private Integer id;
     @TableField(value = "category_name")
     private String categoryName;
     @TableField(value = "parent_id")
-    private Long parentId;
+    private Integer parentId;
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,11 +40,11 @@ public class Category implements Serializable {
         this.categoryName = categoryName;
     }
 
-    public Long getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(Long parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
