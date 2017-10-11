@@ -26,6 +26,6 @@
            parent_id
        FROM
            sys_category
-       WHERE  !ISNULL(CATEGORY_NAME) AND parent_id == 0
+       WHERE  !ISNULL(CATEGORY_NAME) AND parent_id = 0
     </select>
 </mapper>

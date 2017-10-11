@@ -34,8 +34,6 @@ public class ItemController {
 
     @Autowired
     private IItemService itemService;
-    @Autowired
-    private ICategoryService categoryService;
 
     @PostMapping("/minusImage/update")
     @ApiOperation(value = "item images add")
@@ -53,30 +51,6 @@ public class ItemController {
         return s;
     }
 
-    @GetMapping("/listCategories")
-    public Object getCategories() {
-        List<Category> categories = categoryService.listCategories();
-        List cats = new ArrayList<DtoCategory>();
-        DtoCategory dtoCategory;
-        for (Category category : categories) {
-            if (category.getParentId() == 0) {
-                dtoCategory = new DtoCategory();
-                dtoCategory.setId(category.getId());
-                dtoCategory.setName(category.getCategoryName());
-                cats.add(dtoCategory);
-            } else {
-                DtoCategory parentCat = (DtoCategory) cats.get(category.getParentId() - 1);
-                System.out.println("parent---->" + parentCat.toString());
-                List<DtoCategory> childCat = new ArrayList<DtoCategory>();
-                dtoCategory = new DtoCategory();
-                dtoCategory.setId(category.getId());
-                dtoCategory.setName(category.getCategoryName());
-                childCat.add(dtoCategory);
-                parentCat.setChildren(childCat);
-            }
-        }
-        return cats;
-    }
 
 
 
