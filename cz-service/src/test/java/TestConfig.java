@@ -123,58 +123,49 @@ public class TestConfig {
 
 
     @Test
-    public void test10(){
+    public void test10() {
 
         System.out.println(userService.listRelatedUsers(892550087922724864L));
     }
 
     @Test
-    public void test11(){
+    public void test11() {
         List<Category> categories = categoryService.listCategories();
         List cats = new ArrayList<ArrayList<Category>>();
         for (Category category : categories) {
             System.out.println(category);
-            if(category.getParentId() == 0){
+            if (category.getParentId() == 0) {
 
-            }else{
-                cats.get(category.getParentId());
+            } else {
             }
         }
         System.out.println(cats);
     }
 
     @Test
-    public void test12(){
+    public void test12() {
         EntityWrapper<Category> ew = new EntityWrapper<Category>();
         ew.isNotNull("category_name");
         Map<String, Object> stringObjectMap = categoryService.selectMap(ew);
         System.out.println(stringObjectMap);
     }
 
+
     @Test
-    public void test13(){
-        List<Category> categories = categoryService.listCategories();
-        List cats = new ArrayList<DtoCategory>();
-        DtoCategory dtoCategory;
-        for (Category category : categories) {
-            if(category.getParentId() == 0 ){
-                dtoCategory = new DtoCategory();
-                dtoCategory.setId(category.getId());
-                dtoCategory.setName(category.getCategoryName());
-                cats.add(dtoCategory);
-            }else{
-                DtoCategory parentCat = (DtoCategory) cats.get(category.getParentId()-1);
-                System.out.println("parent---->" + parentCat.toString());
-                List<DtoCategory> childCat = new ArrayList<DtoCategory>();
-                dtoCategory = new DtoCategory();
-                dtoCategory.setId(category.getId());
-                dtoCategory.setName(category.getCategoryName());
-                childCat.add(dtoCategory);
-                parentCat.setChildren(childCat);
-            }
-        }
-        System.out.println("-------------->");
-        System.out.println(cats);
+    public void test13() {
+        Category category = new Category();
+        category.setParentId(1);
+        category.setCategoryName("aluba");
+        int i = categoryService.insertCategory(category);
+        System.out.println(i);
+        System.out.println(category.getId());
+        System.out.println(category);
+    }
+
+    @Test
+    public void test14(){
+        List<Category> categories = categoryService.listChildCategories(1L);
+        System.out.println(categories.toString());
     }
 }
 

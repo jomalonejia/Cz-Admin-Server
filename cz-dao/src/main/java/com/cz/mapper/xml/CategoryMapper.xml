@@ -19,6 +19,16 @@
        WHERE  !ISNULL(CATEGORY_NAME)
     </select>
 
+    <select id="listCategoriesDesc" resultMap="category">
+        SELECT
+        id,
+        category_name,
+        parent_id
+        FROM
+        sys_category
+        WHERE  !ISNULL(CATEGORY_NAME) ORDER BY id DESC
+    </select>
+
     <select id="listParentCategories" resultMap="category">
        SELECT
            id,
@@ -28,4 +38,24 @@
            sys_category
        WHERE  !ISNULL(CATEGORY_NAME) AND parent_id = 0
     </select>
+
+    <select id="listChildCategories" resultMap="category">
+        SELECT
+        id,
+        category_name,
+        parent_id
+        FROM
+        sys_category
+        WHERE  !ISNULL(CATEGORY_NAME) AND parent_id = #{parentId}
+    </select>
+
+    <insert id="insertCategory"
+            parameterType="com.cz.model.Category"
+            useGeneratedKeys="true"
+            keyProperty="id">
+
+        INSERT INTO sys_category (category_name,parent_id)
+        VALUES (#{categoryName},#{parentId})
+    </insert>
+
 </mapper>

@@ -10,15 +10,15 @@ public class DtoCategory implements Serializable{
 
     private static final long serialVersionUID = -8428540691908176793L;
 
-    private Integer id;
+    private Long id;
     private String name;
     private List<DtoCategory> children;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

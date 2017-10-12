@@ -29,46 +29,25 @@ public class CategoryController {
 
     @GetMapping("/listCategories")
     public Object listCategories() {
-        List cats = null;
-        List<Category> categories;
-        try {
-            categories = categoryService.listCategories();
-            cats = new ArrayList<DtoCategory>();
-            DtoCategory dtoCategory;
-            for (Category category : categories) {
-                if (category.getParentId() == 0) {
-                    dtoCategory = new DtoCategory();
-                    dtoCategory.setId(category.getId());
-                    dtoCategory.setName(category.getCategoryName());
-                    cats.add(dtoCategory);
-                } else {
-                    DtoCategory parentCat = (DtoCategory) cats.get(category.getParentId() - 1);
-                    System.out.println("parent---->" + parentCat.toString());
-                    List<DtoCategory> childCat = new ArrayList<DtoCategory>();
-                    dtoCategory = new DtoCategory();
-                    dtoCategory.setId(category.getId());
-                    dtoCategory.setName(category.getCategoryName());
-                    childCat.add(dtoCategory);
-                    parentCat.setChildren(childCat);
-                }
-            }
-            return cats;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-       return null;
+        return categoryService.listTreeCategories();
     }
 
-    @GetMapping("/listAllCategories")
-    public Object listAllCategories() {
-        List<Category> categories = categoryService.listCategories();
+    @GetMapping("/listCategoriesDesc")
+    public Object listCategoriesDesc() {
+        List<Category> categories = categoryService.listCategoriesDesc();
         return categories;
     }
 
     @GetMapping("/listParentCategories")
     public Object listParentCategories() {
-        List<Category> categories = categoryService.listParentCategories();
-        return categories;
+        List<Category> parentCategories = categoryService.listParentCategories();
+        return parentCategories;
+    }
+
+    @GetMapping("/listChildCategories/{parentId}")
+    public Object listChildCategories(@PathVariable long parentId) {
+        List<Category> childCategories = categoryService.listChildCategories(parentId);
+        return childCategories;
     }
 
     @PostMapping("/edit")
@@ -92,15 +71,23 @@ public class CategoryController {
     public ResponseEntity<?> add(@RequestBody Category category){
         _log.info(category.toString());
         try {
-            boolean b = categoryService.insert(category);
-            if(b){
-                return ResponseEntity.ok().body("success");
-            }else{
-                return ResponseEntity.badRequest().body("failed");
-            }
+            categoryService.insertCategory(category);
+            return ResponseEntity.ok().body("add success");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ResponseEntity.badRequest().body("failed");
+        return ResponseEntity.badRequest().body("add failed");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable long id){
+        _log.info(id+"");
+        try {
+            categoryService.deleteById(id);
+            return ResponseEntity.ok().body("delete success");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("add failed");
     }
 }

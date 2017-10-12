@@ -1,10 +1,13 @@
 package com.cz.web.controller;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cz.api.service.ICategoryService;
 import com.cz.api.service.IItemService;
 import com.cz.item.DtoCategory;
 import com.cz.item.ItemContent;
 import com.cz.model.Category;
+import com.cz.model.Item;
+import com.cz.model.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -35,6 +38,22 @@ public class ItemController {
     @Autowired
     private IItemService itemService;
 
+    @GetMapping("/list")
+    @ApiOperation(value = "item list")
+    public Object list(){
+        EntityWrapper<Item> ew = new EntityWrapper<Item>();
+        return itemService.selectList(ew);
+    }
+
+
+    @PostMapping("/add")
+    @ApiOperation(value = "item add")
+    public Object add(@RequestBody Item item) {
+        _log.info(item.getCategoryId()+"");
+        boolean insert = itemService.insert(item);
+        return "success";
+    }
+
     @PostMapping("/minusImage/update")
     @ApiOperation(value = "item images add")
     public Object profileUpload(@RequestParam("itemImageUpload") MultipartFile file, HttpServletRequest request) {
@@ -50,38 +69,6 @@ public class ItemController {
         String s = itemService.saveOrUpdateItemContent(itemContent);
         return s;
     }
-
-
-
-
-    /*@GetMapping("/test")
-    public Object test() {
-          List<Category> categories = categoryService.listCategories();
-        Map cats = new HashMap<Long,HashMap<Long,Category>>();
-        for (Category category : categories) {
-            if(category.getParentId() == 0 && cats.get(category.getId()) == null){
-                cats.put(category.getId(),new HashMap<Long,Category>());
-            }else{
-                if(cats.get(category.getParentId()) == null){
-                    cats.put(category.getParentId(),new HashMap<Long,Category>());
-                }
-                Map map = (Map) cats.get(category.getParentId());
-                map.put(category.getId(),category);
-            }
-        }
-
-        List<Category> categories = categoryService.listCategories();
-        List<Object> cats = new ArrayList<>();
-        for (Category category : categories) {
-            if(category.getParentId() == 0){
-               cats.add(category);
-            }else{
-
-            }
-        }
-        return null;
-    }*/
-
 
 }
 

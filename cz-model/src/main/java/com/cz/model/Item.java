@@ -18,10 +18,13 @@ public class Item implements Serializable {
 
     @TableId
     private Long id;
-    private String title;
-    private String category;
+    private String name;
+    @TableField(value = "category_id")
+    private Long categoryId;
     private Integer price;
-    private String mainImage;
+    private String image;
+    @TableField(exist = false)
+    private Category category;
     @TableField(exist = false)
     private List<String> showImages;
     @TableField(exist = false)
@@ -36,20 +39,20 @@ public class Item implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCategory() {
-        return category;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Integer getPrice() {
@@ -60,12 +63,12 @@ public class Item implements Serializable {
         this.price = price;
     }
 
-    public String getMainImage() {
-        return mainImage;
+    public String getImage() {
+        return image;
     }
 
-    public void setMainImage(String mainImage) {
-        this.mainImage = mainImage;
+    public void setMainImage(String image) {
+        this.image = image;
     }
 
     public List<String> getShowImages() {
@@ -92,4 +95,18 @@ public class Item implements Serializable {
         this.describe = describe;
     }
 
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", categoryId=" + categoryId +
+                ", price=" + price +
+                ", image='" + image + '\'' +
+                ", category=" + category +
+                ", showImages=" + showImages +
+                ", minusShowImages=" + minusShowImages +
+                ", describe='" + describe + '\'' +
+                '}';
+    }
 }

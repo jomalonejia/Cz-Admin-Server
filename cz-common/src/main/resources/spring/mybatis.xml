@@ -19,7 +19,7 @@
                 <property name="sqlInjector">
                     <bean class="com.baomidou.mybatisplus.mapper.AutoSqlInjector" />
                 </property>
-                <property name="dbType" value="0"/>
+                <property name="dbType" value="2"/>
             </bean>
         </property>
     </bean>

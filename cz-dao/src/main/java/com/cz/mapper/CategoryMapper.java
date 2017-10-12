@@ -3,6 +3,7 @@ package com.cz.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.cz.model.Category;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -12,5 +13,8 @@ import java.util.Map;
  */
 public interface CategoryMapper extends BaseMapper<Category> {
     List<Category> listCategories();
+    List<Category> listCategoriesDesc();
     List<Category> listParentCategories();
+    List<Category> listChildCategories(@Param(value = "parentId") Long parentId);
+    int insertCategory(Category category);
 }

@@ -12,5 +12,9 @@ import java.util.Map;
  */
 public interface ICategoryService extends IService<Category>{
     List<Category> listCategories();
+    List<Category> listCategoriesDesc();
     List<Category> listParentCategories();
+    List<Category> listChildCategories(Long parentId);
+    int insertCategory(Category category);
+    List listTreeCategories();
 }
