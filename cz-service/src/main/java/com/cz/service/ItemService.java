@@ -9,6 +9,7 @@ import com.cz.mapper.ItemMapper;
 import com.cz.model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ public class ItemService extends BaseServiceImpl<ItemMapper,Item> implements IIt
 
     private static final Logger _log = LoggerFactory.getLogger(ItemService.class);
 
+    @Autowired
+    private ItemMapper itemMapper;
+
     @Override
     public String  saveOrUpdateItemContent(ItemContent itemContent) {
         Pattern pattern = Pattern.compile( "<img src=\"(.*?)\">" );
@@ -39,5 +43,10 @@ public class ItemService extends BaseServiceImpl<ItemMapper,Item> implements IIt
         }
         m.appendTail(sb);
         return sb.toString();
+    }
+
+    @Override
+    public List<Item> listItems() {
+        return itemMapper.listItems();
     }
 }

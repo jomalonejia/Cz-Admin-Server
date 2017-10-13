@@ -1,6 +1,7 @@
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.api.service.ICategoryService;
+import com.cz.api.service.IItemService;
 import com.cz.item.DtoCategory;
 import com.cz.mapper.UserMapper;
 import com.cz.model.Category;
@@ -31,6 +32,8 @@ public class TestConfig {
     private IUserService userService;
     @Autowired
     private ICategoryService categoryService;
+    @Autowired
+    private IItemService iItemService;
 
     @Test
     public void test1() {
@@ -134,7 +137,7 @@ public class TestConfig {
         List cats = new ArrayList<ArrayList<Category>>();
         for (Category category : categories) {
             System.out.println(category);
-            if (category.getParentId() == 0) {
+            if (category.getParentCategoryId() == 0) {
 
             } else {
             }
@@ -154,11 +157,11 @@ public class TestConfig {
     @Test
     public void test13() {
         Category category = new Category();
-        category.setParentId(1);
+        category.setParentCategoryId(1);
         category.setCategoryName("aluba");
         int i = categoryService.insertCategory(category);
         System.out.println(i);
-        System.out.println(category.getId());
+        System.out.println(category.getCategoryId());
         System.out.println(category);
     }
 
@@ -166,6 +169,26 @@ public class TestConfig {
     public void test14(){
         List<Category> categories = categoryService.listChildCategories(1L);
         System.out.println(categories.toString());
+    }
+
+    @Test
+    public void test15(){
+        Category category = new Category();
+        category.setCategoryId(49L);
+        category.setCategoryName("aluba122");
+        category.setParentCategoryId(2);
+        EntityWrapper<Category> ew = new EntityWrapper<Category>();
+        ew.where("category_id={0}", category.getCategoryId());
+
+        categoryService.update(category,ew);
+    }
+
+    @Test
+    public void test16(){
+        Category category = new Category();
+        category.setCategoryName("aluba121232");
+        category.setParentCategoryId(2);
+        categoryService.insert(category);
     }
 }
 

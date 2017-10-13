@@ -16,20 +16,19 @@ public class Category implements Serializable {
 
     private static final long serialVersionUID = -1425330621990331322L;
 
-    @TableId
-    private Long id;
+    @TableId(value = "category_id")
+    private Long categoryId;
     @TableField(value = "category_name")
     private String categoryName;
-    @TableField(value = "parent_id")
-    private Integer parentId;
+    @TableField(value = "parent_category_id")
+    private Integer parentCategoryId;
 
-
-    public Long getId() {
-        return id;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getCategoryName() {
@@ -40,22 +39,20 @@ public class Category implements Serializable {
         this.categoryName = categoryName;
     }
 
-    public Integer getParentId() {
-        return parentId;
+    public Integer getParentCategoryId() {
+        return parentCategoryId;
     }
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
+    public void setParentCategoryId(Integer parentCategoryId) {
+        this.parentCategoryId = parentCategoryId;
     }
-
-
 
     @Override
     public String toString() {
         return "Category{" +
-                "id=" + id +
+                "categoryId=" + categoryId +
                 ", categoryName='" + categoryName + '\'' +
-                ", parentId=" + parentId +
+                ", parentCategoryId=" + parentCategoryId +
                 '}';
     }
 }

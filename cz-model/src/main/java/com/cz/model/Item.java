@@ -16,8 +16,8 @@ public class Item implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId
-    private Long id;
+    @TableId(value = "item_id")
+    private String itemId;
     private String name;
     @TableField(value = "category_id")
     private Long categoryId;
@@ -31,12 +31,12 @@ public class Item implements Serializable {
     private List<String> minusShowImages;
     private String describe;
 
-    public Long getId() {
-        return id;
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     public String getName() {
@@ -67,8 +67,16 @@ public class Item implements Serializable {
         return image;
     }
 
-    public void setMainImage(String image) {
+    public void setImage(String image) {
         this.image = image;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public List<String> getShowImages() {
@@ -98,7 +106,7 @@ public class Item implements Serializable {
     @Override
     public String toString() {
         return "Item{" +
-                "id=" + id +
+                "itemId=" + itemId +
                 ", name='" + name + '\'' +
                 ", categoryId=" + categoryId +
                 ", price=" + price +

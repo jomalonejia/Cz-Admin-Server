@@ -41,17 +41,38 @@ public class ItemController {
     @GetMapping("/list")
     @ApiOperation(value = "item list")
     public Object list(){
-        EntityWrapper<Item> ew = new EntityWrapper<Item>();
-        return itemService.selectList(ew);
+        try {
+            List<Item> items = itemService.listItems();
+            return items;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("list items failed");
     }
 
 
     @PostMapping("/add")
     @ApiOperation(value = "item add")
     public Object add(@RequestBody Item item) {
-        _log.info(item.getCategoryId()+"");
-        boolean insert = itemService.insert(item);
-        return "success";
+        try {
+            itemService.insert(item);
+            return ResponseEntity.ok();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("list items failed");
+    }
+
+    @PostMapping("/update")
+    @ApiOperation(value = "item update")
+    public Object update(@RequestBody Item item) {
+        try {
+            itemService.updateById(item);
+            return ResponseEntity.ok();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("list items failed");
     }
 
     @PostMapping("/minusImage/update")
@@ -69,6 +90,8 @@ public class ItemController {
         String s = itemService.saveOrUpdateItemContent(itemContent);
         return s;
     }
+
+
 
 }
 

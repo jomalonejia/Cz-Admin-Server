@@ -15,6 +15,6 @@ public interface CategoryMapper extends BaseMapper<Category> {
     List<Category> listCategories();
     List<Category> listCategoriesDesc();
     List<Category> listParentCategories();
-    List<Category> listChildCategories(@Param(value = "parentId") Long parentId);
+    List<Category> listChildCategories(@Param(value = "parentCategoryId") Long parentCategoryId);
     int insertCategory(Category category);
 }

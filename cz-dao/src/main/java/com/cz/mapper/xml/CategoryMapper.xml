@@ -4,49 +4,35 @@
 <mapper namespace="com.cz.mapper.CategoryMapper">
 
     <resultMap id="category" type="com.cz.model.Category">
-        <id column="id" property="id"/>
+        <id column="category_id" property="categoryId"/>
         <result column="category_name" property="categoryName"/>
-        <result column="parent_id" property="parentId"/>
+        <result column="parent_category_id" property="parentCategoryId"/>
     </resultMap>
 
-    <select id="listCategories" resultMap="category">
-       SELECT
-           id,
+    <sql id="base_select_from_category" >
+        SELECT
+           category_id,
            category_name,
-           parent_id
+           parent_category_id
        FROM
            sys_category
        WHERE  !ISNULL(CATEGORY_NAME)
+    </sql>
+
+    <select id="listCategories" resultMap="category">
+     <include refid="base_select_from_category"></include>
     </select>
 
     <select id="listCategoriesDesc" resultMap="category">
-        SELECT
-        id,
-        category_name,
-        parent_id
-        FROM
-        sys_category
-        WHERE  !ISNULL(CATEGORY_NAME) ORDER BY id DESC
+        <include refid="base_select_from_category"></include> ORDER BY category_id DESC
     </select>
 
     <select id="listParentCategories" resultMap="category">
-       SELECT
-           id,
-           category_name,
-           parent_id
-       FROM
-           sys_category
-       WHERE  !ISNULL(CATEGORY_NAME) AND parent_id = 0
+        <include refid="base_select_from_category"></include> AND parent_category_id = 0
     </select>
 
     <select id="listChildCategories" resultMap="category">
-        SELECT
-        id,
-        category_name,
-        parent_id
-        FROM
-        sys_category
-        WHERE  !ISNULL(CATEGORY_NAME) AND parent_id = #{parentId}
+        <include refid="base_select_from_category"></include> AND parent_category_id = #{parentCategoryId}
     </select>
 
     <insert id="insertCategory"
@@ -54,8 +40,8 @@
             useGeneratedKeys="true"
             keyProperty="id">
 
-        INSERT INTO sys_category (category_name,parent_id)
-        VALUES (#{categoryName},#{parentId})
+        INSERT INTO sys_category (category_name,parent_category_id)
+        VALUES (#{categoryName},#{parentCategoryId})
     </insert>
 
 </mapper>

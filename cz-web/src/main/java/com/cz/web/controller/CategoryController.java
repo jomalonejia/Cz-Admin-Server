@@ -1,5 +1,6 @@
 package com.cz.web.controller;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cz.api.service.ICategoryService;
 import com.cz.item.DtoCategory;
 import com.cz.model.Category;
@@ -44,9 +45,10 @@ public class CategoryController {
         return parentCategories;
     }
 
-    @GetMapping("/listChildCategories/{parentId}")
-    public Object listChildCategories(@PathVariable long parentId) {
-        List<Category> childCategories = categoryService.listChildCategories(parentId);
+    @GetMapping("/listChildCategories/{parentCategoryId}")
+    public Object listChildCategories(@PathVariable Long parentCategoryId) {
+        _log.info(parentCategoryId+"---------------------------->");
+        List<Category> childCategories = categoryService.listChildCategories(parentCategoryId);
         return childCategories;
     }
 
@@ -54,12 +56,10 @@ public class CategoryController {
     public ResponseEntity<?> edit(@RequestBody Category category){
         _log.info(category.toString());
         try {
-            boolean b = categoryService.updateById(category);
-            if(b){
-                return ResponseEntity.ok().body("success");
-            }else{
-                return ResponseEntity.badRequest().body("failed");
-            }
+            EntityWrapper<Category> ew = new EntityWrapper<Category>();
+            ew.where("category_id={0}", category.getCategoryId());
+            categoryService.update(category,ew);
+            return ResponseEntity.ok().body("success");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +80,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable long id){
+    public ResponseEntity<?> delete(@PathVariable Long id){
         _log.info(id+"");
         try {
             categoryService.deleteById(id);
