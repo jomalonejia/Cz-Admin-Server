@@ -2,23 +2,18 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.api.service.ICategoryService;
 import com.cz.api.service.IItemService;
-import com.cz.item.DtoCategory;
-import com.cz.mapper.UserMapper;
 import com.cz.model.Category;
 import com.cz.model.Role;
 import com.cz.model.User;
 import com.cz.api.service.IUserService;
-import com.cz.model.UserRole;
-import com.cz.user.DtoUser;
+import com.cz.dto.user.DtoUser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -190,5 +185,13 @@ public class TestConfig {
         category.setParentCategoryId(2);
         categoryService.insert(category);
     }
+
+    @Test
+    public void test17(){
+        Object o = iItemService.selectImages("6f4a2ec79cee495991ac3b4f491fa725");
+        System.out.println(o.toString());
+    }
+
+
 }
 

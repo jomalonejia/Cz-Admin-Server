@@ -1,4 +1,4 @@
-package com.cz.item;
+package com.cz.dto.item;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,13 +6,13 @@ import java.util.List;
 /**
  * Created by jomalone_jia on 2017/10/10.
  */
-public class DtoCategory implements Serializable{
+public class CategoryDto implements Serializable{
 
     private static final long serialVersionUID = -8428540691908176793L;
 
     private Long id;
     private String name;
-    private List<DtoCategory> children;
+    private List<CategoryDto> children;
 
     public Long getId() {
         return id;
@@ -30,11 +30,11 @@ public class DtoCategory implements Serializable{
         this.name = name;
     }
 
-    public List<DtoCategory> getChildren() {
+    public List<CategoryDto> getChildren() {
         return children;
     }
 
-    public void setChildren(List<DtoCategory> children) {
+    public void setChildren(List<CategoryDto> children) {
         this.children = children;
     }
 

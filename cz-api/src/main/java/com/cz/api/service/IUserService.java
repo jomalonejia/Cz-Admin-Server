@@ -3,9 +3,7 @@ package com.cz.api.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.cz.model.User;
-import com.cz.model.UserRelationship;
-import com.cz.user.DtoUser;
-import org.apache.ibatis.annotations.Param;
+import com.cz.dto.user.DtoUser;
 
 import java.util.List;
 

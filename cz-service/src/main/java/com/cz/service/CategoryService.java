@@ -3,9 +3,9 @@ package com.cz.service;
 import com.cz.api.service.ICategoryService;
 import com.cz.core.base.BaseServiceImpl;
 import com.cz.core.util.constant.CacheConstant;
-import com.cz.item.DtoCategory;
 import com.cz.mapper.CategoryMapper;
 import com.cz.model.Category;
+import com.cz.dto.item.CategoryDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -73,27 +72,27 @@ public class CategoryService extends BaseServiceImpl<CategoryMapper, Category> i
         List<Category> categories = null;
         try {
             categories = categoryMapper.listCategories();
-            cats = new ArrayList<DtoCategory>();
-            DtoCategory dtoCategory;
+            cats = new ArrayList<CategoryDto>();
+            CategoryDto categoryDto;
             for (Category category : categories) {
                 if (category.getParentCategoryId() == 0) {
-                    dtoCategory = new DtoCategory();
-                    dtoCategory.setId(category.getCategoryId());
-                    dtoCategory.setName(category.getCategoryName());
-                    cats.add(dtoCategory);
+                    categoryDto = new CategoryDto();
+                    categoryDto.setId(category.getCategoryId());
+                    categoryDto.setName(category.getCategoryName());
+                    cats.add(categoryDto);
                 } else {
                     if (cats.get(category.getParentCategoryId() - 1) == null) {
-                        dtoCategory = new DtoCategory();
-                        dtoCategory.setId(category.getCategoryId());
-                        dtoCategory.setName(category.getCategoryName());
-                        cats.add(dtoCategory);
+                        categoryDto = new CategoryDto();
+                        categoryDto.setId(category.getCategoryId());
+                        categoryDto.setName(category.getCategoryName());
+                        cats.add(categoryDto);
                     } else {
-                        DtoCategory parentCat = (DtoCategory) cats.get(category.getParentCategoryId() - 1);
-                        List<DtoCategory> childCat = new ArrayList<DtoCategory>();
-                        dtoCategory = new DtoCategory();
-                        dtoCategory.setId(category.getCategoryId());
-                        dtoCategory.setName(category.getCategoryName());
-                        childCat.add(dtoCategory);
+                        CategoryDto parentCat = (CategoryDto) cats.get(category.getParentCategoryId() - 1);
+                        List<CategoryDto> childCat = new ArrayList<CategoryDto>();
+                        categoryDto = new CategoryDto();
+                        categoryDto.setId(category.getCategoryId());
+                        categoryDto.setName(category.getCategoryName());
+                        childCat.add(categoryDto);
                         parentCat.setChildren(childCat);
                     }
                 }

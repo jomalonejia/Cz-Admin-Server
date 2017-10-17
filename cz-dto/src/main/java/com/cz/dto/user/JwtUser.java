@@ -1,4 +1,4 @@
-package com.cz.user;
+package com.cz.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;

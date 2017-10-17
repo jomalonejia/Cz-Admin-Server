@@ -17,6 +17,16 @@
     </resultMap>
 
 
+   <!-- <resultMap id="itemImages" type="com.cz.dto.item.ItemImagesDto">
+        <result property="image" column="image"/>
+        <collection property="images" ofType="java.lang.String" javaType="ArrayList">
+            <result column="url" javaType="java.lang.String"/>
+        </collection>
+    </resultMap>-->
+
+
+
+
     <select id="listItems" resultMap="item">
         SELECT
         item.item_id,
@@ -30,6 +40,15 @@
         FROM
         sys_item item
         LEFT JOIN sys_category category on item.category_id = category.category_id
+    </select>
+
+    <select id="selectImages" resultType="java.lang.String">
+        SELECT
+            url
+        FROM
+          sys_item_images
+        WHERE item_id = #{itemId}
+
     </select>
 
 </mapper>

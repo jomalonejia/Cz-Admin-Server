@@ -12,5 +12,9 @@
 		<plugin interceptor="com.baomidou.mybatisplus.plugins.PaginationInterceptor">
 			<property name="dialectType" value="mysql" />
 		</plugin>
+		<plugin interceptor="com.github.pagehelper.PageInterceptor">
+			<!-- 使用下面的方式配置参数，后面会有所有的参数介绍 -->
+			<property name="param1" value="value1"/>
+		</plugin>
 	</plugins>
 </configuration>

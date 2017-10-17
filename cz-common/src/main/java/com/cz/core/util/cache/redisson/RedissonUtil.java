@@ -7,7 +7,6 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.util.Assert;
 
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;

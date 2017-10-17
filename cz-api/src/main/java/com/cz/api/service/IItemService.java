@@ -1,8 +1,9 @@
 package com.cz.api.service;
 
 import com.baomidou.mybatisplus.service.IService;
-import com.cz.item.ItemContent;
 import com.cz.model.Item;
+import com.cz.dto.item.ItemContent;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -12,5 +13,6 @@ import java.util.List;
  */
 public interface IItemService extends IService<Item>{
     String  saveOrUpdateItemContent(ItemContent itemContent);
-    List<Item> listItems();
+    PageInfo<Item> listItems(int pageNum);
+    List<String> selectImages(String itemId);
 }

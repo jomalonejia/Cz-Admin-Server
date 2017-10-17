@@ -2,7 +2,7 @@ package com.cz.security.security;
 
 import com.cz.model.Role;
 import com.cz.model.User;
-import com.cz.user.JwtUser;
+import com.cz.dto.user.JwtUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

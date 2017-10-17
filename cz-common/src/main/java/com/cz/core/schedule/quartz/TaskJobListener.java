@@ -1,6 +1,5 @@
 package com.cz.core.schedule.quartz;
 
-import com.sun.javafx.tk.Toolkit;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobListener;

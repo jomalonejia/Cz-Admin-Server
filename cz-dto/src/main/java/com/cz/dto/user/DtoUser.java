@@ -1,4 +1,4 @@
-package com.cz.user;
+package com.cz.dto.user;
 
 import java.io.Serializable;
 

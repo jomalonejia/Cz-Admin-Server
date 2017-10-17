@@ -3,7 +3,7 @@ package com.cz.security.security;
 import com.cz.core.util.constant.JwtConstant;
 import com.cz.core.util.constant.SecurityConstant;
 import com.cz.security.utils.TimeProvider;
-import com.cz.user.JwtUser;
+import com.cz.dto.user.JwtUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

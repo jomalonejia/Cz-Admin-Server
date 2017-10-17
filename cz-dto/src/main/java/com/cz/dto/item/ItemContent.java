@@ -1,4 +1,4 @@
-package com.cz.item;
+package com.cz.dto.item;
 
 import java.io.Serializable;
 

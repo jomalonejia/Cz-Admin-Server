@@ -1,9 +1,5 @@
 package com.cz.util;
 
-import com.cz.model.Role;
-
-import java.util.List;
-
 /**
  * Created by jomalone_jia on 2017/8/1.
  */

@@ -1,14 +1,14 @@
 package com.cz.web.controller;
 import com.cz.api.service.IUserService;
-import com.cz.core.base.BaseController;
 import com.cz.core.util.qiniu.PictureUtil;
+import com.cz.core.base.BaseController;
 import com.cz.model.User;
+import com.cz.security.security.JwtAuthenticationRequest;
 import com.cz.security.security.JwtTokenUtil;
 import com.cz.security.security.JwtAuthenticationResponse;
 import com.cz.security.security.TokenObject;
-import com.cz.user.DtoUser;
-import com.cz.security.security.JwtAuthenticationRequest;
-import com.cz.user.JwtUser;
+import com.cz.dto.user.DtoUser;
+import com.cz.dto.user.JwtUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.redisson.api.RedissonClient;
@@ -70,7 +70,7 @@ public class UserController extends BaseController implements ApplicationContext
 
     @PostMapping(value = "/login" )
     @ApiOperation(value = "user login")
-    public ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest requestBoby, HttpServletRequest request ,HttpServletResponse response) throws AuthenticationException {
+    public ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest requestBoby, HttpServletRequest request , HttpServletResponse response) throws AuthenticationException {
         JwtUser user = null;
         String token = null;
         try {

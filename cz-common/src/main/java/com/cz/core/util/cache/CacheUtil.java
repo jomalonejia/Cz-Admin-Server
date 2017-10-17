@@ -2,10 +2,8 @@ package com.cz.core.util.cache;
 
 import com.cz.core.util.cache.redis.RedisUtil;
 import com.cz.core.util.cache.redisson.RedissonUtil;
-import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * Created by jomalone_jia on 2017/6/29.

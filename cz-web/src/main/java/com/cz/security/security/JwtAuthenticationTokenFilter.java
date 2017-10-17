@@ -1,6 +1,5 @@
 package com.cz.security.security;
 
-import com.cz.core.util.constant.SecurityConstant;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,13 +1,10 @@
 package com.cz.web.controller;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.cz.api.service.ICategoryService;
 import com.cz.api.service.IItemService;
-import com.cz.item.DtoCategory;
-import com.cz.item.ItemContent;
-import com.cz.model.Category;
+import com.cz.dto.item.ItemImagesDto;
 import com.cz.model.Item;
-import com.cz.model.User;
+import com.cz.dto.item.ItemContent;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -20,10 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jomalone_jia on 2017/9/20.
@@ -38,12 +32,12 @@ public class ItemController {
     @Autowired
     private IItemService itemService;
 
-    @GetMapping("/list")
+    @GetMapping("/list/{pageNum}")
     @ApiOperation(value = "item list")
-    public Object list(){
+    public Object list(@PathVariable Integer pageNum){
         try {
-            List<Item> items = itemService.listItems();
-            return items;
+            PageInfo<Item> itemPageInfo = itemService.listItems(pageNum);
+            return itemPageInfo;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,6 +57,19 @@ public class ItemController {
         return ResponseEntity.badRequest().body("list items failed");
     }
 
+    @DeleteMapping("/delete/{itemId}")
+    @ApiOperation(value = "item delete")
+    public Object delete(@PathVariable String itemId){
+        _log.info(itemId);
+        try {
+            itemService.deleteById(itemId);
+            return ResponseEntity.ok();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("delete items failed");
+    }
+
     @PostMapping("/update")
     @ApiOperation(value = "item update")
     public Object update(@RequestBody Item item) {
@@ -74,6 +81,21 @@ public class ItemController {
         }
         return ResponseEntity.badRequest().body("list items failed");
     }
+
+    @GetMapping("/images/select/{itemId}")
+    @ApiOperation(value = "item images select")
+    public Object selectItemImages(@PathVariable("itemId") String itemId){
+        _log.info(itemId);
+        try {
+            List<String> images = itemService.selectImages(itemId);
+            _log.info(images.toString());
+            return images;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("select items images failed");
+    }
+
 
     @PostMapping("/minusImage/update")
     @ApiOperation(value = "item images add")

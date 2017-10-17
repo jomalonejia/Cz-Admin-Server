@@ -1,6 +1,5 @@
 package com.cz.core.aspect;
 
-import com.cz.core.aspect.ChooseDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;

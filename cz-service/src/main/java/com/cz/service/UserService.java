@@ -4,15 +4,14 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.core.base.BaseServiceImpl;
 import com.cz.core.util.constant.CacheConstant;
+import com.cz.api.service.IUserService;
 import com.cz.mapper.UserMapper;
 import com.cz.mapper.UserRelationshipMapper;
 import com.cz.mapper.UserRoleMapper;
 import com.cz.model.Role;
 import com.cz.model.User;
-import com.cz.api.service.IUserService;
-import com.cz.model.UserRelationship;
 import com.cz.model.UserRole;
-import com.cz.user.DtoUser;
+import com.cz.dto.user.DtoUser;
 import com.cz.util.CastUtil;
 import com.cz.util.UserConstants;
 import org.slf4j.Logger;
@@ -24,7 +23,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
