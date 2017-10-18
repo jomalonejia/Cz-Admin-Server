@@ -13,4 +13,5 @@ import java.util.List;
 public interface ItemMapper extends BaseMapper<Item> {
     List<Item> listItems();
     List<String> selectImages(@Param("itemId") String itemId);
+    Integer updateImageById(@Param("itemId") String itemId,@Param("imageUrl") String imageUrl);
 }

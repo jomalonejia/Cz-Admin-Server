@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.service.IService;
 import com.cz.model.Item;
 import com.cz.dto.item.ItemContent;
 import com.github.pagehelper.PageInfo;
-
 import java.util.List;
 
 
@@ -15,4 +14,5 @@ public interface IItemService extends IService<Item>{
     String  saveOrUpdateItemContent(ItemContent itemContent);
     PageInfo<Item> listItems(int pageNum);
     List<String> selectImages(String itemId);
+    Integer updateImageById(String itemId, String imageUrl);
 }

@@ -1,5 +1,6 @@
 package com.cz.core.util.qiniu;
 
+import com.cz.core.util.constant.QiniuConstant;
 import com.google.gson.Gson;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
@@ -45,14 +46,15 @@ public class PictureUtil {
     Auth auth = Auth.create(accessKey, secretKey);
 
 
-    private PictureUtil(){}
+    private PictureUtil() {
+    }
 
     private static volatile PictureUtil pictureUtil;
 
-    public static PictureUtil getInstance(){
-        if(pictureUtil ==null){
-            synchronized (PictureUtil.class){
-                if(pictureUtil == null){
+    public static PictureUtil getInstance() {
+        if (pictureUtil == null) {
+            synchronized (PictureUtil.class) {
+                if (pictureUtil == null) {
                     pictureUtil = new PictureUtil();
                 }
             }
@@ -73,12 +75,12 @@ public class PictureUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }finally {
-            return putRet.hash;
+        } finally {
+            return QiniuConstant.QINIU_BASE_URL+putRet.hash;
         }
     }
 
-    public String uploadPicture(String uploadString){
+    public String uploadPicture(String uploadString) {
         String picHash = null;
         try {
             picHash = Generate();
@@ -87,9 +89,9 @@ public class PictureUtil {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String url = "http://upload.qiniu.com/putb64/" + getBase64FileLength(uploadString)+"/key/"+ UrlSafeBase64.encodeToString(picHash);
+        String url = "http://upload.qiniu.com/putb64/" + getBase64FileLength(uploadString) + "/key/" + UrlSafeBase64.encodeToString(picHash);
         //非华东空间需要根据注意事项 1 修改上传域名
-        RequestBody rb = RequestBody.create(null,getBasicBase64String(uploadString));
+        RequestBody rb = RequestBody.create(null, getBasicBase64String(uploadString));
         Request request = new Request.Builder().
                 url(url).
                 addHeader("Content-Type", "application/octet-stream")
@@ -108,7 +110,7 @@ public class PictureUtil {
         return auth.uploadToken(bucket, null, 3600, new StringMap().put("insertOnly", 1));
     }
 
-    public Object deletePicture(String picHash){
+    public Object deletePicture(String picHash) {
         BucketManager bucketManager = new BucketManager(auth, cfg);
         try {
             Response response = bucketManager.delete(bucket, picHash);
@@ -118,19 +120,19 @@ public class PictureUtil {
         }
     }
 
-    private int getBase64FileLength(String uploadString){
-        String fileString = uploadString.substring(uploadString.indexOf(",")+1);
+    private int getBase64FileLength(String uploadString) {
+        String fileString = uploadString.substring(uploadString.indexOf(",") + 1);
         int index = fileString.indexOf("=");
-        if(index != -1){
-            fileString = fileString.substring(0,index);
+        if (index != -1) {
+            fileString = fileString.substring(0, index);
         }
         double fileLength = fileString.length();
-        int length = (int)Math.floor(fileLength-(fileLength/8)*2);
+        int length = (int) Math.floor(fileLength - (fileLength / 8) * 2);
         return length;
     }
 
-    private String getBasicBase64String (String originalString){
-        return originalString.substring(originalString.indexOf(",")+1);
+    private String getBasicBase64String(String originalString) {
+        return originalString.substring(originalString.indexOf(",") + 1);
     }
 
 

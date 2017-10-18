@@ -1,8 +1,10 @@
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.api.service.ICategoryService;
+import com.cz.api.service.IItemImagesService;
 import com.cz.api.service.IItemService;
 import com.cz.model.Category;
+import com.cz.model.Item;
 import com.cz.model.Role;
 import com.cz.model.User;
 import com.cz.api.service.IUserService;
@@ -28,7 +30,9 @@ public class TestConfig {
     @Autowired
     private ICategoryService categoryService;
     @Autowired
-    private IItemService iItemService;
+    private IItemService itemService;
+    @Autowired
+    private IItemImagesService itemImagesService;
 
     @Test
     public void test1() {
@@ -188,10 +192,32 @@ public class TestConfig {
 
     @Test
     public void test17(){
-        Object o = iItemService.selectImages("6f4a2ec79cee495991ac3b4f491fa725");
+        Object o = itemService.selectImages("6f4a2ec79cee495991ac3b4f491fa725");
         System.out.println(o.toString());
     }
 
+    @Test
+    public void test18(){
+        Integer aluba = itemService.updateImageById("6f4a2ec79cee495991ac3b4f491fa725", "aluba");
+        System.out.println(aluba);
+    }
+
+    @Test
+    public void test19(){
+        itemImagesService.insertImages("111");
+    }
+
+    @Test
+    public void test20(){
+        Item item = new Item();
+        item.setImage("");
+        item.setDescribe("");
+        item.setName("alubabaaba");
+        boolean insert = itemService.insert(item);
+        System.out.println(insert);
+        System.out.println("___________________");
+        System.out.println(item.getItemId());
+    }
 
 }
 

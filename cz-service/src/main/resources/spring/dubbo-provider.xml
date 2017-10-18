@@ -17,7 +17,12 @@
     <bean id="itemService" class="com.cz.service.ItemService"/>
     <dubbo:service interface="com.cz.api.service.IItemService" ref="itemService" timeout="10000"/>
 
+    <bean id="itemImagesService" class="com.cz.service.ItemImagesService"/>
+    <dubbo:service interface="com.cz.api.service.IItemImagesService" ref="itemImagesService" timeout="10000"/>
+
     <bean id="categoryService" class="com.cz.service.CategoryService"/>
     <dubbo:service interface="com.cz.api.service.ICategoryService" ref="categoryService" timeout="10000"/>
+
+
 
 </beans>

@@ -12,7 +12,7 @@ import java.util.List;
  * Created by jomalone_jia on 2017/9/15.
  */
 @TableName("sys_item")
-public class Item implements Serializable {
+public class Item implements Serializable,Cloneable{
 
     private static final long serialVersionUID = 1L;
 
@@ -116,5 +116,10 @@ public class Item implements Serializable {
                 ", minusShowImages=" + minusShowImages +
                 ", describe='" + describe + '\'' +
                 '}';
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

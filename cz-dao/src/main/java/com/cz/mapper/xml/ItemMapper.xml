@@ -51,4 +51,13 @@
 
     </select>
 
+    <update id="updateImageById">
+        UPDATE
+        sys_item
+        SET
+        image = #{imageUrl}
+        WHERE
+        item_id = #{itemId}
+    </update>
+
 </mapper>

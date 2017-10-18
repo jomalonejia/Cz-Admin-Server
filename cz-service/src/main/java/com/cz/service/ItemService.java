@@ -4,10 +4,11 @@ import com.cz.api.service.IItemService;
 import com.cz.core.util.constant.QiniuConstant;
 import com.cz.core.util.qiniu.PictureUtil;
 import com.cz.core.base.BaseServiceImpl;
-import com.cz.dto.item.ItemImagesDto;
+import com.cz.mapper.ItemImagesMapper;
 import com.cz.mapper.ItemMapper;
 import com.cz.model.Item;
 import com.cz.dto.item.ItemContent;
+import com.cz.model.ItemImages;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -15,7 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,8 +36,11 @@ public class ItemService extends BaseServiceImpl<ItemMapper,Item> implements IIt
 
     @Autowired
     private ItemMapper itemMapper;
+    @Autowired
+    private ItemImagesMapper itemImagesMapper;
 
     @Override
+    @Transactional
     public String  saveOrUpdateItemContent(ItemContent itemContent) {
         Pattern pattern = Pattern.compile( "<img src=\"(.*?)\">" );
         Matcher m = pattern.matcher( itemContent.getItemConent());
@@ -59,4 +66,14 @@ public class ItemService extends BaseServiceImpl<ItemMapper,Item> implements IIt
     public List<String> selectImages(String itemId) {
         return itemMapper.selectImages(itemId);
     }
+
+    @Override
+    public Integer updateImageById(String itemId, String imageUrl) {
+        return itemMapper.updateImageById(itemId,imageUrl);
+    }
+
+    public Integer updateItemImages (String itemId,Integer position,String imageUrl){
+        return null;
+    }
+
 }
