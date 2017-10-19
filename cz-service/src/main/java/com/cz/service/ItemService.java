@@ -63,13 +63,41 @@ public class ItemService extends BaseServiceImpl<ItemMapper,Item> implements IIt
     }
 
     @Override
-    public List<String> selectImages(String itemId) {
-        return itemMapper.selectImages(itemId);
+    public PageInfo<Item> listItemsByCategory(int categoryId, int pageNum) {
+        PageHelper.startPage(pageNum,5);
+        List<Item> items = itemMapper.listItemsByCategory(categoryId);
+        PageInfo<Item> pageInfo =new PageInfo<>(items);
+        return pageInfo;
     }
+
 
     @Override
     public Integer updateImageById(String itemId, String imageUrl) {
         return itemMapper.updateImageById(itemId,imageUrl);
+    }
+
+    @Override
+    public Integer insertItems(Item item) {
+        Integer result = 0;
+        try {
+            item.setImage(QiniuConstant.QINIU_DEFAULT_URL);
+            result = itemMapper.insert(item);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            for (int i = 0;i<6;i++) {
+                ItemImages itemImages = new ItemImages();
+                itemImages.setItemId(item.getItemId());
+                itemImages.setPosition(i);
+                itemImages.setUrl("");
+                itemImagesMapper.insert(itemImages);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = 0;
+        }
+        return result;
     }
 
     public Integer updateItemImages (String itemId,Integer position,String imageUrl){

@@ -17,39 +17,33 @@
     </resultMap>
 
 
-   <!-- <resultMap id="itemImages" type="com.cz.dto.item.ItemImagesDto">
-        <result property="image" column="image"/>
-        <collection property="images" ofType="java.lang.String" javaType="ArrayList">
-            <result column="url" javaType="java.lang.String"/>
-        </collection>
-    </resultMap>-->
-
-
+    <sql id="base_select_from_item">
+        SELECT
+            item.item_id,
+            item.name,
+            item.price,
+            item.image,
+            item.describe,
+            category.category_id,
+            category.category_name,
+            category.parent_category_id
+        FROM
+            sys_item item
+        LEFT JOIN sys_category category
+          on item.category_id = category.category_id
+    </sql>
 
 
     <select id="listItems" resultMap="item">
-        SELECT
-        item.item_id,
-        item.name,
-        item.price,
-        item.image,
-        item.describe,
-        category.category_id,
-        category.category_name,
-        category.parent_category_id
-        FROM
-        sys_item item
-        LEFT JOIN sys_category category on item.category_id = category.category_id
+      <include refid="base_select_from_item"></include>
     </select>
 
-    <select id="selectImages" resultType="java.lang.String">
-        SELECT
-            url
-        FROM
-          sys_item_images
-        WHERE item_id = #{itemId}
-
+    <select id="listItemsByCategory" resultMap="item">
+        <include refid="base_select_from_item"></include>
+        WHERE category.category_id = #{categoryId}
     </select>
+
+
 
     <update id="updateImageById">
         UPDATE

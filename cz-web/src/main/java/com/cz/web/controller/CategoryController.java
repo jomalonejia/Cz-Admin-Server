@@ -25,8 +25,8 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
-    @GetMapping("/listCategories")
-    public Object listCategories() {
+    @GetMapping("/listTreeCategories")
+    public Object listTreeCategories() {
         return categoryService.listTreeCategories();
     }
 
@@ -44,14 +44,12 @@ public class CategoryController {
 
     @GetMapping("/listChildCategories/{parentCategoryId}")
     public Object listChildCategories(@PathVariable Long parentCategoryId) {
-        _log.info(parentCategoryId+"---------------------------->");
         List<Category> childCategories = categoryService.listChildCategories(parentCategoryId);
         return childCategories;
     }
 
     @PostMapping("/edit")
     public ResponseEntity<?> edit(@RequestBody Category category){
-        _log.info(category.toString());
         try {
             EntityWrapper<Category> ew = new EntityWrapper<Category>();
             ew.where("category_id={0}", category.getCategoryId());
@@ -66,7 +64,6 @@ public class CategoryController {
 
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody Category category){
-        _log.info(category.toString());
         try {
             categoryService.insertCategory(category);
             return ResponseEntity.ok().body("add success");
@@ -78,7 +75,6 @@ public class CategoryController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
-        _log.info(id+"");
         try {
             categoryService.deleteById(id);
             return ResponseEntity.ok().body("delete success");

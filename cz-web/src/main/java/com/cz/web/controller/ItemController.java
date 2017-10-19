@@ -1,10 +1,13 @@
 package com.cz.web.controller;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cz.api.service.IItemImagesService;
 import com.cz.api.service.IItemService;
 import com.cz.core.util.qiniu.PictureUtil;
+import com.cz.model.Category;
 import com.cz.model.Item;
 import com.cz.dto.item.ItemContent;
+import com.cz.model.ItemImages;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,22 +52,27 @@ public class ItemController {
         return ResponseEntity.badRequest().body("list items failed");
     }
 
+    @GetMapping("/list/{categoryId}/{pageNum}")
+    @ApiOperation(value = "item list by category")
+    public Object listByCategory(@PathVariable("categoryId") Integer categoryId,@PathVariable("pageNum") Integer pageNum){
+        try {
+            _log.info("_________________");
+            _log.info(categoryId+"");
+            _log.info(pageNum+"");
+            PageInfo<Item> itemPageInfo = itemService.listItemsByCategory(categoryId,pageNum);
+            return itemPageInfo;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("list items failed");
+    }
+
 
     @PostMapping("/add")
     @ApiOperation(value = "item add")
-    public Object add(@RequestBody Item itemObj) {
+    public Object add(@RequestBody Item item) {
         try {
-            Item item = new Item();
-            item.setImage("");
-            item.setDescribe("");
-            item.setName("alubabaaba");
-            boolean insert = itemService.insert(item);
-            _log.info("______________");
-            _log.info(item.getItemId());
-           /* Item item = (Item) itemObj.clone();
-            itemService.insert(item);
-            _log.info(item.getItemId());
-            itemImagesService.insertImages(item.getItemId());*/
+            itemService.insertItems(item);
             return ResponseEntity.ok();
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,13 +119,25 @@ public class ItemController {
         return ResponseEntity.badRequest().body("list items failed");
     }
 
+    @GetMapping("/")
+    @ApiOperation(value = "item images select")
+    public Object selectItemByCategory(@PathVariable("itemId") String itemId){
+        try {
+            return itemImagesService.selectImages(itemId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("select items images failed");
+    }
+
     @PostMapping("/images/update/{itemId}/{position}")
     @ApiOperation(value = "item update images")
     public Object updateImages(@PathVariable("itemId") String itemId,@PathVariable("position") Integer position, @RequestParam("imageUpload") MultipartFile file) {
         String imageUrl = null;
         try {
             imageUrl = PictureUtil.getInstance().uploadPicture(file);
-            return "http://otlht2gvo.bkt.clouddn.com/Fmu7GpZUUw8t8xAZXp5zHBUezmct";
+            itemImagesService.updateImages(itemId, imageUrl, position);
+            return imageUrl;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -127,11 +147,8 @@ public class ItemController {
     @GetMapping("/images/select/{itemId}")
     @ApiOperation(value = "item images select")
     public Object selectItemImages(@PathVariable("itemId") String itemId){
-        _log.info(itemId);
         try {
-            List<String> images = itemService.selectImages(itemId);
-            _log.info(images.toString());
-            return images;
+            return itemImagesService.selectImages(itemId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -144,8 +161,6 @@ public class ItemController {
         String s = itemService.saveOrUpdateItemContent(itemContent);
         return s;
     }
-
-
 
 }
 

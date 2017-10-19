@@ -11,5 +11,11 @@
 
     <artifactId>cz-dto</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.cz</groupId>
+            <artifactId>cz-model</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
 </project>

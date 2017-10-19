@@ -192,7 +192,7 @@ public class TestConfig {
 
     @Test
     public void test17(){
-        Object o = itemService.selectImages("6f4a2ec79cee495991ac3b4f491fa725");
+        Object o = itemImagesService.selectImages("6f4a2ec79cee495991ac3b4f491fa725");
         System.out.println(o.toString());
     }
 
@@ -204,7 +204,7 @@ public class TestConfig {
 
     @Test
     public void test19(){
-        itemImagesService.insertImages("111");
+
     }
 
     @Test
@@ -218,6 +218,16 @@ public class TestConfig {
         System.out.println("___________________");
         System.out.println(item.getItemId());
     }
+
+    @Test
+    public void test21(){
+        List<Category> categories = categoryService.listCategories();
+        List list = categoryService.listTreeCategories();
+        System.out.println("_--------------------------");
+        System.out.println(list.toString());
+    }
+
+
 
 }
 

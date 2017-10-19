@@ -1,4 +1,4 @@
-package com.cz.dto.item;
+package com.cz.dto.category;
 
 import java.io.Serializable;
 import java.util.List;
@@ -35,6 +35,20 @@ public class CategoryDto implements Serializable{
     }
 
     public void setChildren(List<CategoryDto> children) {
+
+        this.children = children;
+    }
+
+    public CategoryDto(){}
+
+    public CategoryDto(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public CategoryDto(Long id, String name, List<CategoryDto> children) {
+        this.id = id;
+        this.name = name;
         this.children = children;
     }
 

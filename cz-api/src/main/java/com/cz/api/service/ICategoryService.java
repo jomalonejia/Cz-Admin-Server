@@ -15,5 +15,5 @@ public interface ICategoryService extends IService<Category>{
     List<Category> listParentCategories();
     List<Category> listChildCategories(Long parentCategoryId);
     int insertCategory(Category category);
-    List listTreeCategories();
+    List<?> listTreeCategories();
 }

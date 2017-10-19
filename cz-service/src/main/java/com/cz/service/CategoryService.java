@@ -5,7 +5,7 @@ import com.cz.core.base.BaseServiceImpl;
 import com.cz.core.util.constant.CacheConstant;
 import com.cz.mapper.CategoryMapper;
 import com.cz.model.Category;
-import com.cz.dto.item.CategoryDto;
+import com.cz.dto.category.CategoryDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,38 +66,37 @@ public class CategoryService extends BaseServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    @Cacheable(value = CacheConstant.CACHE_NAMESPACE + "listTreeCategories")
-    public List listTreeCategories() {
-        List cats = null;
+    /*@Cacheable(value = CacheConstant.CACHE_NAMESPACE + "listTreeCategories")*/
+    public List<CategoryDto> listTreeCategories() {
+
+        //this method would be modified later ............
+
+        List<CategoryDto> cats = null;
         List<Category> categories = null;
         try {
             categories = categoryMapper.listCategories();
-            cats = new ArrayList<CategoryDto>();
+            _log.info(categories.toString());
+            cats = new ArrayList<>();
             CategoryDto categoryDto;
             for (Category category : categories) {
                 if (category.getParentCategoryId() == 0) {
-                    categoryDto = new CategoryDto();
-                    categoryDto.setId(category.getCategoryId());
-                    categoryDto.setName(category.getCategoryName());
+                    categoryDto = new CategoryDto(
+                            category.getCategoryId(),
+                            category.getCategoryName(),
+                            new ArrayList<CategoryDto>());
                     cats.add(categoryDto);
                 } else {
-                    if (cats.get(category.getParentCategoryId() - 1) == null) {
-                        categoryDto = new CategoryDto();
-                        categoryDto.setId(category.getCategoryId());
-                        categoryDto.setName(category.getCategoryName());
-                        cats.add(categoryDto);
-                    } else {
-                        CategoryDto parentCat = (CategoryDto) cats.get(category.getParentCategoryId() - 1);
+                    CategoryDto parentCategory = cats.get(category.getParentCategoryId() - 1);
+                    parentCategory.getChildren().add(new CategoryDto(category.getCategoryId(),category.getCategoryName()));
+                        /*CategoryDto parentCat = (CategoryDto) cats.get(category.getParentCategoryId() - 1);
                         List<CategoryDto> childCat = new ArrayList<CategoryDto>();
                         categoryDto = new CategoryDto();
                         categoryDto.setId(category.getCategoryId());
                         categoryDto.setName(category.getCategoryName());
                         childCat.add(categoryDto);
-                        parentCat.setChildren(childCat);
-                    }
+                        parentCat.setChildren(childCat);*/
                 }
             }
-            _log.info(cats.toString());
             return cats;
         } catch (Exception e) {
             e.printStackTrace();

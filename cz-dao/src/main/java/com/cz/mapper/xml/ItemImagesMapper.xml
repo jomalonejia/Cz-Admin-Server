@@ -4,4 +4,14 @@
 <mapper namespace="com.cz.mapper.ItemImagesMapper">
 
 
+
+    <update id="updateImages">
+        UPDATE
+          sys_item_images
+        SET
+          url = #{imageUrl}
+        WHERE
+          item_id = #{itemId}
+          AND position = #{position}
+    </update>
 </mapper>

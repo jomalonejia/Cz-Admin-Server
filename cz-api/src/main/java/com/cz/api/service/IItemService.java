@@ -13,6 +13,7 @@ import java.util.List;
 public interface IItemService extends IService<Item>{
     String  saveOrUpdateItemContent(ItemContent itemContent);
     PageInfo<Item> listItems(int pageNum);
-    List<String> selectImages(String itemId);
+    PageInfo<Item> listItemsByCategory(int categoryId,int pageNum);
     Integer updateImageById(String itemId, String imageUrl);
+    Integer insertItems(Item item);
 }
