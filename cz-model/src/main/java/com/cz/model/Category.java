@@ -16,43 +16,43 @@ public class Category implements Serializable {
 
     private static final long serialVersionUID = -1425330621990331322L;
 
-    @TableId(value = "category_id")
-    private Long categoryId;
-    @TableField(value = "category_name")
-    private String categoryName;
-    @TableField(value = "parent_category_id")
-    private Integer parentCategoryId;
+    @TableId
+    private Long id;
+    @TableField(value = "name")
+    private String name;
+    @TableField(value = "parent_id")
+    private Integer parentId;
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Long getId() {
+        return id;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getParentCategoryId() {
-        return parentCategoryId;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParentCategoryId(Integer parentCategoryId) {
-        this.parentCategoryId = parentCategoryId;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     @Override
     public String toString() {
         return "Category{" +
-                "categoryId=" + categoryId +
-                ", categoryName='" + categoryName + '\'' +
-                ", parentCategoryId=" + parentCategoryId +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentId=" + parentId +
                 '}';
     }
 }

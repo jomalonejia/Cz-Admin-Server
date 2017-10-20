@@ -52,7 +52,7 @@ public class CategoryController {
     public ResponseEntity<?> edit(@RequestBody Category category){
         try {
             EntityWrapper<Category> ew = new EntityWrapper<Category>();
-            ew.where("category_id={0}", category.getCategoryId());
+            ew.eq("id", category.getId());
             categoryService.update(category,ew);
             return ResponseEntity.ok().body("success");
         } catch (Exception e) {

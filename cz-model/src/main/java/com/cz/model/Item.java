@@ -16,8 +16,8 @@ public class Item implements Serializable,Cloneable{
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "item_id")
-    private String itemId;
+    @TableId
+    private String id;
     private String name;
     @TableField(value = "category_id")
     private Long categoryId;
@@ -31,12 +31,12 @@ public class Item implements Serializable,Cloneable{
     private List<String> minusShowImages;
     private String describe;
 
-    public String getItemId() {
-        return itemId;
+    public String getId() {
+        return id;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -106,7 +106,7 @@ public class Item implements Serializable,Cloneable{
     @Override
     public String toString() {
         return "Item{" +
-                "itemId=" + itemId +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", categoryId=" + categoryId +
                 ", price=" + price +

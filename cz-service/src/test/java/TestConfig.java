@@ -136,7 +136,7 @@ public class TestConfig {
         List cats = new ArrayList<ArrayList<Category>>();
         for (Category category : categories) {
             System.out.println(category);
-            if (category.getParentCategoryId() == 0) {
+            if (category.getParentId() == 0) {
 
             } else {
             }
@@ -156,11 +156,11 @@ public class TestConfig {
     @Test
     public void test13() {
         Category category = new Category();
-        category.setParentCategoryId(1);
-        category.setCategoryName("aluba");
+        category.setParentId(1);
+        category.setName("aluba");
         int i = categoryService.insertCategory(category);
         System.out.println(i);
-        System.out.println(category.getCategoryId());
+        System.out.println(category.getId());
         System.out.println(category);
     }
 
@@ -173,11 +173,11 @@ public class TestConfig {
     @Test
     public void test15(){
         Category category = new Category();
-        category.setCategoryId(49L);
-        category.setCategoryName("aluba122");
-        category.setParentCategoryId(2);
+        category.setId(49L);
+        category.setName("aluba122");
+        category.setParentId(2);
         EntityWrapper<Category> ew = new EntityWrapper<Category>();
-        ew.where("category_id={0}", category.getCategoryId());
+        ew.where("category_id={0}", category.getId());
 
         categoryService.update(category,ew);
     }
@@ -185,8 +185,8 @@ public class TestConfig {
     @Test
     public void test16(){
         Category category = new Category();
-        category.setCategoryName("aluba121232");
-        category.setParentCategoryId(2);
+        category.setName("aluba121232");
+        category.setParentId(2);
         categoryService.insert(category);
     }
 
@@ -216,7 +216,7 @@ public class TestConfig {
         boolean insert = itemService.insert(item);
         System.out.println(insert);
         System.out.println("___________________");
-        System.out.println(item.getItemId());
+        System.out.println(item.getId());
     }
 
     @Test

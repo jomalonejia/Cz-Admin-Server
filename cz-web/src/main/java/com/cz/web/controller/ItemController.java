@@ -119,10 +119,11 @@ public class ItemController {
         return ResponseEntity.badRequest().body("list items failed");
     }
 
-    @GetMapping("/")
+    @GetMapping("/images/select/{itemId}")
     @ApiOperation(value = "item images select")
     public Object selectItemByCategory(@PathVariable("itemId") String itemId){
         try {
+            _log.info(itemId);
             return itemImagesService.selectImages(itemId);
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,17 +143,6 @@ public class ItemController {
             e.printStackTrace();
         }
         return ResponseEntity.badRequest().body("list items failed");
-    }
-
-    @GetMapping("/images/select/{itemId}")
-    @ApiOperation(value = "item images select")
-    public Object selectItemImages(@PathVariable("itemId") String itemId){
-        try {
-            return itemImagesService.selectImages(itemId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.badRequest().body("select items images failed");
     }
 
     @PostMapping("/content/add")

@@ -88,7 +88,7 @@ public class ItemService extends BaseServiceImpl<ItemMapper,Item> implements IIt
         try {
             for (int i = 0;i<6;i++) {
                 ItemImages itemImages = new ItemImages();
-                itemImages.setItemId(item.getItemId());
+                itemImages.setItemId(item.getId());
                 itemImages.setPosition(i);
                 itemImages.setUrl("");
                 itemImagesMapper.insert(itemImages);

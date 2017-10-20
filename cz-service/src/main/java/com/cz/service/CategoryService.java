@@ -79,22 +79,15 @@ public class CategoryService extends BaseServiceImpl<CategoryMapper, Category> i
             cats = new ArrayList<>();
             CategoryDto categoryDto;
             for (Category category : categories) {
-                if (category.getParentCategoryId() == 0) {
+                if (category.getParentId() == 0) {
                     categoryDto = new CategoryDto(
-                            category.getCategoryId(),
-                            category.getCategoryName(),
+                            category.getId(),
+                            category.getName(),
                             new ArrayList<CategoryDto>());
                     cats.add(categoryDto);
                 } else {
-                    CategoryDto parentCategory = cats.get(category.getParentCategoryId() - 1);
-                    parentCategory.getChildren().add(new CategoryDto(category.getCategoryId(),category.getCategoryName()));
-                        /*CategoryDto parentCat = (CategoryDto) cats.get(category.getParentCategoryId() - 1);
-                        List<CategoryDto> childCat = new ArrayList<CategoryDto>();
-                        categoryDto = new CategoryDto();
-                        categoryDto.setId(category.getCategoryId());
-                        categoryDto.setName(category.getCategoryName());
-                        childCat.add(categoryDto);
-                        parentCat.setChildren(childCat);*/
+                    CategoryDto parentCategory = cats.get(category.getParentId() - 1);
+                    parentCategory.getChildren().add(new CategoryDto(category.getId(),category.getName()));
                 }
             }
             return cats;

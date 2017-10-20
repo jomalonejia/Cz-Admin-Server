@@ -4,35 +4,35 @@
 <mapper namespace="com.cz.mapper.CategoryMapper">
 
     <resultMap id="category" type="com.cz.model.Category">
-        <id column="category_id" property="categoryId"/>
-        <result column="category_name" property="categoryName"/>
-        <result column="parent_category_id" property="parentCategoryId"/>
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parent_id" property="parentId"/>
     </resultMap>
 
     <sql id="base_select_from_category" >
         SELECT
-           category_id,
-           category_name,
-           parent_category_id
+           id,
+           name,
+           parent_id
        FROM
            sys_category
-       WHERE  !ISNULL(CATEGORY_NAME)
+       WHERE  !ISNULL(NAME)
     </sql>
 
     <select id="listCategories" resultMap="category">
-     <include refid="base_select_from_category"></include> ORDER BY category_id
+     <include refid="base_select_from_category"></include> ORDER BY id
     </select>
 
     <select id="listCategoriesDesc" resultMap="category">
-        <include refid="base_select_from_category"></include> ORDER BY category_id DESC
+        <include refid="base_select_from_category"></include> ORDER BY id DESC
     </select>
 
     <select id="listParentCategories" resultMap="category">
-        <include refid="base_select_from_category"></include> AND parent_category_id = 0
+        <include refid="base_select_from_category"></include> AND parent_id = 0
     </select>
 
     <select id="listChildCategories" resultMap="category">
-        <include refid="base_select_from_category"></include> AND parent_category_id = #{parentCategoryId}
+        <include refid="base_select_from_category"></include> AND parent_id = #{parentId}
     </select>
 
 
@@ -42,9 +42,9 @@
             keyProperty="id">
 
         INSERT INTO
-          sys_category (category_name,parent_category_id)
+          sys_category (name,parent_id)
         VALUES
-          (#{categoryName},#{parentCategoryId})
+          (#{name},#{parentId})
     </insert>
 
 </mapper>
