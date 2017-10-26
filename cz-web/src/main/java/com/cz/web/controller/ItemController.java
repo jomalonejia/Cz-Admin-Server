@@ -1,13 +1,10 @@
 package com.cz.web.controller;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cz.api.service.IItemImagesService;
 import com.cz.api.service.IItemService;
 import com.cz.core.util.qiniu.PictureUtil;
-import com.cz.model.Category;
-import com.cz.model.Item;
+import com.cz.model.item.Item;
 import com.cz.dto.item.ItemContent;
-import com.cz.model.ItemImages;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,12 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 /**
  * Created by jomalone_jia on 2017/9/20.

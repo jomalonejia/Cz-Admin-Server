@@ -1,13 +1,11 @@
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cz.api.service.ICategoryService;
-import com.cz.api.service.IItemImagesService;
-import com.cz.api.service.IItemService;
-import com.cz.model.Category;
-import com.cz.model.Item;
-import com.cz.model.Role;
-import com.cz.model.User;
-import com.cz.api.service.IUserService;
+import com.cz.api.service.*;
+import com.cz.model.category.Category;
+import com.cz.model.item.Item;
+import com.cz.model.param.Param;
+import com.cz.model.personal.Role;
+import com.cz.model.personal.User;
 import com.cz.dto.user.DtoUser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +31,8 @@ public class TestConfig {
     private IItemService itemService;
     @Autowired
     private IItemImagesService itemImagesService;
+    @Autowired
+    private IParamService paramService;
 
     @Test
     public void test1() {
@@ -227,7 +227,11 @@ public class TestConfig {
         System.out.println(list.toString());
     }
 
-
+    @Test
+    public void test22(){
+        List<Param> params = paramService.listParams();
+        System.out.println(params.toString());
+    }
 
 }
 

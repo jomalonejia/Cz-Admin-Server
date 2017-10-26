@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cz.mapper.ParamMapper">
+
+    <resultMap id="param" type="com.cz.model.param.Param">
+        <id property="id" column="id"></id>
+        <result property="paramName" column="param_name"></result>
+        <result property="paramDescribe" column="param_describe"></result>
+        <collection property="paramValues" ofType="com.cz.model.param.ParamValue" javaType="ArrayList">
+            <id property="id" column="param_value_id"></id>
+            <result property="paramId" column="param_id"></result>
+            <result property="paramValue" column="param_value"></result>
+        </collection>
+    </resultMap>
+
+    <select id="listParams" resultMap="param">
+        SELECT
+            param.id,
+            param.param_name,
+            param.param_describe,
+            param_values.id param_value_id,
+            param_values.param_id,
+            param_values.param_value
+        FROM
+            sys_param param
+        LEFT JOIN
+            sys_param_value param_values
+        ON  param.id = param_values.param_id
+    </select>
+
+</mapper>

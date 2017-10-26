@@ -1,7 +1,7 @@
 package com.cz.security.security.service;
 
 import com.cz.api.service.IUserService;
-import com.cz.model.User;
+import com.cz.model.personal.User;
 import com.cz.security.security.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +23,7 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
         User user = userService.loadUserByUsername(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+            throw new UsernameNotFoundException(String.format("No personal found with username '%s'.", username));
         } else {
             return JwtUserFactory.create(user);
         }

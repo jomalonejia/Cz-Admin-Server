@@ -1,8 +1,9 @@
-package com.cz.model;
+package com.cz.model.item;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.cz.model.category.Category;
 
 import java.io.Serializable;
 import java.util.List;

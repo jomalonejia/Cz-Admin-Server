@@ -2,10 +2,8 @@ package com.cz.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.cz.model.ItemImages;
+import com.cz.model.item.ItemImages;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * Created by jomalone_jia on 2017/6/19.

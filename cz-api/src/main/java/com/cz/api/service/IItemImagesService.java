@@ -1,7 +1,7 @@
 package com.cz.api.service;
 
 import com.baomidou.mybatisplus.service.IService;
-import com.cz.model.ItemImages;
+import com.cz.model.item.ItemImages;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.cz.api.service;
 
 import com.baomidou.mybatisplus.service.IService;
-import com.cz.model.Category;
+import com.cz.model.category.Category;
 
 import java.util.List;
 

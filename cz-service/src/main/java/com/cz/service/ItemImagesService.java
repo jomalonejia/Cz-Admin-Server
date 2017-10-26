@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cz.api.service.IItemImagesService;
 import com.cz.core.base.BaseServiceImpl;
 import com.cz.mapper.ItemImagesMapper;
-import com.cz.model.ItemImages;
+import com.cz.model.item.ItemImages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;

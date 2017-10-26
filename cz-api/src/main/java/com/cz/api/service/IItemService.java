@@ -1,10 +1,9 @@
 package com.cz.api.service;
 
 import com.baomidou.mybatisplus.service.IService;
-import com.cz.model.Item;
+import com.cz.model.item.Item;
 import com.cz.dto.item.ItemContent;
 import com.github.pagehelper.PageInfo;
-import java.util.List;
 
 
 /**

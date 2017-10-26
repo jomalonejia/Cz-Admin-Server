@@ -15,4 +15,5 @@
     <dubbo:reference id="itemService" interface="com.cz.api.service.IItemService" check="false"></dubbo:reference>
     <dubbo:reference id="itemImagesService" interface="com.cz.api.service.IItemImagesService" check="false"></dubbo:reference>
     <dubbo:reference id="categoryService" interface="com.cz.api.service.ICategoryService" check="false"></dubbo:reference>
+    <dubbo:reference id="paramService" interface="com.cz.api.service.IParamService" check="false"></dubbo:reference>
 </beans>

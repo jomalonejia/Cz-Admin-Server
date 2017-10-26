@@ -1,7 +1,7 @@
 package com.cz.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.cz.model.UserRole;
+import com.cz.model.personal.UserRole;
 
 /**
  * Created by jomalone_jia on 2017/7/31.

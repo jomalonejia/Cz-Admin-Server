@@ -2,7 +2,7 @@ package com.cz.mapper;
 
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.cz.model.Item;
+import com.cz.model.item.Item;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

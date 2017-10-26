@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cz.mapper.CategoryMapper">
 
-    <resultMap id="category" type="com.cz.model.Category">
+    <resultMap id="category" type="com.cz.model.category.Category">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="parent_id" property="parentId"/>
@@ -37,7 +37,7 @@
 
 
     <insert id="insertCategory"
-            parameterType="com.cz.model.Category"
+            parameterType="com.cz.model.category.Category"
             useGeneratedKeys="true"
             keyProperty="id">
 

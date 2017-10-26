@@ -23,6 +23,9 @@
     <bean id="categoryService" class="com.cz.service.CategoryService"/>
     <dubbo:service interface="com.cz.api.service.ICategoryService" ref="categoryService" timeout="10000"/>
 
+    <bean id="paramService" class="com.cz.service.ParamService"/>
+    <dubbo:service interface="com.cz.api.service.IParamService" ref="paramService" timeout="10000"/>
+
 
 
 </beans>

@@ -4,7 +4,7 @@ import com.cz.api.service.ICategoryService;
 import com.cz.core.base.BaseServiceImpl;
 import com.cz.core.util.constant.CacheConstant;
 import com.cz.mapper.CategoryMapper;
-import com.cz.model.Category;
+import com.cz.model.category.Category;
 import com.cz.dto.category.CategoryDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

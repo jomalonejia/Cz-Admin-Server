@@ -7,14 +7,14 @@
         id, name, age
     </sql>
     
-    <resultMap id="userDetail" type="com.cz.model.User">
+    <resultMap id="userDetail" type="com.cz.model.personal.User">
         <id column="u_id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="fullname" property="fullname"/>
         <result column="enabled" property="enabled" javaType="boolean"/>
         <result column="profile" property="profile"/>
-        <collection property="roles" ofType="com.cz.model.Role" javaType="ArrayList" column="ur_id">
+        <collection property="roles" ofType="com.cz.model.personal.Role" javaType="ArrayList" column="ur_id">
             <id column="r_id" property="id"></id>
             <result column="role_name" property="roleName"/>
         </collection>

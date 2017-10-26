@@ -12,7 +12,7 @@
         <property name="configLocation" value="classpath:mybatis-config.xml" />
         <!-- 自动扫描mapping.xml文件 -->
         <property name="mapperLocations" value="classpath*:**/mapper/xml/*.xml" />
-        <property name="typeAliasesPackage" value="com.cz.model*" />
+        <property name="typeAliasesPackage" value="com.cz.model.**" />
         <property name="globalConfig">
             <bean class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
                 <property name="dbColumnUnderline" value="false" />

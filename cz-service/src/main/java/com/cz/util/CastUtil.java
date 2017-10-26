@@ -1,6 +1,6 @@
 package com.cz.util;
 
-import com.cz.model.User;
+import com.cz.model.personal.User;
 import com.cz.dto.user.DtoUser;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

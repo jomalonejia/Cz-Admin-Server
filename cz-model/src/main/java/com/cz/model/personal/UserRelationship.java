@@ -1,4 +1,4 @@
-package com.cz.model;
+package com.cz.model.personal;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;

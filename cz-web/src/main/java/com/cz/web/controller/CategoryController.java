@@ -2,7 +2,7 @@ package com.cz.web.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cz.api.service.ICategoryService;
-import com.cz.model.Category;
+import com.cz.model.category.Category;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

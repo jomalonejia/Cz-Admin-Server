@@ -2,7 +2,7 @@ package com.cz.web.controller;
 import com.cz.api.service.IUserService;
 import com.cz.core.util.qiniu.PictureUtil;
 import com.cz.core.base.BaseController;
-import com.cz.model.User;
+import com.cz.model.personal.User;
 import com.cz.security.security.JwtAuthenticationRequest;
 import com.cz.security.security.JwtTokenUtil;
 import com.cz.security.security.JwtAuthenticationResponse;
@@ -39,7 +39,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
-@Api(value = "/user",description = "User Controller")
+@Api(value = "/personal",description = "User Controller")
 public class UserController extends BaseController implements ApplicationContextAware {
 
     private static Logger _log = LoggerFactory.getLogger(UserController.class);
@@ -69,7 +69,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @PostMapping(value = "/login" )
-    @ApiOperation(value = "user login")
+    @ApiOperation(value = "personal login")
     public ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest requestBoby, HttpServletRequest request , HttpServletResponse response) throws AuthenticationException {
         JwtUser user = null;
         String token = null;
@@ -88,7 +88,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @GetMapping("/logout")
-    @ApiOperation(value = "user logout")
+    @ApiOperation(value = "personal logout")
     public Object logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth != null){
@@ -100,7 +100,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @PostMapping(value = "/register" )
-    @ApiOperation(value = "user register")
+    @ApiOperation(value = "personal register")
     public ResponseEntity<?> register(@RequestBody DtoUser dtoUser,HttpServletResponse response) throws AuthenticationException {
         String token = null;
         User user = null;
@@ -121,7 +121,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @GetMapping("/getSettings")
-    @ApiOperation(value = "get user settings")
+    @ApiOperation(value = "get personal settings")
     public ResponseEntity<?> getSettings(@RequestParam(value = "username",required = true) String username,HttpServletRequest request){
         User user = userService.getUserByUsername(username);
         DtoUser dtoUser = new DtoUser();
@@ -130,7 +130,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @PostMapping("/setSettings")
-    @ApiOperation(value = "update user settings")
+    @ApiOperation(value = "update personal settings")
     public ResponseEntity<?> updateSettings(@RequestBody DtoUser dtoUseruser) {
         Integer flag = userService.updateUserSettings(dtoUseruser);
         return ResponseEntity.ok(flag);
@@ -139,7 +139,7 @@ public class UserController extends BaseController implements ApplicationContext
 
 
     @GetMapping(value = "/refresh")
-    @ApiOperation(value = "user refresh token")
+    @ApiOperation(value = "personal refresh token")
     public ResponseEntity<?> refresh(HttpServletRequest request,HttpServletResponse response) {
 
         try {
@@ -159,7 +159,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @PostMapping("/profileUpload")
-    @ApiOperation(value = "user profile update")
+    @ApiOperation(value = "personal profile update")
     public ResponseEntity<?> profileUpload(@RequestParam("uploadedfile") MultipartFile file,HttpServletRequest request) {
         String username;
         String pictureResponse;
@@ -175,7 +175,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @GetMapping("/listUserWithRole")
-    @ApiOperation(value = "list user with role")
+    @ApiOperation(value = "list personal with role")
     public ResponseEntity<?> listUserWithRole() {
         List<User> users = userService.listUserWithRole();
         return ResponseEntity.ok(users);
@@ -183,7 +183,7 @@ public class UserController extends BaseController implements ApplicationContext
 
 
     @PostMapping("/updateUser")
-    @ApiOperation(value = "update user")
+    @ApiOperation(value = "update personal")
     public ResponseEntity<?> updateUser(@RequestBody User user) {
         Boolean success = userService.updateUserWithRole(user);
         if(success){
@@ -195,13 +195,13 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @DeleteMapping("/deleteUser")
-    @ApiOperation(value = "update user")
+    @ApiOperation(value = "update personal")
     public ResponseEntity<?> deleteUser(@RequestParam  Long id) {
         return ResponseEntity.ok(userService.deleteUserWithRole(id));
     }
 
     @GetMapping("/listRelatedUsers")
-    @ApiOperation(value = "list related user")
+    @ApiOperation(value = "list related personal")
     public ResponseEntity<?> listRelatedUsers(@RequestParam  String userId) {
         _log.info(userService.listRelatedUsers(Long.parseLong(userId)).toString());
         return ResponseEntity.ok(userService.listRelatedUsers(Long.parseLong(userId)));
