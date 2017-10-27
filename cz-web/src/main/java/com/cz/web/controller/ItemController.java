@@ -65,7 +65,8 @@ public class ItemController {
     @ApiOperation(value = "item add")
     public Object add(@RequestBody Item item) {
         try {
-            itemService.insertItems(item);
+            _log.info(item.toString());
+            //itemService.insertItems(item);
             return ResponseEntity.ok();
         } catch (Exception e) {
             e.printStackTrace();

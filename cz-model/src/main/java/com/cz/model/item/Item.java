@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.cz.model.category.Category;
+import com.cz.model.param.Param;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,9 +28,9 @@ public class Item implements Serializable,Cloneable{
     @TableField(exist = false)
     private Category category;
     @TableField(exist = false)
-    private List<String> showImages;
+    private List<String> images;
     @TableField(exist = false)
-    private List<String> minusShowImages;
+    private List<Param> params;
     private String describe;
 
     public String getId() {
@@ -80,20 +81,20 @@ public class Item implements Serializable,Cloneable{
         this.category = category;
     }
 
-    public List<String> getShowImages() {
-        return showImages;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setShowImages(List<String> showImages) {
-        this.showImages = showImages;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
-    public List<String> getMinusShowImages() {
-        return minusShowImages;
+    public List<Param> getParams() {
+        return params;
     }
 
-    public void setMinusShowImages(List<String> minusShowImages) {
-        this.minusShowImages = minusShowImages;
+    public void setParams(List<Param> params) {
+        this.params = params;
     }
 
     public String getDescribe() {
@@ -107,14 +108,14 @@ public class Item implements Serializable,Cloneable{
     @Override
     public String toString() {
         return "Item{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", categoryId=" + categoryId +
                 ", price=" + price +
                 ", image='" + image + '\'' +
                 ", category=" + category +
-                ", showImages=" + showImages +
-                ", minusShowImages=" + minusShowImages +
+                ", images=" + images +
+                ", params=" + params +
                 ", describe='" + describe + '\'' +
                 '}';
     }

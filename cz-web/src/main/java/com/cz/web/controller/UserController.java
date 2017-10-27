@@ -39,7 +39,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/user")
-@Api(value = "/personal",description = "User Controller")
+@Api(value = "/user",description = "User Controller")
 public class UserController extends BaseController implements ApplicationContextAware {
 
     private static Logger _log = LoggerFactory.getLogger(UserController.class);
@@ -69,14 +69,16 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @PostMapping(value = "/login" )
-    @ApiOperation(value = "personal login")
+    @ApiOperation(value = "user login")
     public ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest requestBoby, HttpServletRequest request , HttpServletResponse response) throws AuthenticationException {
         JwtUser user = null;
         String token = null;
         try {
             String username = requestBoby.getEmail() != null ?requestBoby.getEmail():requestBoby.getUsername();
             String password = requestBoby.getPassword();
+            _log.info("username:"+username+"--password:"+password);
             Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
+            _log.info(authentication.toString());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             user = (JwtUser) this.userDetailsService.loadUserByUsername(username);
             token = this.jwtTokenUtil.generateToken(user.getUsername());
@@ -88,7 +90,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @GetMapping("/logout")
-    @ApiOperation(value = "personal logout")
+    @ApiOperation(value = "user logout")
     public Object logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth != null){
@@ -100,7 +102,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @PostMapping(value = "/register" )
-    @ApiOperation(value = "personal register")
+    @ApiOperation(value = "user register")
     public ResponseEntity<?> register(@RequestBody DtoUser dtoUser,HttpServletResponse response) throws AuthenticationException {
         String token = null;
         User user = null;
@@ -121,7 +123,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @GetMapping("/getSettings")
-    @ApiOperation(value = "get personal settings")
+    @ApiOperation(value = "get user settings")
     public ResponseEntity<?> getSettings(@RequestParam(value = "username",required = true) String username,HttpServletRequest request){
         User user = userService.getUserByUsername(username);
         DtoUser dtoUser = new DtoUser();
@@ -130,7 +132,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @PostMapping("/setSettings")
-    @ApiOperation(value = "update personal settings")
+    @ApiOperation(value = "update user settings")
     public ResponseEntity<?> updateSettings(@RequestBody DtoUser dtoUseruser) {
         Integer flag = userService.updateUserSettings(dtoUseruser);
         return ResponseEntity.ok(flag);
@@ -139,7 +141,7 @@ public class UserController extends BaseController implements ApplicationContext
 
 
     @GetMapping(value = "/refresh")
-    @ApiOperation(value = "personal refresh token")
+    @ApiOperation(value = "user refresh token")
     public ResponseEntity<?> refresh(HttpServletRequest request,HttpServletResponse response) {
 
         try {
@@ -159,7 +161,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @PostMapping("/profileUpload")
-    @ApiOperation(value = "personal profile update")
+    @ApiOperation(value = "user profile update")
     public ResponseEntity<?> profileUpload(@RequestParam("uploadedfile") MultipartFile file,HttpServletRequest request) {
         String username;
         String pictureResponse;
@@ -175,7 +177,7 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @GetMapping("/listUserWithRole")
-    @ApiOperation(value = "list personal with role")
+    @ApiOperation(value = "list user with role")
     public ResponseEntity<?> listUserWithRole() {
         List<User> users = userService.listUserWithRole();
         return ResponseEntity.ok(users);
@@ -183,7 +185,7 @@ public class UserController extends BaseController implements ApplicationContext
 
 
     @PostMapping("/updateUser")
-    @ApiOperation(value = "update personal")
+    @ApiOperation(value = "update user")
     public ResponseEntity<?> updateUser(@RequestBody User user) {
         Boolean success = userService.updateUserWithRole(user);
         if(success){
@@ -195,13 +197,13 @@ public class UserController extends BaseController implements ApplicationContext
     }
 
     @DeleteMapping("/deleteUser")
-    @ApiOperation(value = "update personal")
+    @ApiOperation(value = "update user")
     public ResponseEntity<?> deleteUser(@RequestParam  Long id) {
         return ResponseEntity.ok(userService.deleteUserWithRole(id));
     }
 
     @GetMapping("/listRelatedUsers")
-    @ApiOperation(value = "list related personal")
+    @ApiOperation(value = "list related user")
     public ResponseEntity<?> listRelatedUsers(@RequestParam  String userId) {
         _log.info(userService.listRelatedUsers(Long.parseLong(userId)).toString());
         return ResponseEntity.ok(userService.listRelatedUsers(Long.parseLong(userId)));
