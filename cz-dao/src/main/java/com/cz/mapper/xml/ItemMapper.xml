@@ -43,8 +43,6 @@
         WHERE category.category_id = #{categoryId}
     </select>
 
-
-
     <update id="updateImageById">
         UPDATE
           sys_item
@@ -53,5 +51,18 @@
         WHERE
           id = #{itemId}
     </update>
+
+    <delete id="deleteItemWithParamById">
+        DELETE
+          item,item_param
+        FROM
+          sys_item item
+        JOIN
+          sys_item_param item_param
+        ON
+          item.id = item_param.item_id
+        WHERE
+          item.id = #{itemId}
+    </delete>
 
 </mapper>

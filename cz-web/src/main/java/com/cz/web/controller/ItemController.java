@@ -2,6 +2,7 @@ package com.cz.web.controller;
 
 import com.cz.api.service.IItemImagesService;
 import com.cz.api.service.IItemService;
+import com.cz.api.service.IParamService;
 import com.cz.core.util.qiniu.PictureUtil;
 import com.cz.model.item.Item;
 import com.cz.dto.item.ItemContent;
@@ -30,6 +31,8 @@ public class ItemController {
 
     @Autowired
     private IItemService itemService;
+    @Autowired
+    private IParamService paramService;
     @Autowired
     private IItemImagesService itemImagesService;
 
@@ -66,7 +69,7 @@ public class ItemController {
     public Object add(@RequestBody Item item) {
         try {
             _log.info(item.toString());
-            //itemService.insertItems(item);
+            itemService.insertItems(item);
             return ResponseEntity.ok();
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,7 +82,7 @@ public class ItemController {
     public Object delete(@PathVariable String itemId){
         _log.info(itemId);
         try {
-            itemService.deleteById(itemId);
+            itemService.deleteItemWithParamById(itemId);
             return ResponseEntity.ok();
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,7 +94,9 @@ public class ItemController {
     @ApiOperation(value = "item update")
     public Object update(@RequestBody Item item) {
         try {
+            _log.info(item.toString());
             itemService.updateById(item);
+            paramService.updateParams(item.getId(),item.getParams());
             return ResponseEntity.ok();
         } catch (Exception e) {
             e.printStackTrace();

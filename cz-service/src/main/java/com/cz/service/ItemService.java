@@ -1,6 +1,7 @@
 package com.cz.service;
 
 import com.cz.api.service.IItemService;
+import com.cz.api.service.IParamService;
 import com.cz.core.util.constant.QiniuConstant;
 import com.cz.core.util.qiniu.PictureUtil;
 import com.cz.core.base.BaseServiceImpl;
@@ -32,6 +33,8 @@ public class ItemService extends BaseServiceImpl<ItemMapper,Item> implements IIt
 
     private static final Logger _log = LoggerFactory.getLogger(ItemService.class);
 
+    @Autowired
+    private IParamService paramService;
     @Autowired
     private ItemMapper itemMapper;
     @Autowired
@@ -75,15 +78,13 @@ public class ItemService extends BaseServiceImpl<ItemMapper,Item> implements IIt
     }
 
     @Override
+    @Transactional
     public Integer insertItems(Item item) {
         Integer result = 0;
         try {
             item.setImage(QiniuConstant.QINIU_DEFAULT_URL);
             result = itemMapper.insert(item);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
+            paramService.insertParams(item.getId(),item.getParams());
             for (int i = 0;i<6;i++) {
                 ItemImages itemImages = new ItemImages();
                 itemImages.setItemId(item.getId());
@@ -96,6 +97,11 @@ public class ItemService extends BaseServiceImpl<ItemMapper,Item> implements IIt
             result = 0;
         }
         return result;
+    }
+
+    @Override
+    public Integer deleteItemWithParamById(String itemId) {
+        return itemMapper.deleteItemWithParamById(itemId);
     }
 
     public Integer updateItemImages (String itemId,Integer position,String imageUrl){

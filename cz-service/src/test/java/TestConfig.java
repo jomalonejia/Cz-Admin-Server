@@ -4,6 +4,7 @@ import com.cz.api.service.*;
 import com.cz.model.category.Category;
 import com.cz.model.item.Item;
 import com.cz.model.param.Param;
+import com.cz.model.param.ParamValue;
 import com.cz.model.personal.Role;
 import com.cz.model.personal.User;
 import com.cz.dto.user.DtoUser;
@@ -230,6 +231,40 @@ public class TestConfig {
     @Test
     public void test22(){
         List<Param> params = paramService.listParams();
+        System.out.println(params.toString());
+    }
+
+    @Test
+    public void test23(){
+        List params = new ArrayList<Param>();
+        Param param1 = new Param();
+        Param param2 = new Param();
+
+        param1.setId(2);
+        param1.setParamDescribe("尺码");
+        List param1Values = new ArrayList<ParamValue>();
+        param1Values.add(new ParamValue(4,"XS"));
+        param1Values.add(new ParamValue(5,"S"));
+        param1.setParamValues(param1Values);
+
+        param2.setId(1);
+        param2.setParamDescribe("颜色");
+        List param2Values = new ArrayList<ParamValue>();
+        param2Values.add(new ParamValue(-1,"#183652"));
+        param2Values.add(new ParamValue(-1,"#516f8b"));
+        param2.setParamValues(param2Values);
+
+        params.add(param1);
+        params.add(param2);
+
+        System.out.println(params.toString());
+
+        paramService.insertParams("1111",params);
+    }
+
+    @Test
+    public void test24(){
+        List<Param> params = paramService.listParamsById("086c65c0a17843e8a5375ded70f52b68");
         System.out.println(params.toString());
     }
 

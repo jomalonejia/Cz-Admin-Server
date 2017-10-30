@@ -14,4 +14,5 @@ public interface ItemMapper extends BaseMapper<Item> {
     List<Item> listItems();
     List<Item> listItemsByCategory(@Param("categoryId") int categoryId);
     Integer updateImageById(@Param("itemId") String itemId,@Param("imageUrl") String imageUrl);
+    Integer deleteItemWithParamById(@Param("itemId") String itemId);
 }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,12 +26,23 @@ public class ParamController {
 
     @Autowired
     private IParamService paramService;
+    @Autowired
 
     @GetMapping("/list")
     public ResponseEntity<?> list(){
         try {
             List<Param> params = paramService.listParams();
-            _log.info(params.toString());
+            return ResponseEntity.ok(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @GetMapping("/list/{itemId}")
+    public ResponseEntity<?> list(@PathVariable String itemId){
+        try {
+            List<Param> params = paramService.listParamsById(itemId);
             return ResponseEntity.ok(params);
         } catch (Exception e) {
             e.printStackTrace();

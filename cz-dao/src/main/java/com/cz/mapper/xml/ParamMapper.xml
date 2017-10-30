@@ -15,7 +15,7 @@
     </resultMap>
 
     <select id="listParams" resultMap="param">
-        SELECT
+       SELECT
             param.id,
             param.param_name,
             param.param_describe,
@@ -29,4 +29,35 @@
         ON  param.id = param_values.param_id
     </select>
 
+    <select id="listParamsById" resultMap="param">
+        SELECT
+          param.id,
+          param.param_name,
+          param.param_describe,
+          item_param.param_value_id param_value_id,
+          item_param.param_id param_value_id,
+          item_param.param_value_value param_value
+        FROM
+          sys_item_param item_param
+        LEFT JOIN
+          sys_param param
+        ON item_param.param_id = param.id
+        WHERE item_param.item_id = #{itemId}
+    </select>
+
+    <insert id="insertParams">
+        INSERT INTO
+        sys_item_param(ITEM_ID,PARAM_ID,PARAM_VALUE_ID,PARAM_VALUE_VALUE)
+        VALUES
+        <foreach item="paramValue" collection="paramValues" separator=",">
+            (#{itemId}, #{paramId},#{paramValue.id},#{paramValue.paramValue})
+        </foreach>
+    </insert>
+
+    <update id="deleteParamsById">
+      DELETE FROM
+        sys_item_param
+      WHERE
+        item_id = #{itemId}
+    </update>
 </mapper>

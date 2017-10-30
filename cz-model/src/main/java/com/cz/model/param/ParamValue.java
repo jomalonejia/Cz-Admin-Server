@@ -42,8 +42,17 @@ public class ParamValue implements Serializable{
     }
 
     public void setParamValue(String paramValue) {
+
         this.paramValue = paramValue;
     }
+
+    public ParamValue(){}
+
+    public ParamValue(Integer id, String paramValue) {
+        this.id = id;
+        this.paramValue = paramValue;
+    }
+
 
     @Override
     public String toString() {
