@@ -14,20 +14,11 @@ public class ParamValue implements Serializable{
 
     private static final long serialVersionUID = 483634340243752463L;
 
-    @TableId
-    private Integer id;
     @TableField("param_id")
     private Integer paramId;
     @TableField("param_value")
     private String paramValue;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getParamId() {
         return paramId;
@@ -49,7 +40,6 @@ public class ParamValue implements Serializable{
     public ParamValue(){}
 
     public ParamValue(Integer id, String paramValue) {
-        this.id = id;
         this.paramValue = paramValue;
     }
 
@@ -57,7 +47,6 @@ public class ParamValue implements Serializable{
     @Override
     public String toString() {
         return "ParamValue{" +
-                "id=" + id +
                 ", paramId=" + paramId +
                 ", paramValue='" + paramValue + '\'' +
                 '}';

@@ -11,6 +11,4 @@ import java.util.List;
 public interface IParamService extends IService<Param> {
     List<Param> listParams();
     List<Param> listParamsById(String itemId);
-    void insertParams(String itemId,List<Param> params);
-    void updateParams(String itemId,List<Param> params);
 }

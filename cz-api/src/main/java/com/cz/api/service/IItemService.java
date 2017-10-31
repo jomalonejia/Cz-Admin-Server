@@ -14,6 +14,7 @@ public interface IItemService extends IService<Item>{
     PageInfo<Item> listItems(int pageNum);
     PageInfo<Item> listItemsByCategory(int categoryId,int pageNum);
     Integer updateImageById(String itemId, String imageUrl);
-    Integer insertItems(Item item);
+    void insertItem(Item item);
+    void updateItem(Item item);
     Integer deleteItemWithParamById(String itemId);
 }

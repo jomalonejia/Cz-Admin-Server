@@ -34,22 +34,4 @@ public class ParamService extends BaseServiceImpl<ParamMapper,Param> implements 
     public List<Param> listParamsById(String itemId) {
         return paramMapper.listParamsById(itemId);
     }
-
-    @Override
-    public void insertParams(String itemId, List<Param> params) {
-        try {
-            for (Param param : params) {
-                paramMapper.insertParams(itemId,param.getId(),param.getParamValues());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    @Transactional
-    public void updateParams(String itemId,List<Param> params){
-        paramMapper.deleteParamsById(itemId);
-        this.insertParams(itemId, params);
-    }
 }

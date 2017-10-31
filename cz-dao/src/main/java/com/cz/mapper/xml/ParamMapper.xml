@@ -7,11 +7,15 @@
         <id property="id" column="id"></id>
         <result property="paramName" column="param_name"></result>
         <result property="paramDescribe" column="param_describe"></result>
-        <collection property="paramValues" ofType="com.cz.model.param.ParamValue" javaType="ArrayList">
+        <collection property="ParamDetails" ofType="com.cz.model.param.ParamDetail" javaType="ArrayList">
+            <result property="paramValue" column="param_value"></result>
+            <result property="inventory" column="inventory"></result>
+        </collection>
+       <!-- <collection property="paramValues" ofType="com.cz.model.param.ParamValue" javaType="ArrayList">
             <id property="id" column="param_value_id"></id>
             <result property="paramId" column="param_id"></result>
             <result property="paramValue" column="param_value"></result>
-        </collection>
+        </collection>-->
     </resultMap>
 
     <select id="listParams" resultMap="param">
@@ -19,8 +23,6 @@
             param.id,
             param.param_name,
             param.param_describe,
-            param_values.id param_value_id,
-            param_values.param_id,
             param_values.param_value
         FROM
             sys_param param
@@ -34,9 +36,8 @@
           param.id,
           param.param_name,
           param.param_describe,
-          item_param.param_value_id param_value_id,
-          item_param.param_id param_value_id,
-          item_param.param_value_value param_value
+          item_param.param_value,
+          item_param.inventory
         FROM
           sys_item_param item_param
         LEFT JOIN
@@ -47,10 +48,10 @@
 
     <insert id="insertParams">
         INSERT INTO
-        sys_item_param(ITEM_ID,PARAM_ID,PARAM_VALUE_ID,PARAM_VALUE_VALUE)
+        sys_item_param(ITEM_ID,PARAM_ID,PARAM_VALUE,INVENTORY)
         VALUES
-        <foreach item="paramValue" collection="paramValues" separator=",">
-            (#{itemId}, #{paramId},#{paramValue.id},#{paramValue.paramValue})
+        <foreach item="paramDetail" collection="paramDetails" separator=",">
+            (#{itemId}, #{paramId},#{paramDetail.paramValue},#{paramDetail.inventory})
         </foreach>
     </insert>
 

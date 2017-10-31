@@ -236,7 +236,7 @@ public class TestConfig {
 
     @Test
     public void test23(){
-        List params = new ArrayList<Param>();
+        /*List params = new ArrayList<Param>();
         Param param1 = new Param();
         Param param2 = new Param();
 
@@ -245,7 +245,7 @@ public class TestConfig {
         List param1Values = new ArrayList<ParamValue>();
         param1Values.add(new ParamValue(4,"XS"));
         param1Values.add(new ParamValue(5,"S"));
-        param1.setParamValues(param1Values);
+        param1.setParamDetailss(param1Values);
 
         param2.setId(1);
         param2.setParamDescribe("颜色");
@@ -259,7 +259,7 @@ public class TestConfig {
 
         System.out.println(params.toString());
 
-        paramService.insertParams("1111",params);
+        paramService.insertParams("1111",params);*/
     }
 
     @Test

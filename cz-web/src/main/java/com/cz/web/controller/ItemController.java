@@ -52,9 +52,6 @@ public class ItemController {
     @ApiOperation(value = "item list by category")
     public Object listByCategory(@PathVariable("categoryId") Integer categoryId,@PathVariable("pageNum") Integer pageNum){
         try {
-            _log.info("_________________");
-            _log.info(categoryId+"");
-            _log.info(pageNum+"");
             PageInfo<Item> itemPageInfo = itemService.listItemsByCategory(categoryId,pageNum);
             return itemPageInfo;
         } catch (Exception e) {
@@ -69,7 +66,7 @@ public class ItemController {
     public Object add(@RequestBody Item item) {
         try {
             _log.info(item.toString());
-            itemService.insertItems(item);
+            itemService.insertItem(item);
             return ResponseEntity.ok();
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,9 +91,7 @@ public class ItemController {
     @ApiOperation(value = "item update")
     public Object update(@RequestBody Item item) {
         try {
-            _log.info(item.toString());
-            itemService.updateById(item);
-            paramService.updateParams(item.getId(),item.getParams());
+            itemService.updateItem(item);
             return ResponseEntity.ok();
         } catch (Exception e) {
             e.printStackTrace();

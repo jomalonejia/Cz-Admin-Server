@@ -22,7 +22,7 @@ public class Param implements Serializable{
     @TableField("param_describe")
     private String paramDescribe;
     @TableField(exist = false)
-    private List<ParamValue> paramValues;
+    private List<ParamDetail> ParamDetails;
 
     public Integer getId() {
         return id;
@@ -48,12 +48,12 @@ public class Param implements Serializable{
         this.paramDescribe = paramDescribe;
     }
 
-    public List<ParamValue> getParamValues() {
-        return paramValues;
+    public List<ParamDetail> getParamDetails() {
+        return ParamDetails;
     }
 
-    public void setParamValues(List<ParamValue> paramValues) {
-        this.paramValues = paramValues;
+    public void setParamDetails(List<ParamDetail> paramDetails) {
+        ParamDetails = paramDetails;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Param implements Serializable{
                 "id=" + id +
                 ", paramName='" + paramName + '\'' +
                 ", paramDescribe='" + paramDescribe + '\'' +
-                ", paramValues=" + paramValues +
+                ", ParamDetails=" + ParamDetails +
                 '}';
     }
 }
