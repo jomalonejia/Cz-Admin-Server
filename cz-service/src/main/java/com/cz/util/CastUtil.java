@@ -19,7 +19,6 @@ public class CastUtil {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(dtoUser.getPassword()));
         }
-        user.setLastPasswordResetDate(new Date());
         return user;
     }
 }
