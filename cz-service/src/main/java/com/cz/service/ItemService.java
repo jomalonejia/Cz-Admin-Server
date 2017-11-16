@@ -37,6 +37,7 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
 
     private static final Logger _log = LoggerFactory.getLogger(ItemService.class);
 
+    @Autowired
     private ItemMapper itemMapper;
     @Autowired
     private ItemImagesMapper itemImagesMapper;

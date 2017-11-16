@@ -32,6 +32,15 @@ public class Item implements Serializable,Cloneable{
     @TableField(exist = false)
     private List<Param> params;
     private String describe;
+    private Float discount;
+
+    public Float getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Float discount) {
+        this.discount = discount;
+    }
 
     public String getId() {
         return id;
@@ -117,6 +126,7 @@ public class Item implements Serializable,Cloneable{
                 ", images=" + images +
                 ", params=" + params +
                 ", describe='" + describe + '\'' +
+                ", discount=" + discount +
                 '}';
     }
 
