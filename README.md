@@ -47,9 +47,9 @@ This project provides cz-admin's backend services
 -   run the cz-web --> clean package tomcat7:run
 
 ### default account  
-    admin@gmail.com:123456/<br>
-    user1@qq.com:123456/<br>
-    user2@qq.com:123456/<br>
+    admin@gmail.com:123456/<br />
+    user1@qq.com:123456/<br />
+    user2@qq.com:123456/<br />
 ## Running the tests
 
 ...
