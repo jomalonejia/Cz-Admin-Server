@@ -1,7 +1,8 @@
 
 # Cz-Admin-Front
 
-This project provides cz-admin's backend services
+This project provides cz-admin's backend services<br />
+The front page is in here [Cz-Admin-Front](https://github.com/jomalonejia/Cz-Admin-Front)
 
 ## Technology
 
