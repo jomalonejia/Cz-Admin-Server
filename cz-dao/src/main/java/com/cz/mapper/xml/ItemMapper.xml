@@ -47,11 +47,12 @@
 
     <update id="updateImageById">
         UPDATE
-          sys_item
+          sys_item,sys_item_images
         SET
-          image = #{imageUrl}
-        WHERE
-          id = #{itemId}
+          image = #{imageUrl},sys_item_images.url = #{imageUrl}
+        WHERE sys_item.id = sys_item_images.item_id
+        AND sys_item.id = #{itemId}
+        AND sys_item_images.position = 0
     </update>
 
     <delete id="deleteItemWithParamById">

@@ -77,6 +77,7 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
 
 
     @Override
+    @Transactional
     public Integer updateImageById(String itemId, String imageUrl) {
         return itemMapper.updateImageById(itemId, imageUrl);
     }
