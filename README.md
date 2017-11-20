@@ -41,7 +41,7 @@ The front page is in here [Cz-Admin-Front](https://github.com/jomalonejia/Cz-Adm
 
 ## Deployment
 > pre
--   load the sql file in you mysql
+-   load the sql file in you mysql(the backend server([Cz-Admin-Server](https://github.com/jomalonejia/Cz-Admin-Server)) and front server([Cz-Portal-Server](https://github.com/jomalonejia/Cz-Portal-Server)) share the same sql)
 -   modify the properties
 -   open your zookeeper redis activeMq elasticSearch
 > open
