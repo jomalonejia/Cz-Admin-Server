@@ -20,5 +20,5 @@
         acknowledge="auto">可写多个监听器
     </jms:listener-container> -->
     <!-- 定义Queue监听器 -->
-    <bean id="testListener" class="com.cz.core.mq.activemq.TestListener" />
+    <bean id="testListener" class="com.cz.common.mq.activemq.TestListener" />
 </beans>

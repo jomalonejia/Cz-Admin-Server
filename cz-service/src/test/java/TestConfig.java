@@ -3,11 +3,13 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.api.service.*;
 import com.cz.model.category.Category;
 import com.cz.model.item.Item;
+import com.cz.model.order.Order;
 import com.cz.model.param.Param;
 import com.cz.model.param.ParamValue;
 import com.cz.model.personal.Role;
 import com.cz.model.personal.User;
 import com.cz.dto.user.DtoUser;
+import com.github.pagehelper.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class TestConfig {
     private IItemImagesService itemImagesService;
     @Autowired
     private IParamService paramService;
+    @Autowired
+    private IOrderService orderService;
 
     @Test
     public void test1() {
@@ -266,6 +270,18 @@ public class TestConfig {
     public void test24(){
         List<Param> params = paramService.listParamsById("086c65c0a17843e8a5375ded70f52b68");
         System.out.println(params.toString());
+    }
+
+    @Test
+    public void test25(){
+        PageInfo<Item> itemPageInfo = itemService.listItems(1,5);
+        System.out.println(itemPageInfo.toString());
+    }
+
+    @Test
+    public void test26(){
+        PageInfo<Order> orderPageInfo = orderService.listOrders(1, 2);
+        System.out.println(orderPageInfo);
     }
 
 }

@@ -1,0 +1,9 @@
+package com.cz.common.util.constant;
+
+/**
+ * Created by jomalone_jia on 2017/7/11.
+ */
+public class SecurityConstant {
+    public static final String TOKEN_NAME = "cz-admin-token";
+    public static final String TOEKN_PRIFIX = "aluba ";
+}

@@ -1,6 +1,6 @@
 package testRedis;
 
-import com.cz.core.util.cache.redis.RedisUtil;
+import com.cz.common.util.cache.redis.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

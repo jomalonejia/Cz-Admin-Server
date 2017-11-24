@@ -3,7 +3,7 @@ package com.cz.web.controller;
 import com.cz.api.service.IItemImagesService;
 import com.cz.api.service.IItemService;
 import com.cz.api.service.IParamService;
-import com.cz.core.util.qiniu.PictureUtil;
+import com.cz.common.util.qiniu.PictureUtil;
 import com.cz.model.item.Item;
 import com.cz.dto.item.ItemContent;
 import com.github.pagehelper.PageInfo;
@@ -36,11 +36,13 @@ public class ItemController {
     @Autowired
     private IItemImagesService itemImagesService;
 
-    @GetMapping("/list/{pageNum}")
+    @GetMapping("/list")
     @ApiOperation(value = "item list")
-    public Object list(@PathVariable Integer pageNum){
+    public Object list(@RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum,
+                       @RequestParam(defaultValue = "10",value = "pageSize") Integer pageSize
+                       ){
         try {
-            PageInfo<Item> itemPageInfo = itemService.listItems(pageNum);
+            PageInfo<Item> itemPageInfo = itemService.listItems(pageNum,pageSize);
             return itemPageInfo;
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,9 +50,11 @@ public class ItemController {
         return ResponseEntity.badRequest().body("list items failed");
     }
 
-    @GetMapping("/list/{categoryId}/{pageNum}")
+    @GetMapping("/list/{categoryId}")
     @ApiOperation(value = "item list by category")
-    public Object listByCategory(@PathVariable("categoryId") Integer categoryId,@PathVariable("pageNum") Integer pageNum){
+    public Object listByCategory(@PathVariable("categoryId") Integer categoryId,
+                                 @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                 @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize){
         try {
             PageInfo<Item> itemPageInfo = itemService.listItemsByCategory(categoryId,pageNum);
             return itemPageInfo;

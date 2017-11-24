@@ -94,7 +94,7 @@
     </bean>-->
 
 
-    <bean class="com.cz.core.util.cache.redisson.RedissonConfig">
+    <bean class="com.cz.common.util.cache.redisson.RedissonConfig">
         <property name="address" value="${redisson.address.admin}"></property>
       <!--  <property name="password" value="${redis.address.admin}"></property>-->
         <!-- ClusterServers -->

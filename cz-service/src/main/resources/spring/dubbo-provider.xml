@@ -11,20 +11,23 @@
     <dubbo:registry address="${dubbo.address.admin}" check="false" timeout="${dubbo.timeout.admin}"/>
     <dubbo:protocol port="${dubbo.port.admin}" name="dubbo" threads="${dubbo.threads.admin}"/>
 
-    <bean id="userService" class="com.cz.service.UserService"/>
+    <bean id="userService" class="com.cz.service.service.UserService"/>
     <dubbo:service interface="com.cz.api.service.IUserService" ref="userService" timeout="10000"/>
 
-    <bean id="itemService" class="com.cz.service.ItemService"/>
+    <bean id="itemService" class="com.cz.service.service.ItemService"/>
     <dubbo:service interface="com.cz.api.service.IItemService" ref="itemService" timeout="10000"/>
 
-    <bean id="itemImagesService" class="com.cz.service.ItemImagesService"/>
+    <bean id="itemImagesService" class="com.cz.service.service.ItemImagesService"/>
     <dubbo:service interface="com.cz.api.service.IItemImagesService" ref="itemImagesService" timeout="10000"/>
 
-    <bean id="categoryService" class="com.cz.service.CategoryService"/>
+    <bean id="categoryService" class="com.cz.service.service.CategoryService"/>
     <dubbo:service interface="com.cz.api.service.ICategoryService" ref="categoryService" timeout="10000"/>
 
-    <bean id="paramService" class="com.cz.service.ParamService"/>
+    <bean id="paramService" class="com.cz.service.service.ParamService"/>
     <dubbo:service interface="com.cz.api.service.IParamService" ref="paramService" timeout="10000"/>
+
+    <bean id="orderService" class="com.cz.service.service.OrderService"/>
+    <dubbo:service interface="com.cz.api.service.IOrderService" ref="orderService" timeout="10000"/>
 
 
 

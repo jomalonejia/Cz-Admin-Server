@@ -11,7 +11,7 @@ import com.github.pagehelper.PageInfo;
  */
 public interface IItemService extends IService<Item>{
     String  saveOrUpdateItemContent(ItemContent itemContent);
-    PageInfo<Item> listItems(int pageNum);
+    PageInfo<Item> listItems(int pageNum,int pageSize);
     PageInfo<Item> listItemsByCategory(int categoryId,int pageNum);
     Integer updateImageById(String itemId, String imageUrl);
     void insertItem(Item item);

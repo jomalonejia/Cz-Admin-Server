@@ -11,7 +11,7 @@
     <bean class="org.springframework.session.config.annotation.web.http.SpringHttpSessionConfiguration">
         <property name="httpSessionListeners">
             <list>
-                <bean class="com.cz.core.session.listener.UserNumberListener" />
+                <bean class="com.cz.common.session.listener.UserNumberListener" />
             </list>
         </property>
     </bean>
@@ -19,5 +19,5 @@
     <!--默认cookie 转成header请求-->
     <!--<bean class="org.springframework.session.web.http.HeaderHttpSessionStrategy">
     </bean>-->
-    <bean class="com.cz.core.session.listener.HeaderHttpSessionStrategyListener"></bean>
+    <bean class="com.cz.common.session.listener.HeaderHttpSessionStrategyListener"></bean>
 </beans>

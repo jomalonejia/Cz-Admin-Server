@@ -1,4 +1,4 @@
-import com.cz.security.security.JwtTokenUtil;
+import com.cz.web.security.security.JwtTokenUtil;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;

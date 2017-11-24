@@ -6,17 +6,17 @@
     <bean id="schedulerFactoryBean"
           class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <description>定时任务调度器工厂</description>
-        <property name="schedulerName" value="iBase4J-Scheduler" />
+        <property name="schedulerName" value="cz-Scheduler" />
         <property name="applicationContextSchedulerContextKey" value="applicationContext" />
         <property name="configLocation" value="classpath:config/quartz.properties" />
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="scheduleManager" class="com.cz.core.schedule.quartz.ScheduleManager" init-method="init">
+    <bean id="scheduleManager" class="com.cz.common.schedule.quartz.ScheduleManager" init-method="init">
         <property name="scheduler" ref="schedulerFactoryBean"></property>
         <property name="jobListenerList">
             <list>
-               <bean class="com.cz.core.schedule.quartz.TaskJobListener"></bean>
+               <bean class="com.cz.common.schedule.quartz.TaskJobListener"></bean>
             </list>
         </property>
     </bean>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cz.mapper.OrderMapper">
+
+    <resultMap id="order" type="com.cz.model.order.Order">
+        <id property="id" column="id"/>
+        <result property="orderNumber" column=""/>
+        <result property="username" column=""/>
+        <result property="image" column="image"/>
+        <result property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="address" column="address"/>
+        <result property="status" column="status"/>
+        <result property="postFee" column="post_fee"/>
+        <result property="price" column="price"/>
+        <result property="discount" column="discount"/>
+        <result property="count" column="count"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="paymentTime" column="payment_time"/>
+        <result property="consignTime" column="consign_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="closeTime" column="close_time"/>
+        <result property="shippingName" column="shipping_name"/>
+        <result property="shippingNumber" column="shipping_number"/>
+        <result property="orderMessage" column="order_message"/>
+    </resultMap>
+
+    <select id="listOrders" resultMap="order">
+       SELECT
+        sys_order.order_number,
+        sys_order.username,
+        sys_order.image,
+        sys_order.item_id,
+        sys_order.item_name,
+        sys_order.address,
+        sys_order.status,
+        sys_order.post_fee,
+        sys_order.price,
+        sys_order.discount,
+        sys_order.`count`,
+        sys_order.total_price,
+        sys_order.create_time,
+        sys_order.update_time,
+        sys_order.payment_time,
+        sys_order.consign_time,
+        sys_order.end_time,
+        sys_order.close_time,
+        sys_order.shipping_name,
+        sys_order.shipping_number,
+        sys_order.order_message
+       FROM  sys_order sys_order
+    </select>
+</mapper>

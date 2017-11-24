@@ -290,7 +290,6 @@ CREATE TABLE `qrtz_scheduler_state` (
 -- Records of qrtz_scheduler_state
 -- ----------------------------
 INSERT INTO `qrtz_scheduler_state` VALUES ('czAdmin-Scheduler', 'admin', '1498550340002', '20000');
-INSERT INTO `qrtz_scheduler_state` VALUES ('iBase4J-Scheduler', 'Administrator1510888928092', '1510895011652', '20000');
 
 -- ----------------------------
 -- Table structure for `qrtz_simple_triggers`
