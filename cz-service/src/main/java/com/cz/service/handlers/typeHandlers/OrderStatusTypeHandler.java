@@ -1,4 +1,4 @@
-package com.cz.service.typeHandler;
+package com.cz.service.handlers.typeHandlers;
 
 import com.cz.enums.OrderStatus;
 import org.apache.ibatis.type.EnumOrdinalTypeHandler;

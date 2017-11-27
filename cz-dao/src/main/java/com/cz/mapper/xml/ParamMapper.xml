@@ -7,7 +7,7 @@
         <id property="id" column="id"></id>
         <result property="paramName" column="param_name"></result>
         <result property="paramDescribe" column="param_describe"></result>
-        <collection property="ParamDetails" ofType="com.cz.model.param.ParamDetail" javaType="ArrayList">
+        <collection property="paramDetails" ofType="com.cz.model.param.ParamDetail" javaType="ArrayList">
             <result property="paramValue" column="param_value"></result>
             <result property="inventory" column="inventory"></result>
         </collection>

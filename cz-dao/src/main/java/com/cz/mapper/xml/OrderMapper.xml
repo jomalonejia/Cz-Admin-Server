@@ -5,8 +5,8 @@
 
     <resultMap id="order" type="com.cz.model.order.Order">
         <id property="id" column="id"/>
-        <result property="orderNumber" column=""/>
-        <result property="username" column=""/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="username" column="username"/>
         <result property="image" column="image"/>
         <result property="itemId" column="item_id"/>
         <result property="itemName" column="item_name"/>
@@ -26,10 +26,15 @@
         <result property="shippingName" column="shipping_name"/>
         <result property="shippingNumber" column="shipping_number"/>
         <result property="orderMessage" column="order_message"/>
+        <collection property="orderTracks" column="orderTracks" ofType="com.cz.model.order.OrderTrack" javaType="ArrayList">
+            <result property="trackInformation" column="track_information"></result>
+            <result property="trackTime" column="track_time"></result>
+        </collection>
     </resultMap>
 
     <select id="listOrders" resultMap="order">
        SELECT
+        sys_order.id,
         sys_order.order_number,
         sys_order.username,
         sys_order.image,
@@ -50,7 +55,12 @@
         sys_order.close_time,
         sys_order.shipping_name,
         sys_order.shipping_number,
-        sys_order.order_message
+        sys_order.order_message,
+        sys_order_track.track_information,
+        sys_order_track.track_time
        FROM  sys_order sys_order
+       LEFT JOIN sys_order_track sys_order_track
+       ON sys_order.id = sys_order_track.order_id
     </select>
+
 </mapper>

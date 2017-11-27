@@ -15,7 +15,8 @@ public enum OrderStatus {
     RETURNING(7),
     RETURNED(8);
 
-    private final int status;
+    private int status;
+    private static OrderStatus[] statuses = values();
 
     OrderStatus(int status){
         this.status = status;
@@ -25,4 +26,22 @@ public enum OrderStatus {
         return status;
     }
 
+    public OrderStatus next(){
+        System.out.println(3 % 9);
+        if(5 == this.ordinal() || 8 == this.ordinal()){
+            return statuses[1];
+        }else if(0 == this.ordinal() || 1 == this.ordinal()){
+            return statuses[this.ordinal()];
+        }else {
+            return statuses[(this.ordinal() + 1) % statuses.length];
+        }
+    }
+
+    public OrderStatus cancel(){
+        return statuses[0];
+    }
+
+    public OrderStatus prepareReturning(){
+        return statuses[6];
+    }
 }

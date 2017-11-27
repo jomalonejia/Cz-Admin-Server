@@ -9,4 +9,5 @@ import com.github.pagehelper.PageInfo;
  */
 public interface IOrderService extends IService<Order> {
     PageInfo<Order> listOrders(int pageNum,int pageSize);
+    void updateStatus(String orderId,String trackInformation);
 }

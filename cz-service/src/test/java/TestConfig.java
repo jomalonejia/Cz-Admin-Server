@@ -1,9 +1,12 @@
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.api.service.*;
+import com.cz.mapper.OrderMapper;
+import com.cz.mapper.OrderTrackMapper;
 import com.cz.model.category.Category;
 import com.cz.model.item.Item;
 import com.cz.model.order.Order;
+import com.cz.model.order.OrderTrack;
 import com.cz.model.param.Param;
 import com.cz.model.param.ParamValue;
 import com.cz.model.personal.Role;
@@ -38,6 +41,8 @@ public class TestConfig {
     private IParamService paramService;
     @Autowired
     private IOrderService orderService;
+    @Autowired
+    private OrderTrackMapper orderTrackMapper;
 
     @Test
     public void test1() {
@@ -284,5 +289,20 @@ public class TestConfig {
         System.out.println(orderPageInfo);
     }
 
+    @Test
+    public void test27(){
+        Order order = orderService.selectById("5e1c8f8a0e1540e09b85153bdaf36fb0");
+        System.out.println(order.getStatus().next());
+    }
+
+    @Test
+    public void test28(){
+        orderService.updateStatus("cba4b9c63db54668a777617eed1ad37c","aluba");
+    }
+
+    @Test
+    public void test29(){
+        orderTrackMapper.insert(new OrderTrack("111","test"));
+    }
 }
 

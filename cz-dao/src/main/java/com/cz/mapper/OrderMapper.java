@@ -1,6 +1,7 @@
 package com.cz.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.cz.enums.OrderStatus;
 import com.cz.model.order.Order;
 
 import java.util.List;
@@ -10,4 +11,5 @@ import java.util.List;
  */
 public interface OrderMapper extends BaseMapper<Order> {
     List<Order> listOrders();
+    OrderStatus getOrderStatus(String orderId);
 }

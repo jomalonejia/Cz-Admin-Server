@@ -8,6 +8,7 @@ import com.cz.enums.OrderStatus;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jomalone_jia on 2017/9/15.
@@ -55,38 +56,12 @@ public class Order implements Serializable {
     private String shippingNumber;
     @TableField("order_message")
     private String orderMessage;
+    @TableField(exist = false)
+    private List<OrderTrack> orderTracks;
 
     public Order(){}
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id='" + id + '\'' +
-                ", orderNumber='" + orderNumber + '\'' +
-                ", username='" + username + '\'' +
-                ", image='" + image + '\'' +
-                ", itemId='" + itemId + '\'' +
-                ", itemName='" + itemName + '\'' +
-                ", address='" + address + '\'' +
-                ", status=" + status +
-                ", postFee=" + postFee +
-                ", price=" + price +
-                ", discount=" + discount +
-                ", count=" + count +
-                ", totalPrice=" + totalPrice +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", paymentTime=" + paymentTime +
-                ", consignTime=" + consignTime +
-                ", endTime=" + endTime +
-                ", closeTime=" + closeTime +
-                ", shippingName='" + shippingName + '\'' +
-                ", shippingNumber='" + shippingNumber + '\'' +
-                ", orderMessage='" + orderMessage + '\'' +
-                '}';
-    }
-
-    public Order(String id, String orderNumber, String username, String image, String itemId, String itemName, String address, OrderStatus status, Float postFee, Float price, Float discount, Integer count, Float totalPrice, Date createTime, Date updateTime, Date paymentTime, Date consignTime, Date endTime, Date closeTime, String shippingName, String shippingNumber, String orderMessage) {
+    public Order(String id, String orderNumber, String username, String image, String itemId, String itemName, String address, OrderStatus status, Float postFee, Float price, Float discount, Integer count, Float totalPrice, Date createTime, Date updateTime, Date paymentTime, Date consignTime, Date endTime, Date closeTime, String shippingName, String shippingNumber, String orderMessage, List<OrderTrack> orderTracks) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.username = username;
@@ -109,10 +84,10 @@ public class Order implements Serializable {
         this.shippingName = shippingName;
         this.shippingNumber = shippingNumber;
         this.orderMessage = orderMessage;
+        this.orderTracks = orderTracks;
     }
 
     public String getId() {
-
         return id;
     }
 
@@ -286,5 +261,42 @@ public class Order implements Serializable {
 
     public void setOrderMessage(String orderMessage) {
         this.orderMessage = orderMessage;
+    }
+
+    public List<OrderTrack> getOrderTracks() {
+        return orderTracks;
+    }
+
+    public void setOrderTracks(List<OrderTrack> orderTracks) {
+        this.orderTracks = orderTracks;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id='" + id + '\'' +
+                ", orderNumber='" + orderNumber + '\'' +
+                ", username='" + username + '\'' +
+                ", image='" + image + '\'' +
+                ", itemId='" + itemId + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", address='" + address + '\'' +
+                ", status=" + status +
+                ", postFee=" + postFee +
+                ", price=" + price +
+                ", discount=" + discount +
+                ", count=" + count +
+                ", totalPrice=" + totalPrice +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", paymentTime=" + paymentTime +
+                ", consignTime=" + consignTime +
+                ", endTime=" + endTime +
+                ", closeTime=" + closeTime +
+                ", shippingName='" + shippingName + '\'' +
+                ", shippingNumber='" + shippingNumber + '\'' +
+                ", orderMessage='" + orderMessage + '\'' +
+                ", orderTracks=" + orderTracks +
+                '}';
     }
 }
