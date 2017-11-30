@@ -1,5 +1,9 @@
 package com.cz.dto.item;
 
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+
 import java.io.Serializable;
 
 /**
@@ -8,8 +12,11 @@ import java.io.Serializable;
 public class ItemContent implements Serializable{
     private static final long serialVersionUID = -4153955458688371437L;
 
+    @TableField("item_id")
     public String itemId;
-    public String itemContent;
+    @TableField("item_content")
+    public String content;
+
 
     public String getItemId() {
         return itemId;
@@ -19,19 +26,26 @@ public class ItemContent implements Serializable{
         this.itemId = itemId;
     }
 
-    public String getItemConent() {
-        return itemContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setItemConent(String itemContent) {
-        this.itemContent = itemContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override
     public String toString() {
         return "ItemContent{" +
                 "itemId='" + itemId + '\'' +
-                ", itemConent='" + itemContent + '\'' +
+                ", content='" + content + '\'' +
                 '}';
+    }
+
+    public ItemContent(){}
+
+    public ItemContent(String itemId, String content) {
+        this.itemId = itemId;
+        this.content = content;
     }
 }

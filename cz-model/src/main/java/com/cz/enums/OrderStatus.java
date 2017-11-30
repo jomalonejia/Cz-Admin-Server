@@ -10,10 +10,11 @@ public enum OrderStatus {
     AWAITING_EXCHANGE(2),
     AWAITING_SHIPPING(3),
     SHIPPING(4),
-    DELIVERED(5),
-    AWAITING_RETURNING(6),
-    RETURNING(7),
-    RETURNED(8);
+    DELIVERING(5),
+    DELIVERED(6),
+    AWAITING_RETURNING(7),
+    RETURNING(8),
+    RETURNED(9);
 
     private int status;
     private static OrderStatus[] statuses = values();
@@ -27,7 +28,6 @@ public enum OrderStatus {
     }
 
     public OrderStatus next(){
-        System.out.println(3 % 9);
         if(5 == this.ordinal() || 8 == this.ordinal()){
             return statuses[1];
         }else if(0 == this.ordinal() || 1 == this.ordinal()){

@@ -143,11 +143,17 @@ public class ItemController {
         return ResponseEntity.badRequest().body("list items failed");
     }
 
-    @PostMapping("/content/add")
-    @ApiOperation(value = "item content add")
-    public Object addContent(@RequestBody ItemContent itemContent) throws IOException, NoSuchAlgorithmException {
-        String s = itemService.saveOrUpdateItemContent(itemContent);
-        return s;
+    @PostMapping("/content/update")
+    @ApiOperation(value = "item content update")
+    public ResponseEntity<?> addContent(@RequestBody ItemContent itemContent) throws IOException, NoSuchAlgorithmException {
+        try {
+            _log.info(itemContent.toString());
+            itemService.saveOrUpdateItemContent(itemContent);
+            return ResponseEntity.ok().body("update content success");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("update content failed");
     }
 
 }

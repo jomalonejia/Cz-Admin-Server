@@ -11,5 +11,4 @@ import java.util.List;
  */
 public interface OrderMapper extends BaseMapper<Order> {
     List<Order> listOrders();
-    OrderStatus getOrderStatus(String orderId);
 }

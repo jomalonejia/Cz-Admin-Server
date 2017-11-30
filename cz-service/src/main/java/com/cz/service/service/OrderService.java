@@ -2,6 +2,7 @@ package com.cz.service.service;
 
 import com.cz.api.service.IOrderService;
 import com.cz.common.base.BaseServiceImpl;
+import com.cz.enums.OrderStatus;
 import com.cz.mapper.OrderMapper;
 import com.cz.mapper.OrderTrackMapper;
 import com.cz.model.order.Order;
@@ -36,8 +37,9 @@ public class OrderService extends BaseServiceImpl<OrderMapper, Order> implements
     @Transactional
     public void updateStatus(String orderId,String trackInformation) {
         Order order = orderMapper.selectById(orderId);
-        order.setStatus(order.getStatus().next());
+        OrderStatus nestStatus = order.getStatus().next();
+        order.setStatus(nestStatus);
         orderMapper.updateById(order);
-        orderTrackMapper.insert(new OrderTrack(order.getId(),trackInformation));
+        orderTrackMapper.insert(new OrderTrack(order.getId(),trackInformation,nestStatus));
     }
 }

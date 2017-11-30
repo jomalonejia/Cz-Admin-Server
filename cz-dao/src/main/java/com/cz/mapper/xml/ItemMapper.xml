@@ -10,6 +10,7 @@
         <result property="discount" column="discount"/>
         <result property="image" column="image"/>
         <result property="describe" column="describe"/>
+        <result property="content" column="content"/>
         <association property="category" column="category" javaType="com.cz.model.category.Category">
             <id property="id" column="category_id"/>
             <result property="parentId" column="parent_id"/>
@@ -26,6 +27,7 @@
             item.discount,
             item.image,
             item.describe,
+            item.content,
             category.id as category_id,
             category.name,
             category.parent_id
@@ -44,6 +46,9 @@
         <include refid="base_select_from_item"></include>
         WHERE category.category_id = #{categoryId}
     </select>
+    <select id="getItemContentById" resultType="java.lang.String">
+        SELECT content FROM sys_item WHERE id = #{itemId}
+    </select>
 
     <update id="updateImageById">
         UPDATE
@@ -53,6 +58,15 @@
         WHERE sys_item.id = sys_item_images.item_id
         AND sys_item.id = #{itemId}
         AND sys_item_images.position = 0
+    </update>
+
+    <update id="updateContentById">
+        UPDATE
+          sys_item
+        SET
+          content = #{itemContent.content}
+        WHERE
+          id = #{itemContent.itemId}
     </update>
 
     <delete id="deleteItemWithParamById">
@@ -67,5 +81,9 @@
         WHERE
           item.id = #{itemId}
     </delete>
+
+    <update id="deleteItemContentById">
+       update sys_item SET content = '' WHERE id = #{itemId}
+    </update>
 
 </mapper>

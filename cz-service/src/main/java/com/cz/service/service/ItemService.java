@@ -13,6 +13,7 @@ import com.cz.model.item.ItemImages;
 import com.cz.model.param.Param;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,8 +46,19 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
     @Override
     @Transactional
     public String saveOrUpdateItemContent(ItemContent itemContent) {
+        String content = itemMapper.getItemContentById(itemContent.getItemId());
+        if(StringUtils.isNotEmpty(content)){
+            Pattern deletePattern = Pattern.compile("<img src=\"http://otlht2gvo.bkt.clouddn.com/(.*?)\">");
+            Matcher matcher = deletePattern.matcher(content);
+            ArrayList<String> deleteArray = new ArrayList<>();
+            while (matcher.find()){
+                deleteArray.add(matcher.group(1));
+            }
+            PictureUtil.getInstance().bucketDelete(deleteArray.toArray(new String[0]));
+        }
+        itemMapper.deleteItemContentById(itemContent.getItemId());
         Pattern pattern = Pattern.compile("<img src=\"(.*?)\">");
-        Matcher m = pattern.matcher(itemContent.getItemConent());
+        Matcher m = pattern.matcher(itemContent.getContent());
         StringBuffer sb = new StringBuffer();
         while (m.find()) {
             String imageUrl = QiniuConstant.QINIU_BASE_URL + PictureUtil.getInstance().uploadPicture(m.group(1));
@@ -53,6 +66,7 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
             m.appendReplacement(sb, imageTag);
         }
         m.appendTail(sb);
+        itemMapper.updateContentById(new ItemContent(itemContent.getItemId(),sb.toString()));
         return sb.toString();
     }
 

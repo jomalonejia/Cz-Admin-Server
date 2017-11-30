@@ -1,14 +1,12 @@
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.api.service.*;
-import com.cz.mapper.OrderMapper;
-import com.cz.mapper.OrderTrackMapper;
+import com.cz.common.util.qiniu.PictureUtil;
+import com.cz.dto.item.ItemContent;
 import com.cz.model.category.Category;
 import com.cz.model.item.Item;
 import com.cz.model.order.Order;
-import com.cz.model.order.OrderTrack;
 import com.cz.model.param.Param;
-import com.cz.model.param.ParamValue;
 import com.cz.model.personal.Role;
 import com.cz.model.personal.User;
 import com.cz.dto.user.DtoUser;
@@ -22,6 +20,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by jomalone_jia on 2017/6/20.
@@ -41,8 +41,6 @@ public class TestConfig {
     private IParamService paramService;
     @Autowired
     private IOrderService orderService;
-    @Autowired
-    private OrderTrackMapper orderTrackMapper;
 
     @Test
     public void test1() {
@@ -175,13 +173,13 @@ public class TestConfig {
     }
 
     @Test
-    public void test14(){
+    public void test14() {
         List<Category> categories = categoryService.listChildCategories(1L);
         System.out.println(categories.toString());
     }
 
     @Test
-    public void test15(){
+    public void test15() {
         Category category = new Category();
         category.setId(49L);
         category.setName("aluba122");
@@ -189,11 +187,11 @@ public class TestConfig {
         EntityWrapper<Category> ew = new EntityWrapper<Category>();
         ew.where("category_id={0}", category.getId());
 
-        categoryService.update(category,ew);
+        categoryService.update(category, ew);
     }
 
     @Test
-    public void test16(){
+    public void test16() {
         Category category = new Category();
         category.setName("aluba121232");
         category.setParentId(2);
@@ -201,36 +199,36 @@ public class TestConfig {
     }
 
     @Test
-    public void test17(){
+    public void test17() {
         Object o = itemImagesService.selectImages("6f4a2ec79cee495991ac3b4f491fa725");
         System.out.println(o.toString());
     }
 
     @Test
-    public void test18(){
+    public void test18() {
         Integer aluba = itemService.updateImageById("6f4a2ec79cee495991ac3b4f491fa725", "aluba");
         System.out.println(aluba);
     }
 
     @Test
-    public void test19(){
+    public void test19() {
 
     }
 
     @Test
-    public void test20(){
-        Item item = new Item();
+    public void test20() {
+        /*Item item = new Item();
         item.setImage("");
         item.setDescribe("");
         item.setName("alubabaaba");
         boolean insert = itemService.insert(item);
         System.out.println(insert);
         System.out.println("___________________");
-        System.out.println(item.getId());
+        System.out.println(item.getId());*/
     }
 
     @Test
-    public void test21(){
+    public void test21() {
         List<Category> categories = categoryService.listCategories();
         List list = categoryService.listTreeCategories();
         System.out.println("_--------------------------");
@@ -238,13 +236,13 @@ public class TestConfig {
     }
 
     @Test
-    public void test22(){
+    public void test22() {
         List<Param> params = paramService.listParams();
         System.out.println(params.toString());
     }
 
     @Test
-    public void test23(){
+    public void test23() {
         /*List params = new ArrayList<Param>();
         Param param1 = new Param();
         Param param2 = new Param();
@@ -272,37 +270,64 @@ public class TestConfig {
     }
 
     @Test
-    public void test24(){
+    public void test24() {
         List<Param> params = paramService.listParamsById("086c65c0a17843e8a5375ded70f52b68");
         System.out.println(params.toString());
     }
 
     @Test
-    public void test25(){
-        PageInfo<Item> itemPageInfo = itemService.listItems(1,5);
+    public void test25() {
+        PageInfo<Item> itemPageInfo = itemService.listItems(1, 5);
         System.out.println(itemPageInfo.toString());
     }
 
     @Test
-    public void test26(){
+    public void test26() {
         PageInfo<Order> orderPageInfo = orderService.listOrders(1, 2);
         System.out.println(orderPageInfo);
     }
 
     @Test
-    public void test27(){
+    public void test27() {
         Order order = orderService.selectById("5e1c8f8a0e1540e09b85153bdaf36fb0");
         System.out.println(order.getStatus().next());
     }
 
     @Test
-    public void test28(){
-        orderService.updateStatus("cba4b9c63db54668a777617eed1ad37c","aluba");
+    public void test28() {
+        orderService.updateStatus("cba4b9c63db54668a777617eed1ad37c", "aluba");
     }
 
     @Test
-    public void test29(){
-        orderTrackMapper.insert(new OrderTrack("111","test"));
+    public void test29() {
+        itemService.saveOrUpdateItemContent(new ItemContent("60e054fdd0c74824bbbac46bf7d08603", null));
+    }
+
+    @Test
+    public void test30() {
+        String content = "<p><img src=\"http://otlht2gvo.bkt.clouddn.com/47497093002C81D6B508CD5B2FC08A8B3E799A4A689D66764F79E2B3FCE0750A\">" +
+                "<img src=\"http://otlht2gvo.bkt.clouddn.com/F664120E342672BF09DE7B1FDE48AB3376B69E4F26786CEB872394044E918CCF\">" +
+                "<img src=\"http://otlht2gvo.bkt.clouddn.com/354350D09E28152D1CB75EB5E582782064A075AAC478C304361172A473D6E63C\"></p>";
+        Pattern deletePattern = Pattern.compile("<img src=\"http://otlht2gvo.bkt.clouddn.com/(.*?)\">");
+        Matcher matcher = deletePattern.matcher(content);
+        while (matcher.find()){
+            System.out.println(matcher.group(1));
+        }
+    }
+
+    @Test
+    public void  test31(){
+        String content = "<p><img src=\"http://otlht2gvo.bkt.clouddn.com/DD3E989EA92BD5A13B1AAD26145191DEEDE59898D63270EFE779BBE9D4646D64\"><img\n" +
+                "        src=\"http://otlht2gvo.bkt.clouddn.com/EBC4793E49EEB182D8CA2D6BA51BB988DDA04412F10FD7F5FF99AA6B68B65644\"><img\n" +
+                "        src=\"http://otlht2gvo.bkt.clouddn.com/FDEC22393BA11146610B4DF8D664F46695D09FD685E82C0713BC751851B3ECB8\"><img\n" +
+                "        src=\"http://otlht2gvo.bkt.clouddn.com/434B84AD3787F14B80858478636CCB2A8D72B4BBC51A2EC50D62471DFFFAE33D\"></p>";
+        Pattern deletePattern = Pattern.compile("<img src=\"http://otlht2gvo.bkt.clouddn.com/(.*?)\">");
+        Matcher matcher = deletePattern.matcher(content);
+        ArrayList<String> deleteArray = new ArrayList<>();
+        while (matcher.find()){
+            deleteArray.add(matcher.group(1));
+        }
+        PictureUtil.getInstance().bucketDelete(deleteArray.toArray(new String[0]));
     }
 }
 

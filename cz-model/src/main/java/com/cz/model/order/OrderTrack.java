@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.FieldFill;
+import com.cz.enums.OrderStatus;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class OrderTrack implements Serializable {
     private String id;
     @TableField("order_id")
     private String orderId;
+    private OrderStatus status;
     @TableField("track_information")
     private String trackInformation;
     @TableField(value = "track_time",fill = FieldFill.INSERT_UPDATE)
@@ -27,11 +29,19 @@ public class OrderTrack implements Serializable {
 
     public OrderTrack(){}
 
-    public OrderTrack(String orderId, String trackInformation) {
+    public OrderTrack(String orderId, String trackInformation, OrderStatus status) {
         this.orderId = orderId;
         this.trackInformation = trackInformation;
+        this.status = status;
     }
 
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 
     public Date getTrackTime() {
         return trackTime;
@@ -70,6 +80,7 @@ public class OrderTrack implements Serializable {
         return "OrderTrack{" +
                 "id='" + id + '\'' +
                 ", orderId='" + orderId + '\'' +
+                ", status=" + status +
                 ", trackInformation='" + trackInformation + '\'' +
                 ", trackTime=" + trackTime +
                 '}';

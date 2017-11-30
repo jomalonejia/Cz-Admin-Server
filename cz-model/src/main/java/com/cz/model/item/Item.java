@@ -33,6 +33,7 @@ public class Item implements Serializable,Cloneable{
     private List<Param> params;
     private String describe;
     private Float discount;
+    private String content;
 
     public Float getDiscount() {
         return discount;
@@ -114,6 +115,14 @@ public class Item implements Serializable,Cloneable{
         this.describe = describe;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -127,6 +136,7 @@ public class Item implements Serializable,Cloneable{
                 ", params=" + params +
                 ", describe='" + describe + '\'' +
                 ", discount=" + discount +
+                ", content='" + content + '\'' +
                 '}';
     }
 

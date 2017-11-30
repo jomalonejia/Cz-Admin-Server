@@ -29,6 +29,7 @@
         <collection property="orderTracks" column="orderTracks" ofType="com.cz.model.order.OrderTrack" javaType="ArrayList">
             <result property="trackInformation" column="track_information"></result>
             <result property="trackTime" column="track_time"></result>
+            <result property="status" column="track_status"/>
         </collection>
     </resultMap>
 
@@ -57,7 +58,8 @@
         sys_order.shipping_number,
         sys_order.order_message,
         sys_order_track.track_information,
-        sys_order_track.track_time
+        sys_order_track.track_time,
+        sys_order_track.status track_status
        FROM  sys_order sys_order
        LEFT JOIN sys_order_track sys_order_track
        ON sys_order.id = sys_order_track.order_id

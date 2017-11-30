@@ -8,6 +8,7 @@ import com.qiniu.http.Response;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
+import com.qiniu.storage.model.BatchStatus;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 
@@ -106,6 +107,7 @@ public class PictureUtil {
         return picHash;
     }
 
+
     private String getUpToken() {
         return auth.uploadToken(bucket, null, 3600, new StringMap().put("insertOnly", 1));
     }
@@ -142,8 +144,27 @@ public class PictureUtil {
         return DatatypeConverter.printHexBinary(hash);
     }
 
-    public static void main(String[] args) {
-        System.out.println(new Date().toString());
+
+    public void bucketDelete(String[] imageArray){
+        BucketManager bucketManager = new BucketManager(auth, cfg);
+        try {
+            BucketManager.BatchOperations batchOperations = new BucketManager.BatchOperations();
+            batchOperations.addDeleteOp(bucket, imageArray);
+            Response response = bucketManager.batch(batchOperations);
+            /*BatchStatus[] batchStatusList = response.jsonToObject(BatchStatus[].class);
+            for (int i = 0; i < imageArray.length; i++) {
+                BatchStatus status = batchStatusList[i];
+                String key = imageArray[i];
+                System.out.print(key + "\t");
+                if (status.code == 200) {
+                    System.out.println("delete success");
+                } else {
+                    System.out.println(status.data.error);
+                }
+            }*/
+        } catch (QiniuException ex) {
+            System.err.println(ex.response.toString());
+        }
     }
 
 }

@@ -10,7 +10,7 @@ import com.github.pagehelper.PageInfo;
  * Created by jomalone_jia on 2017/6/20.
  */
 public interface IItemService extends IService<Item>{
-    String  saveOrUpdateItemContent(ItemContent itemContent);
+    String saveOrUpdateItemContent(ItemContent itemContent);
     PageInfo<Item> listItems(int pageNum,int pageSize);
     PageInfo<Item> listItemsByCategory(int categoryId,int pageNum);
     Integer updateImageById(String itemId, String imageUrl);
