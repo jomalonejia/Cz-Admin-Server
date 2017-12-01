@@ -83,7 +83,7 @@
     </delete>
 
     <update id="deleteItemContentById">
-       update sys_item SET content = '' WHERE id = #{itemId}
+       update sys_item SET content = NULL WHERE id = #{itemId}
     </update>
 
 </mapper>

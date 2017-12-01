@@ -45,8 +45,8 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
 
     @Override
     @Transactional
-    public String saveOrUpdateItemContent(ItemContent itemContent) {
-        String content = itemMapper.getItemContentById(itemContent.getItemId());
+    public void saveOrUpdateItemContent(ItemContent itemContent) {
+        /*String content = itemMapper.getItemContentById(itemContent.getItemId());
         if(StringUtils.isNotEmpty(content)){
             Pattern deletePattern = Pattern.compile("<img src=\"http://otlht2gvo.bkt.clouddn.com/(.*?)\">");
             Matcher matcher = deletePattern.matcher(content);
@@ -65,9 +65,11 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
             String imageTag = "<img src=\"" + imageUrl + "\">";
             m.appendReplacement(sb, imageTag);
         }
-        m.appendTail(sb);
-        itemMapper.updateContentById(new ItemContent(itemContent.getItemId(),sb.toString()));
-        return sb.toString();
+        m.appendTail(sb);*/
+        //itemMapper.updateContentById(new ItemContent(itemContent.getItemId(),sb.toString()));
+        Item item = itemMapper.selectById(itemContent.getItemId());
+        item.setContent(itemContent.getContent());
+        itemMapper.updateById(item);
     }
 
     @Override

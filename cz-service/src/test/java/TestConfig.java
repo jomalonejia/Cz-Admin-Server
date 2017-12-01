@@ -3,6 +3,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.cz.api.service.*;
 import com.cz.common.util.qiniu.PictureUtil;
 import com.cz.dto.item.ItemContent;
+import com.cz.mapper.ItemMapper;
 import com.cz.model.category.Category;
 import com.cz.model.item.Item;
 import com.cz.model.order.Order;
@@ -41,6 +42,8 @@ public class TestConfig {
     private IParamService paramService;
     @Autowired
     private IOrderService orderService;
+    @Autowired
+    private ItemMapper itemMapper;
 
     @Test
     public void test1() {
@@ -328,6 +331,11 @@ public class TestConfig {
             deleteArray.add(matcher.group(1));
         }
         PictureUtil.getInstance().bucketDelete(deleteArray.toArray(new String[0]));
+    }
+
+    @Test
+    public void test32(){
+        itemMapper.deleteItemContentById("60e054fdd0c74824bbbac46bf7d08603");
     }
 }
 

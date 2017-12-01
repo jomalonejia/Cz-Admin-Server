@@ -147,7 +147,6 @@ public class ItemController {
     @ApiOperation(value = "item content update")
     public ResponseEntity<?> addContent(@RequestBody ItemContent itemContent) throws IOException, NoSuchAlgorithmException {
         try {
-            _log.info(itemContent.toString());
             itemService.saveOrUpdateItemContent(itemContent);
             return ResponseEntity.ok().body("update content success");
         } catch (Exception e) {
