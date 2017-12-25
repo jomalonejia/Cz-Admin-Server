@@ -14,3 +14,4 @@ public interface JwtConstant {
      String AUDIENCE_UNKNOWN = "unknown";
      String AUDIENCE_WEB = "web";
      String AUDIENCE_MOBILE = "mobile";
+}
