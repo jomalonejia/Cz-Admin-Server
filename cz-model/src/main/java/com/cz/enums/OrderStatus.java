@@ -12,9 +12,10 @@ public enum OrderStatus {
     SHIPPING(4),
     DELIVERING(5),
     DELIVERED(6),
-    AWAITING_RETURNING(7),
-    RETURNING(8),
-    RETURNED(9);
+    AWAITING_COMMENT(7),
+    AWAITING_RETURNING(11),
+    RETURNING(12),
+    RETURNED(13);
 
     private int status;
     private static OrderStatus[] statuses = values();
@@ -28,20 +29,21 @@ public enum OrderStatus {
     }
 
     public OrderStatus next(){
-        if(5 == this.ordinal() || 8 == this.ordinal()){
+        if(7 == this.ordinal()){
             return statuses[1];
-        }else if(0 == this.ordinal() || 1 == this.ordinal()){
+        }else if(0 == this.ordinal() || 1 == this.ordinal() || 13 == this.ordinal()){
             return statuses[this.ordinal()];
         }else {
             return statuses[(this.ordinal() + 1) % statuses.length];
         }
     }
 
+
     public OrderStatus cancel(){
         return statuses[0];
     }
 
     public OrderStatus prepareReturning(){
-        return statuses[6];
+        return statuses[11];
     }
 }
