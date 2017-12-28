@@ -17,4 +17,5 @@ public interface IItemService extends IService<Item>{
     void insertItem(Item item);
     void updateItem(Item item);
     Integer deleteItemWithParamById(String itemId);
+    void test();
 }

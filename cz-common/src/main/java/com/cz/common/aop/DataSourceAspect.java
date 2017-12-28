@@ -1,4 +1,4 @@
-package com.cz.common.aspect;
+package com.cz.common.aop;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

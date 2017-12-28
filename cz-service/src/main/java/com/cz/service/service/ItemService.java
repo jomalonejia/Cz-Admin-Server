@@ -2,7 +2,6 @@ package com.cz.service.service;
 
 import com.cz.api.service.IItemService;
 import com.cz.common.util.constant.QiniuConstant;
-import com.cz.common.util.qiniu.PictureUtil;
 import com.cz.common.base.BaseServiceImpl;
 import com.cz.mapper.ItemImagesMapper;
 import com.cz.mapper.ItemMapper;
@@ -11,6 +10,8 @@ import com.cz.model.item.Item;
 import com.cz.dto.item.ItemContent;
 import com.cz.model.item.ItemImages;
 import com.cz.model.param.Param;
+import com.cz.service.annotation.CzRedisCache;
+import com.cz.service.annotation.CzRedisEvict;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -21,8 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**
@@ -42,6 +41,7 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
     private ParamMapper paramMapper;
 
     @Override
+    @CzRedisEvict(type = PageInfo.class)
     @Transactional
     public void saveOrUpdateItemContent(ItemContent itemContent) {
         /*String content = itemMapper.getItemContentById(itemContent.getItemId());
@@ -71,6 +71,7 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
     }
 
     @Override
+    @CzRedisCache(type = PageInfo.class)
     public PageInfo<Item> listItems(int pageNum,int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Item> items = itemMapper.listItems();
@@ -79,6 +80,7 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
     }
 
     @Override
+    @CzRedisCache(type = PageInfo.class)
     public PageInfo<Item> listItemsByCategory(int categoryId, int pageNum) {
         PageHelper.startPage(pageNum, 5);
         List<Item> items = itemMapper.listItemsByCategory(categoryId);
@@ -88,12 +90,14 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
 
 
     @Override
+    @CzRedisEvict(type = PageInfo.class)
     @Transactional
     public Integer updateImageById(String itemId, String imageUrl) {
         return itemMapper.updateImageById(itemId, imageUrl);
     }
 
     @Override
+    @CzRedisEvict(type = PageInfo.class)
     @Transactional
     public void insertItem(Item item) {
         item.setImage(QiniuConstant.QINIU_DEFAULT_URL);
@@ -111,6 +115,7 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
     }
 
     @Override
+    @CzRedisEvict(type = PageInfo.class)
     public void updateItem(Item item) {
         itemMapper.updateById(item);
         paramMapper.deleteParamsById(item.getId());
@@ -120,12 +125,14 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
     }
 
     @Override
+    @CzRedisEvict(type = PageInfo.class)
     public Integer deleteItemWithParamById(String itemId) {
         return itemMapper.deleteItemWithParamById(itemId);
     }
 
-    public Integer updateItemImages(String itemId, Integer position, String imageUrl) {
-        return null;
+    @Override
+    @CzRedisEvict(type = PageInfo.class)
+    public void test(){
+        System.out.println("aa");
     }
-
 }

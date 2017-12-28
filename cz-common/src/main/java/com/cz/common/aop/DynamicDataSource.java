@@ -1,4 +1,4 @@
-package com.cz.common.aspect;
+package com.cz.common.aop;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;

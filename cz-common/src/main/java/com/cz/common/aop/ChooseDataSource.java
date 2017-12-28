@@ -1,4 +1,4 @@
-package com.cz.common.aspect;
+package com.cz.common.aop;
 
 /**
  * Created by jomalone_jia on 2017/6/19.

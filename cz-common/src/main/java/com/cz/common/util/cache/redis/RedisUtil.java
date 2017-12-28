@@ -13,8 +13,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * Created by jomalone_jia on 2017/6/27.
  */
 public class RedisUtil implements ApplicationContextAware{
-    private RedisTemplate redisTemplate;
-    private ApplicationContext context;
+    private static RedisTemplate redisTemplate;
+    private static ApplicationContext context;
 
     private static ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
@@ -24,7 +24,7 @@ public class RedisUtil implements ApplicationContextAware{
         this.context = applicationContext;
     }
 
-    public  RedisTemplate<Serializable,Serializable> getRedis(){
+    public static   RedisTemplate<Serializable,Serializable> getRedis(){
         if(redisTemplate == null){
             synchronized (RedisUtil.class){
                 if(redisTemplate == null){

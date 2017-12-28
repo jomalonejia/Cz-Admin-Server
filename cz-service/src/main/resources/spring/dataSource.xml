@@ -66,7 +66,7 @@
         <property name="timeBetweenEvictionRunsMillis" value="${db.timeBetweenEvictionRunsMillis}" />
     </bean>
 
-    <bean id="dataSource" class="com.cz.common.aspect.DynamicDataSource">
+    <bean id="dataSource" class="com.cz.common.aop.DynamicDataSource">
         <property name="targetDataSources">
             <map key-type="java.lang.String" value-type="javax.sql.DataSource">
                 <entry key="read" value-ref="readDataSource"></entry>
@@ -82,5 +82,5 @@
         </property>
     </bean>
 
-    <bean class="com.cz.common.aspect.DataSourceAspect"></bean>
+    <bean class="com.cz.common.aop.DataSourceAspect"></bean>
 </beans>

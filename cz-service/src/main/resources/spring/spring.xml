@@ -36,7 +36,6 @@
         <!--<context:exclude-filter type="annotation" expression="org.springframework.cache.annotation.EnableCaching" />-->
     </context:component-scan>
 
-
     <import resource="classpath:spring/dataSource.xml"/>
     <import resource="classpath:spring/mybatis.xml" />
     <import resource="classpath:spring/dubbo-provider.xml"/>
