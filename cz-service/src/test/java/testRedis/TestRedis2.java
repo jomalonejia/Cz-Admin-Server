@@ -19,6 +19,6 @@ public class TestRedis2 {
     @Test
     public void test1(){
         RedisUtil util = new RedisUtil();
-        util.get("laowang");
+        //util.get("laowang");
     }
 }

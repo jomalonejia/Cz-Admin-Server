@@ -2,7 +2,7 @@ package com.cz.service.util;
 
 import com.cz.model.personal.User;
 import com.cz.dto.user.DtoUser;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Date;

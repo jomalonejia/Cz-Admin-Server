@@ -1,13 +1,13 @@
 package com.cz.common.util.cache.redis;
 
-import com.cz.common.util.constant.CacheConstant;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by jomalone_jia on 2017/6/27.
@@ -15,6 +15,9 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil implements ApplicationContextAware{
     private RedisTemplate redisTemplate;
     private ApplicationContext context;
+
+    private static ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -32,7 +35,29 @@ public class RedisUtil implements ApplicationContextAware{
         return redisTemplate;
     }
 
-    public synchronized  Object get(String key){
+
+
+    public Object get(String index,String key){
+        HashOperations hash = redisTemplate.opsForHash();
+        lock.readLock().lock();
+        try {
+            return hash.get(index,key);
+        }finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public void set(String index,String key,Object value){
+        HashOperations hash = redisTemplate.opsForHash();
+        lock.writeLock().lock();
+        try {
+            hash.put(index,key,value);
+        }finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+   /* public synchronized  Object get(String key){
         expire(key);
         return getRedis().boundValueOps(key).get();
     }
@@ -43,7 +68,7 @@ public class RedisUtil implements ApplicationContextAware{
 
     public synchronized  Boolean expire(String key,int seconds){
         return getRedis().expire(key,seconds, TimeUnit.SECONDS);
-    }
+    }*/
 
 
 }

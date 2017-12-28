@@ -11,5 +11,11 @@
 
     <artifactId>cz-model</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -1,6 +1,5 @@
 package com.cz.common.base;
 
-import com.baomidou.mybatisplus.plugins.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ public class BaseController {
 
     protected Logger _log = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
+    /*@Autowired
     protected HttpServletRequest request;
 
     @Autowired
@@ -43,5 +42,5 @@ public class BaseController {
             _index = Integer.parseInt(request.getParameter("_index"));
         }
         return new Page<T>(_index, _size);
-    }
+    }*/
 }
