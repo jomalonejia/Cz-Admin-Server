@@ -51,9 +51,7 @@ public class CategoryController {
     @PostMapping("/edit")
     public ResponseEntity<?> edit(@RequestBody Category category){
         try {
-            EntityWrapper<Category> ew = new EntityWrapper<Category>();
-            ew.eq("id", category.getId());
-            categoryService.update(category,ew);
+            categoryService.updateCategory(category);
             return ResponseEntity.ok().body("success");
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,7 +74,7 @@ public class CategoryController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         try {
-            categoryService.deleteById(id);
+            categoryService.deleteCategoryById(id);
             return ResponseEntity.ok().body("delete success");
         } catch (Exception e) {
             e.printStackTrace();

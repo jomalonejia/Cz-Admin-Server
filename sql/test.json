@@ -1,0 +1,49 @@
+[
+  {
+    "id": 30,
+    "name": "书籍",
+    "parentId": 3
+  },
+  {
+    "id": 21,
+    "name": "卫衣",
+    "parentId": 2
+  },
+  {
+    "id": 20,
+    "name": "T恤",
+    "parentId": 2
+  },
+  {
+    "id": 12,
+    "name": "耳机",
+    "parentId": 1
+  },
+  {
+    "id": 11,
+    "name": "充电器",
+    "parentId": 1
+  },
+  {
+    "id": 10,
+    "name": "手机",
+    "parentId": 1
+  },
+  {
+    "id": 3,
+    "name": "文化音响",
+    "parentId": 0
+  },
+  {
+    "id": 2,
+    "name": "服装",
+    "parentId": 0
+  },
+  {
+    "id": 1,
+    "name": "电子产品",
+    "parentId": 0
+  }
+]
+//com.cz.api.service.ICategoryService, method: listCategoriesDesc, exception: com.alibaba.fastjson.JSONException: exepct '[', but {, pos 2, json: [{"id": 30, "name": "书籍", "parentId": 3}, {"id": 21, "name": "卫衣", "parentId": 2}, {"id": 20, "name": "T恤", "parentId": 2}, {"id": 12, "name": "耳机", "parentId": 1}, {"id": 11, "name": "充电器", "parentId": 1},{"id": 10, "name": "手机", "parentId": 1}, {"id": 3, "name": "文化音响", "parentId": 0}, {"id": 2, "name": "服装", "parentId": 0}, {"id": 1, "name": "电子产品", "parentId": 0}], dubbo version: 2.5.3, current host: 127.0.0.1
+//com.alibaba.fastjson.JSONException: exepct '[', but {, pos 2, json : [{"id":30,"name":"书籍","parentId":3},{"id":21,"name":"卫衣","parentId":2},{"id":20,"name":"T恤","parentId":2},{"id":12,"name":"耳机","parentId":1},{"id":11,"name":"充电器","parentId":1},{"id":10,"name":"手机","parentId":1},{"id":3,"name":"文化音响","parentId":0},{"id":2,"name":"服装","parentId":0},{"id":1,"name":"电子产品","parentId":0}]

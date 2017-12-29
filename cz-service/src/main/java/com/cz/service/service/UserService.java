@@ -12,6 +12,8 @@ import com.cz.model.personal.Role;
 import com.cz.model.personal.User;
 import com.cz.model.personal.UserRole;
 import com.cz.dto.user.DtoUser;
+import com.cz.service.annotation.CzRedisCache;
+import com.cz.service.annotation.CzRedisEvict;
 import com.cz.service.util.CastUtil;
 import com.cz.service.util.UserConstants;
 import org.slf4j.Logger;
@@ -45,7 +47,7 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
 
 
     @Override
-    @Cacheable(value = CacheConstant.CACHE_NAMESPACE + "loadUserByUsername")
+    @CzRedisCache(type = User.class)
     public User loadUserByUsername(String username) {
         try {
             User user = userMapper.loadUserByUsername(username);
@@ -56,7 +58,7 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
         return null;
     }
 
-    @Cacheable(value = CacheConstant.CACHE_NAMESPACE + "getUserByUsername")
+    @CzRedisCache(type = User.class)
     public User getUserByUsername(String username) {
         try {
             User userEntity = new User();
@@ -70,11 +72,7 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     }
 
     @Override
-    @CacheEvict(value = {
-            CacheConstant.CACHE_NAMESPACE + "loadUserByUsername",
-            CacheConstant.CACHE_NAMESPACE + "getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE + "listUserWithRole",
-            CacheConstant.CACHE_NAMESPACE + "listRelatedUser"})
+    @CzRedisEvict
     public Integer updateUserSettings(DtoUser dtoUser) {
         try {
             EntityWrapper<User> ew = new EntityWrapper<User>();
@@ -89,11 +87,7 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     }
 
     @Override
-    @CacheEvict(value = {
-            CacheConstant.CACHE_NAMESPACE + "loadUserByUsername",
-            CacheConstant.CACHE_NAMESPACE + "getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE + "listUserWithRole",
-            CacheConstant.CACHE_NAMESPACE + "listRelatedUser"})
+    @CzRedisEvict
     public Integer updateUserProfile(String profileName, String username) {
         try {
             EntityWrapper<User> ew = new EntityWrapper<User>();
@@ -109,12 +103,8 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     }
 
     @Override
+    @CzRedisEvict
     @Transactional
-    @CacheEvict(value = {
-            CacheConstant.CACHE_NAMESPACE + "loadUserByUsername",
-            CacheConstant.CACHE_NAMESPACE + "getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE + "listUserWithRole",
-            CacheConstant.CACHE_NAMESPACE + "listRelatedUser"})
     public Boolean updateUserWithRole(User user) {
 
         try {
@@ -142,7 +132,7 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     }
 
     @Override
-    @Cacheable(value = CacheConstant.CACHE_NAMESPACE + "listUserWithRole")
+    @CzRedisCache(type = User.class)
     public List<User> listUserWithRole() {
         try {
             List<User> users = userMapper.listAllUser();
@@ -155,6 +145,7 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
 
 
     @Override
+    @CzRedisCache(type = Page.class)
     public Page listUserWithRole(Page<User> page) {
         try {
             page.setRecords(userMapper.listAllUser(page));
@@ -166,12 +157,8 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     }
 
     @Override
+    @CzRedisEvict
     @Transactional
-    @CacheEvict(value = {
-            CacheConstant.CACHE_NAMESPACE + "loadUserByUsername",
-            CacheConstant.CACHE_NAMESPACE + "getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE + "listUserWithRole",
-            CacheConstant.CACHE_NAMESPACE + "listRelatedUser"})
     public Integer deleteUserWithRole(Long id) {
         try {
             Integer flag = userMapper.deleteById(id);
@@ -183,12 +170,8 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     }
 
     @Override
+    @CzRedisEvict
     @Transactional
-    @CacheEvict(value = {
-            CacheConstant.CACHE_NAMESPACE + "loadUserByUsername",
-            CacheConstant.CACHE_NAMESPACE + "getUserByUsername",
-            CacheConstant.CACHE_NAMESPACE + "listUserWithRole",
-            CacheConstant.CACHE_NAMESPACE + "listRelatedUser"})
     public User registerUser(DtoUser dtoUser) {
         try {
             User user = CastUtil.castDtoUserToUser(dtoUser);
@@ -205,6 +188,7 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     }
 
     @Override
+    @CzRedisCache(type = Boolean.class)
     public Boolean isUserExsit(String username) {
         EntityWrapper<User> ew = new EntityWrapper<User>();
         ew.where("username={0}", username);
@@ -212,7 +196,7 @@ public class UserService extends BaseServiceImpl<UserMapper,User> implements IUs
     }
 
     @Override
-    @Cacheable(value = CacheConstant.CACHE_NAMESPACE + "listRelatedUser")
+    @CzRedisCache(type = User.class)
     public List<User> listRelatedUsers(Long userId) {
         try {
             List<Long> ids = userRelationshipMapper.listRelatedId(userId);

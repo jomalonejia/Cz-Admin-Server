@@ -39,57 +39,42 @@ public class RedisCacheAspect {
 
     @Around(value = "pointcut(czRedisCache)")
     public Object readCache(ProceedingJoinPoint point,CzRedisCache czRedisCache) throws Throwable{
-        // 得到类名、方法名和参数
         String clazzName = point.getTarget().getClass().getName();
         String methodName = point.getSignature().getName();
         Object[] args = point.getArgs();
 
         String key = genKey(methodName, args);
         if (_log.isDebugEnabled()) {
-            _log.debug("生成key:{}", key);
+            _log.debug("generator key:{}", key);
         }
         MethodSignature methodSignature = (MethodSignature) point.getSignature();
         Method method = methodSignature.getMethod();
 
-        _log.info(method.getName());
-        // 得到被代理的方法上的注解
 
         Class objectType = method.getAnnotation(CzRedisCache.class).type();
 
         String index = PREFIX + clazzName;
 
         String value = (String) RedisUtil.getRedis().opsForHash().get(index, key);
-        // result是方法的最终返回结果
         Object result = null;
         if (null == value) {
-            // 缓存未命中
             if (_log.isDebugEnabled()) {
-                _log.debug("缓存未命中");
+                _log.debug("get null redis cache");
             }
 
-            // 调用数据库查询方法
             result = point.proceed(args);
 
-            // 序列化查询结果
             String json = serialize(result);
 
-            // 序列化结果放入缓存
             RedisUtil.getRedis().opsForHash().put(index, key, json);
         } else {
-            // 缓存命中
             if (_log.isDebugEnabled()) {
-                _log.debug("缓存命中, value = {}", value);
+                _log.debug("get redis cache, value = {}", value);
             }
 
-            // 得到被代理方法的返回值类型
             Class returnType = ((MethodSignature) point.getSignature()).getReturnType();
 
-            // 反序列化从缓存中拿到的json
             result = deserialize(value, returnType, objectType);
-
-            if (_log.isDebugEnabled()) {
-                _log.debug("反序列化结果 = {}", result);
-            }
         }
 
         return result;
@@ -100,16 +85,27 @@ public class RedisCacheAspect {
     public Object evictCache(ProceedingJoinPoint point,CzRedisEvict czRedisEvict) throws Throwable {
 
         String clazzName = point.getTarget().getClass().getName();
-        // 得到被代理的方法
+
+        MethodSignature methodSignature = (MethodSignature) point.getSignature();
+        Method method = methodSignature.getMethod();
+
+
+        String[] evicts = method.getAnnotation(CzRedisEvict.class).evicts();
 
         String index = PREFIX + clazzName;
 
-        if (_log.isDebugEnabled()) {
-            _log.debug("清空缓存:{}", index);
+        if (evicts.length > 0){
+            for (String evict : evicts) {
+                RedisUtil.getRedis().opsForHash().delete(index,evict);
+            }
+        }else{
+            if (_log.isDebugEnabled()) {
+                _log.debug("clear redis cache:{}", index);
+            }
+
+            RedisUtil.getRedis().delete(index);
         }
 
-        // 清除对应缓存
-        RedisUtil.getRedis().delete(index);
 
         return point.proceed(point.getArgs());
     }
@@ -132,12 +128,10 @@ public class RedisCacheAspect {
     }
 
     protected Object deserialize(String jsonString, Class clazz, Class modelType) {
-        // 序列化结果应该是List对象
         if (clazz.isAssignableFrom(List.class)) {
             return JSON.parseArray(jsonString, modelType);
         }
 
-        // 序列化结果是普通对象
         return JSON.parseObject(jsonString, clazz);
     }
 }

@@ -1,5 +1,6 @@
 package com.cz.service.service;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cz.api.service.ICategoryService;
 import com.cz.common.base.BaseServiceImpl;
 import com.cz.mapper.CategoryMapper;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,48 +32,52 @@ public class CategoryService extends BaseServiceImpl<CategoryMapper, Category> i
     private CategoryMapper categoryMapper;
 
     @Override
-    @CzRedisCache(type = List.class)
-    //@Cacheable(value = CacheConstant.CACHE_NAMESPACE + "listCategories")
+    @CzRedisCache(type = Category.class)
     public List<Category> listCategories() {
         return categoryMapper.listCategories();
     }
 
     @Override
-    @CzRedisCache(type = List.class)
-    //@Cacheable(value = CacheConstant.CACHE_NAMESPACE + "listCategoriesDesc")
+    @CzRedisCache(type = Category.class)
     public List<Category> listCategoriesDesc() {
 
         return categoryMapper.listCategoriesDesc();
     }
 
     @Override
-    @CzRedisCache(type = List.class)
-    //@Cacheable(value = CacheConstant.CACHE_NAMESPACE + "listParentCategories")
+    @CzRedisCache(type = Category.class)
     public List<Category> listParentCategories() {
         return categoryMapper.listParentCategories();
     }
 
     @Override
-    @CzRedisCache(type = List.class)
-    //@Cacheable(value = CacheConstant.CACHE_NAMESPACE + "listChildCategories")
+    @CzRedisCache(type = Category.class)
     public List<Category> listChildCategories(Long parentCategoryId) {
         return categoryMapper.listChildCategories(parentCategoryId);
     }
 
     @Override
-    @CzRedisEvict(type = List.class)
-   /* @CacheEvict(value = {
-            CacheConstant.CACHE_NAMESPACE + "listCategories",
-            CacheConstant.CACHE_NAMESPACE + "listCategoriesDesc",
-            CacheConstant.CACHE_NAMESPACE + "listChildCategories",
-            CacheConstant.CACHE_NAMESPACE + "listTreeCategories"})*/
+    @CzRedisEvict
     public int insertCategory(Category category) {
         return categoryMapper.insertCategory(category);
     }
 
     @Override
-    @CzRedisCache(type = List.class)
-    /*@Cacheable(value = CacheConstant.CACHE_NAMESPACE + "listTreeCategories")*/
+    @CzRedisEvict
+    public int updateCategory(Category category) {
+        EntityWrapper<Category> ew = new EntityWrapper<Category>();
+        ew.eq("id", category.getId());
+        return categoryMapper.update(category,ew);
+    }
+
+    @Override
+    @CzRedisEvict
+    public int deleteCategoryById(Serializable id) {
+        return categoryMapper.deleteById(id);
+    }
+
+    @Override
+    @CzRedisCache(type = CategoryDto.class)
     public List<CategoryDto> listTreeCategories() {
 
         //this method would be modified later ............

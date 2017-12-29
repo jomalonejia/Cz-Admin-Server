@@ -1,6 +1,5 @@
 package com.cz.web.controller;
 
-import com.cz.api.service.IItemImagesService;
 import com.cz.api.service.IItemService;
 import com.cz.api.service.IParamService;
 import com.cz.common.util.qiniu.PictureUtil;
@@ -33,8 +32,6 @@ public class ItemController {
     private IItemService itemService;
     @Autowired
     private IParamService paramService;
-    @Autowired
-    private IItemImagesService itemImagesService;
 
     @GetMapping("/list")
     @ApiOperation(value = "item list")
@@ -122,7 +119,7 @@ public class ItemController {
     public Object selectItemByCategory(@PathVariable("itemId") String itemId){
         try {
             _log.info(itemId);
-            return itemImagesService.selectImages(itemId);
+            return itemService.selectImages(itemId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,7 +132,7 @@ public class ItemController {
         String imageUrl = null;
         try {
             imageUrl = PictureUtil.getInstance().uploadPicture(file);
-            itemImagesService.updateImages(itemId, imageUrl, position);
+            itemService.updateImages(itemId, imageUrl, position);
             return imageUrl;
         } catch (Exception e) {
             e.printStackTrace();

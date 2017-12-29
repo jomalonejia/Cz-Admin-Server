@@ -1,4 +1,6 @@
+import com.cz.api.service.ICategoryService;
 import com.cz.api.service.IItemService;
+import com.cz.dto.category.CategoryDto;
 import com.cz.model.item.Item;
 import com.github.pagehelper.PageInfo;
 import org.junit.Test;
@@ -6,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * Created by jomalone_jia on 2017/12/28.
@@ -16,6 +20,8 @@ public class TestAop {
 
     @Autowired
     private IItemService itemService;
+    @Autowired
+    private ICategoryService categoryService;
 
     @Test
     public void test1(){
@@ -27,6 +33,12 @@ public class TestAop {
     @Test
     public void test2(){
         itemService.test();
+    }
+
+    @Test
+    public void test3(){
+        List<CategoryDto> objects = categoryService.listTreeCategories();
+        System.out.println(objects.toString());
     }
 
 }

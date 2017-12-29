@@ -7,6 +7,8 @@ import com.cz.mapper.OrderMapper;
 import com.cz.mapper.OrderTrackMapper;
 import com.cz.model.order.Order;
 import com.cz.model.order.OrderTrack;
+import com.cz.service.annotation.CzRedisCache;
+import com.cz.service.annotation.CzRedisEvict;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +30,14 @@ public class OrderService extends BaseServiceImpl<OrderMapper, Order> implements
     private OrderTrackMapper orderTrackMapper;
 
     @Override
+    @CzRedisCache(type = PageInfo.class)
     public PageInfo<Order> listOrders(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         return new PageInfo<>(orderMapper.listOrders());
     }
 
     @Override
+    @CzRedisEvict
     @Transactional
     public void updateStatus(String orderId,String trackInformation) {
         Order order = orderMapper.selectById(orderId);

@@ -62,11 +62,6 @@ public class UserController extends BaseController implements ApplicationContext
         this.context = applicationContext;
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> test(HttpServletResponse response){
-
-        return ResponseEntity.ok(new TokenObject("aluba"));
-    }
 
     @PostMapping(value = "/login" )
     @ApiOperation(value = "user login")
@@ -92,13 +87,18 @@ public class UserController extends BaseController implements ApplicationContext
     @GetMapping("/logout")
     @ApiOperation(value = "user logout")
     public Object logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth != null){
-            new SecurityContextLogoutHandler().logout(request,response,auth);
-            return ResponseEntity.ok("logout success");
-        }else{
-            return ResponseEntity.ok("you are not login");
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if(auth != null){
+                new SecurityContextLogoutHandler().logout(request,response,auth);
+                return ResponseEntity.ok("logout success");
+            }else{
+                return ResponseEntity.ok("you are not login");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(value = "/register" )
@@ -125,17 +125,27 @@ public class UserController extends BaseController implements ApplicationContext
     @GetMapping("/getSettings")
     @ApiOperation(value = "get user settings")
     public ResponseEntity<?> getSettings(@RequestParam(value = "username",required = true) String username,HttpServletRequest request){
-        User user = userService.getUserByUsername(username);
-        DtoUser dtoUser = new DtoUser();
-        dtoUser.setUsername(user.getUsername());
-        return ResponseEntity.ok(dtoUser);
+        try {
+            User user = userService.getUserByUsername(username);
+            DtoUser dtoUser = new DtoUser();
+            dtoUser.setUsername(user.getUsername());
+            return ResponseEntity.ok(dtoUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/setSettings")
     @ApiOperation(value = "update user settings")
     public ResponseEntity<?> updateSettings(@RequestBody DtoUser dtoUseruser) {
-        Integer flag = userService.updateUserSettings(dtoUseruser);
-        return ResponseEntity.ok(flag);
+        try {
+            Integer flag = userService.updateUserSettings(dtoUseruser);
+            return ResponseEntity.ok(flag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
 
@@ -187,26 +197,43 @@ public class UserController extends BaseController implements ApplicationContext
     @PostMapping("/updateUser")
     @ApiOperation(value = "update user")
     public ResponseEntity<?> updateUser(@RequestBody User user) {
-        Boolean success = userService.updateUserWithRole(user);
-        if(success){
-            return ResponseEntity.ok("UpdateUserWithRole Success");
+
+        try {
+            Boolean success = userService.updateUserWithRole(user);
+            if(success){
+                return ResponseEntity.ok("UpdateUserWithRole Success");
+            }
+            else{
+                return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        else{
-            return new ResponseEntity(HttpStatus.SERVICE_UNAVAILABLE);
-        }
+        return ResponseEntity.badRequest().body("Update User Failed");
     }
 
     @DeleteMapping("/deleteUser")
     @ApiOperation(value = "update user")
     public ResponseEntity<?> deleteUser(@RequestParam  Long id) {
-        return ResponseEntity.ok(userService.deleteUserWithRole(id));
+        try {
+            userService.deleteUserWithRole(id);
+            return ResponseEntity.ok("Delete User Success");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("Delete User Failed");
     }
 
     @GetMapping("/listRelatedUsers")
     @ApiOperation(value = "list related user")
     public ResponseEntity<?> listRelatedUsers(@RequestParam  String userId) {
-        _log.info(userService.listRelatedUsers(Long.parseLong(userId)).toString());
-        return ResponseEntity.ok(userService.listRelatedUsers(Long.parseLong(userId)));
+        try {
+            List<User> users = userService.listRelatedUsers(Long.parseLong(userId));
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("List User Failed");
     }
 
 }

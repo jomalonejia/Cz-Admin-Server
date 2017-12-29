@@ -1,5 +1,6 @@
 package com.cz.service.service;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cz.api.service.IItemService;
 import com.cz.common.util.constant.QiniuConstant;
 import com.cz.common.base.BaseServiceImpl;
@@ -41,7 +42,7 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
     private ParamMapper paramMapper;
 
     @Override
-    @CzRedisEvict(type = PageInfo.class)
+    @CzRedisEvict
     @Transactional
     public void saveOrUpdateItemContent(ItemContent itemContent) {
         /*String content = itemMapper.getItemContentById(itemContent.getItemId());
@@ -90,14 +91,14 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
 
 
     @Override
-    @CzRedisEvict(type = PageInfo.class)
+    @CzRedisEvict
     @Transactional
     public Integer updateImageById(String itemId, String imageUrl) {
         return itemMapper.updateImageById(itemId, imageUrl);
     }
 
     @Override
-    @CzRedisEvict(type = PageInfo.class)
+    @CzRedisEvict
     @Transactional
     public void insertItem(Item item) {
         item.setImage(QiniuConstant.QINIU_DEFAULT_URL);
@@ -115,7 +116,7 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
     }
 
     @Override
-    @CzRedisEvict(type = PageInfo.class)
+    @CzRedisEvict
     public void updateItem(Item item) {
         itemMapper.updateById(item);
         paramMapper.deleteParamsById(item.getId());
@@ -125,13 +126,25 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
     }
 
     @Override
-    @CzRedisEvict(type = PageInfo.class)
+    @CzRedisEvict
     public Integer deleteItemWithParamById(String itemId) {
         return itemMapper.deleteItemWithParamById(itemId);
     }
 
     @Override
-    @CzRedisEvict(type = PageInfo.class)
+    public List<ItemImages> selectImages(String itemId) {
+        EntityWrapper<ItemImages> ew = new EntityWrapper<ItemImages>();
+        ew.eq("item_id", itemId).orderBy("position");
+        return itemImagesMapper.selectList(ew);
+    }
+
+    @Override
+    public Integer updateImages(String itemId, String imageUrl, Integer position) {
+        return itemImagesMapper.updateImages(itemId, imageUrl, position);
+    }
+
+    @Override
+    @CzRedisEvict
     public void test(){
         System.out.println("aa");
     }
