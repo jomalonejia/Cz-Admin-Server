@@ -32,6 +32,7 @@ public class CategoryController {
 
     @GetMapping("/listCategoriesDesc")
     public Object listCategoriesDesc() {
+
         List<Category> categories = categoryService.listCategoriesDesc();
         return categories;
     }

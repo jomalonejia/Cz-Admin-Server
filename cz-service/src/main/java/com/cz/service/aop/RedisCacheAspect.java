@@ -61,7 +61,6 @@ public class RedisCacheAspect {
             if (_log.isDebugEnabled()) {
                 _log.debug("get null redis cache");
             }
-
             result = point.proceed(args);
 
             String json = serialize(result);

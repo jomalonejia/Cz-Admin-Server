@@ -65,7 +65,7 @@ public class RedissonConfig {
         }
     }
 
-    @Bean(name = "redissonClient")
+   /* @Bean(name = "redissonClient")*/
     public org.redisson.api.RedissonClient getRedissonClient(){
         Config config = new Config();
         if(!StringUtils.isBlank(address)){

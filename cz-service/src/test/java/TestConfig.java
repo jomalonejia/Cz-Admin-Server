@@ -11,6 +11,7 @@ import com.cz.model.param.Param;
 import com.cz.model.personal.Role;
 import com.cz.model.personal.User;
 import com.cz.dto.user.DtoUser;
+import com.cz.service.search.EsClient;
 import com.github.pagehelper.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -167,8 +168,7 @@ public class TestConfig {
         Category category = new Category();
         category.setParentId(1);
         category.setName("aluba");
-        int i = categoryService.insertCategory(category);
-        System.out.println(i);
+        categoryService.insertCategory(category);
         System.out.println(category.getId());
         System.out.println(category);
     }
@@ -311,13 +311,13 @@ public class TestConfig {
                 "<img src=\"http://otlht2gvo.bkt.clouddn.com/354350D09E28152D1CB75EB5E582782064A075AAC478C304361172A473D6E63C\"></p>";
         Pattern deletePattern = Pattern.compile("<img src=\"http://otlht2gvo.bkt.clouddn.com/(.*?)\">");
         Matcher matcher = deletePattern.matcher(content);
-        while (matcher.find()){
+        while (matcher.find()) {
             System.out.println(matcher.group(1));
         }
     }
 
     @Test
-    public void  test31(){
+    public void test31() {
         String content = "<p><img src=\"http://otlht2gvo.bkt.clouddn.com/DD3E989EA92BD5A13B1AAD26145191DEEDE59898D63270EFE779BBE9D4646D64\"><img\n" +
                 "        src=\"http://otlht2gvo.bkt.clouddn.com/EBC4793E49EEB182D8CA2D6BA51BB988DDA04412F10FD7F5FF99AA6B68B65644\"><img\n" +
                 "        src=\"http://otlht2gvo.bkt.clouddn.com/FDEC22393BA11146610B4DF8D664F46695D09FD685E82C0713BC751851B3ECB8\"><img\n" +
@@ -325,15 +325,25 @@ public class TestConfig {
         Pattern deletePattern = Pattern.compile("<img src=\"http://otlht2gvo.bkt.clouddn.com/(.*?)\">");
         Matcher matcher = deletePattern.matcher(content);
         ArrayList<String> deleteArray = new ArrayList<>();
-        while (matcher.find()){
+        while (matcher.find()) {
             deleteArray.add(matcher.group(1));
         }
         PictureUtil.getInstance().bucketDelete(deleteArray.toArray(new String[0]));
     }
 
     @Test
-    public void test32(){
+    public void test32() {
         itemMapper.deleteItemContentById("60e054fdd0c74824bbbac46bf7d08603");
+    }
+
+    @Test
+    public void test33(){
+        Item item = new Item();
+        item.setId("bb");
+        item.setPrice(299);
+        item.setContent("free to play");
+        EsClient.add(item);
+        itemService.insertItem(item);
     }
 }
 

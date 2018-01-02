@@ -48,8 +48,8 @@ public class UserController extends BaseController implements ApplicationContext
 
     @Autowired
     private IUserService userService;
-    @Autowired
-    private RedissonClient redissonClient;
+    /*@Autowired
+    private RedissonClient redissonClient;*/
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired

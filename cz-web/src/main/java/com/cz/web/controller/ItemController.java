@@ -66,7 +66,6 @@ public class ItemController {
     @ApiOperation(value = "item add")
     public Object add(@RequestBody Item item) {
         try {
-            _log.info(item.toString());
             itemService.insertItem(item);
             return ResponseEntity.ok();
         } catch (Exception e) {
@@ -78,7 +77,6 @@ public class ItemController {
     @DeleteMapping("/delete/{itemId}")
     @ApiOperation(value = "item delete")
     public Object delete(@PathVariable String itemId){
-        _log.info(itemId);
         try {
             itemService.deleteItemWithParamById(itemId);
             return ResponseEntity.ok();
@@ -118,7 +116,6 @@ public class ItemController {
     @ApiOperation(value = "item images select")
     public Object selectItemByCategory(@PathVariable("itemId") String itemId){
         try {
-            _log.info(itemId);
             return itemService.selectImages(itemId);
         } catch (Exception e) {
             e.printStackTrace();

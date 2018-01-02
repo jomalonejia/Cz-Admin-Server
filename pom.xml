@@ -37,8 +37,8 @@
         <mybatis-generator.version>1.3.5</mybatis-generator.version>
 
         <!--log4j-->
-        <slf4j.version>1.7.9</slf4j.version>
-        <log4j.version>2.4.1</log4j.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <log4j.version>2.8.2</log4j.version>
         <disruptor.version>3.3.4</disruptor.version>
 
         <!--alibaba -->
@@ -49,7 +49,7 @@
         <!--redis-->
         <redis.version>2.9.0</redis.version>
         <jedis.version>2.9.0</jedis.version>
-        <redisson.version>3.3.1</redisson.version>
+        <redisson.version>3.5.7</redisson.version>
         <lettuce>3.5.0.Final</lettuce>
 
         <!--jackson-->
@@ -73,6 +73,12 @@
         <!--picture-->
         <jsch.version>0.1.53</jsch.version>
         <thumbnailator.version>0.4.8</thumbnailator.version>
+
+        <!--elasticsearch-->
+        <elasticsearch-version>6.1.0</elasticsearch-version>
+
+        <!--netty-->
+        <netty-version>3.10.6.Final</netty-version>
     </properties>
 
 
@@ -125,7 +131,7 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty</artifactId>
-                <version>3.7.0.Final</version>
+                <version>${netty-version}</version>
             </dependency>
 
             <!--jackson-->
@@ -460,6 +466,23 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox.version}</version>
             </dependency>
+
+            <!--elasticsearch-->
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>transport</artifactId>
+                <version>${elasticsearch-version}</version>
+            </dependency>
+             <dependency>
+                 <groupId>fr.pilato.spring</groupId>
+                 <artifactId>spring-elasticsearch</artifactId>
+                 <version>5.0-SNAPSHOT</version>
+             </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -521,4 +544,18 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <repositories>
+        <repository>
+            <id>oss-snapshots</id>
+            <name>Sonatype OSS Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

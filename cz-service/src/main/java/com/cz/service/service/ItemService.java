@@ -13,6 +13,7 @@ import com.cz.model.item.ItemImages;
 import com.cz.model.param.Param;
 import com.cz.service.annotation.CzRedisCache;
 import com.cz.service.annotation.CzRedisEvict;
+import com.cz.service.search.EsClient;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -113,6 +116,11 @@ public class ItemService extends BaseServiceImpl<ItemMapper, Item> implements II
             itemImages.setUrl("");
             itemImagesMapper.insert(itemImages);
         }
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.submit(()->{
+            EsClient.add(item);
+        });
+        executorService.shutdown();
     }
 
     @Override
